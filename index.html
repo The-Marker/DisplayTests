@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Pruebas de pantalla</title>
+<meta name="description" content="Patrones de prueba para revisar color, uniformidad, ghosting y nitidez en móviles, escritorio y televisores.">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#ffffff;--fg:#1a1a19;--muted:#5f5e5a;--card:#f4f3ee;--line:#d3d1c7;
+  --accent:#185fa5;--warn-bg:#faeeda;--warn-fg:#633806;
+  --fs:16px;--radius:12px;--cols:2;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme]){
+    color-scheme:dark;
+    --bg:#1b1b1a;--fg:#f1efe8;--muted:#b4b2a9;--card:#2c2c2a;--line:#444441;
+    --accent:#85b7eb;--warn-bg:#412402;--warn-fg:#fac775;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#1b1b1a;--fg:#f1efe8;--muted:#b4b2a9;--card:#2c2c2a;--line:#444441;
+  --accent:#85b7eb;--warn-bg:#412402;--warn-fg:#fac775;
+}
+@media (min-width:640px){:root{--cols:3}}
+@media (min-width:900px){:root{--cols:4}}
+@media (min-width:1600px){:root{--fs:22px;--cols:5}}
+@media (min-width:2400px){:root{--fs:32px;--cols:5}}
+
+*{box-sizing:border-box}
+html{font-size:var(--fs)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:.9rem;line-height:1.5}
+h1,h2,p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:.2rem solid var(--accent);outline-offset:.15rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+.btn{background:transparent;border:1px solid var(--line);border-radius:.6rem;padding:.4rem .9rem}
+.btn:hover{border-color:var(--muted)}
+.btn[aria-pressed="true"],.btn.primary{background:var(--fg);color:var(--bg);border-color:transparent}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.8rem 1.2rem;border-bottom:1px solid var(--line)}
+.brand{font-weight:500;font-size:1.15rem}
+.nav{display:none;gap:1.2rem}
+.nav button{background:none;border:0;padding:0;color:var(--muted)}
+.nav button:hover{color:var(--fg)}
+.theme{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.theme .lbl{color:var(--muted);font-size:.85rem}
+.theme .btn{padding:.2rem .7rem;font-size:.85rem}
+@media (min-width:900px){.nav{display:flex}}
+
+.hero{padding:1.6rem 1.2rem .8rem;max-width:60rem}
+.hero h1{font-size:1.7rem;font-weight:500;line-height:1.25}
+.hero p{color:var(--muted);margin:.5rem 0 1rem}
+.row{display:flex;gap:.6rem;flex-wrap:wrap}
+
+.main{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;padding:.8rem 1.2rem}
+.filters{display:flex;gap:.4rem;flex-wrap:wrap;align-content:flex-start}
+.filters .btn{border-radius:999px;padding:.25rem .9rem}
+@media (min-width:900px){
+  .main{grid-template-columns:11rem minmax(0,1fr)}
+  .filters{flex-direction:column;flex-wrap:nowrap}
+  .filters .btn{border-radius:.6rem;text-align:left}
+}
+.grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:.8rem}
+.tile{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.6rem}
+.tile:hover{border-color:var(--muted)}
+.thumb{display:block;width:100%;aspect-ratio:16/9;border-radius:.4rem;border:1px solid var(--line);overflow:hidden;background:#000}
+.thumb svg{display:block;width:100%;height:100%}
+.tile .name{font-weight:500;margin-top:.5rem}
+.tile .cat{font-size:.85rem;color:var(--muted)}
+
+.warn{margin:1rem 1.2rem;padding:.7rem .9rem;background:var(--warn-bg);color:var(--warn-fg);border-radius:.6rem}
+.foot{border-top:1px solid var(--line);padding:.9rem 1.2rem;color:var(--muted);font-size:.85rem}
+.foot p+p{margin-top:.4rem}
+
+#viewer{position:fixed;inset:0;z-index:10;background:#000;display:none}
+#viewer.open{display:block}
+#stage{position:absolute;inset:0}
+#stage svg{display:block;width:100%;height:100%}
+#vc{position:absolute;left:0;right:0;bottom:0;padding:1rem 1.2rem;background:rgba(0,0,0,.82);color:#f1efe8;display:flex;flex-direction:column;gap:.6rem}
+#vc.hidden{display:none}
+#vc .head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+#vc .t{font-weight:500;font-size:1.1rem}
+#vc .d{color:#b4b2a9;font-size:.85rem;max-width:44rem}
+#vc .btn{border-color:#5f5e5a;color:#f1efe8}
+#vc .btn[aria-pressed="true"]{background:#f1efe8;color:#1b1b1a}
+#vc .ctl{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+#vc input[type=range]{flex:1;min-width:8rem;accent-color:#85b7eb}
+#vc .hint{font-size:.8rem;color:#b4b2a9}
+
+.mv{animation:mv var(--d,3s) ease-in-out infinite alternate}
+@keyframes mv{from{transform:translateX(0)}to{transform:translateX(var(--tx,130px))}}
+@media (prefers-reduced-motion:reduce){.mv{animation:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="brand">Pruebas de pantalla</span>
+  <nav class="nav" id="nav" aria-label="Categorías"></nav>
+  <div class="theme" role="group" aria-label="Tema">
+    <span class="lbl">Tema</span>
+    <button class="btn" data-theme-opt="auto" aria-pressed="false">Automático</button>
+    <button class="btn" data-theme-opt="light" aria-pressed="false">Claro</button>
+    <button class="btn" data-theme-opt="dark" aria-pressed="false">Oscuro</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Revisa tu pantalla en minutos</h1>
+  <p>Patrones de color, uniformidad, ghosting y nitidez en un solo lugar. Funciona en móvil, escritorio y televisores.</p>
+  <div class="row">
+    <button class="btn primary" id="start">Iniciar pruebas</button>
+    <button class="btn" id="guide">Ver guía</button>
+  </div>
+</section>
+
+<main class="main">
+  <div class="filters" id="filters" role="group" aria-label="Filtrar por categoría"></div>
+  <div>
+    <div id="guideBox" class="warn" hidden style="margin:0 0 .8rem" tabindex="-1"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</main>
+
+<div class="warn" role="note">Las pruebas de movimiento pueden afectar a personas fotosensibles. Usa velocidades moderadas y detente si sientes molestias.</div>
+<footer class="foot">
+  <p id="themeStatus"></p>
+  <p>Compatible con Android, iPhone, Windows, macOS y Linux en navegadores actuales. Los colores son una aproximación: para medir, usa pantalla completa y brillo fijo.</p>
+</footer>
+
+<div id="viewer" role="dialog" aria-modal="true" aria-label="Prueba a pantalla completa">
+  <div id="stage"></div>
+  <div id="vc">
+    <div class="head">
+      <div><p class="t" id="vt"></p><p class="d" id="vd"></p></div>
+      <button class="btn" id="vclose" aria-label="Cerrar">Cerrar</button>
+    </div>
+    <div id="vctl"></div>
+    <p class="hint">Esc cierra · ← → cambian de prueba · H oculta o muestra este panel · toca la pantalla para alternarlo</p>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- helpers ---------- */
+function gy(l){var v=Math.round(l*255/100);return "rgb("+v+","+v+","+v+")"}
+function rect(x,y,w,h,f){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+f+'"/>'}
+function svg(W,H,body,style){return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true"'+(style?' style="'+style+'"':'')+'>'+body+'</svg>'}
+var COLORS=["#000","#fff","#f00","#0f0","#00f"];
+
+/* ---------- herramientas ---------- */
+var TOOLS=[
+{id:"smpte",name:"SMPTE barras",cat:"Color",desc:"Revisa color, brillo y niveles de negro con barras estándar.",
+ p:{},ctl:[],
+ draw:function(p,W,H){var c=["#c0c0c0","#c0c000","#00c0c0","#00c000","#c000c0","#c00000","#0000c0"],
+  c2=["#0000c0","#101010","#c000c0","#101010","#00c0c0","#101010","#c0c0c0"],w=W/7,h1=H*.67,h2=H*.09,h3=H-h1-h2,o="",i;
+  for(i=0;i<7;i++){o+=rect(i*w,0,w+.3,h1,c[i])+rect(i*w,h1,w+.3,h2,c2[i])}
+  var y=h1+h2,u=W/6.9;
+  o+=rect(0,y,u,h3,"#00214c")+rect(u,y,u,h3,"#fff")+rect(2*u,y,u,h3,"#32006a")+rect(3*u,y,W*.285,h3,"#101010");
+  o+=rect(W*.713,y,W*.037,h3,"#000")+rect(W*.75,y,W*.037,h3,"#101010")+rect(W*.787,y,W*.037,h3,"#202020")+rect(W*.824,y,W*.176,h3,"#101010");
+  return svg(W,H,o)}},
+{id:"grises",name:"Escala de grises",cat:"Color",desc:"Diez pasos de negro a blanco para ver si se distinguen los tonos oscuros y claros.",
+ p:{},ctl:[],
+ draw:function(p,W,H){var o="",i,w=W/10;for(i=0;i<10;i++)o+=rect(i*w,0,w+.3,H,gy(i*100/9));return svg(W,H,o)}},
+{id:"contraste",name:"Contraste",cat:"Color",desc:"Bloques de 5 % a 95 %. El nivel elegido se muestra grande sobre negro y sobre blanco; el marco amarillo lo señala.",
+ p:{l:50},ctl:[{k:"l",t:"range",label:"Nivel",min:5,max:95,step:5,fmt:function(v){return v+" %"}}],
+ draw:function(p,W,H){var o="",i,w=W/19,bh=H*.155;
+  for(i=1;i<=19;i++)o+=rect((i-1)*w,0,w+.2,bh,gy(i*5));
+  o+='<rect x="'+((p.l/5-1)*w)+'" y="0" width="'+w+'" height="'+bh+'" fill="none" stroke="#ffd400" stroke-width="'+(W/160)+'"/>';
+  o+=rect(0,bh,W/2,H-bh,"#000")+rect(W/2,bh,W/2,H-bh,"#fff");
+  var s=Math.min(W,H)*.45,cy=bh+(H-bh)/2-s/2;
+  o+=rect(W/4-s/2,cy,s,s,gy(p.l))+rect(W*.75-s/2,cy,s,s,gy(p.l));
+  return svg(W,H,o)}},
+{id:"blanco",name:"Blanco",cat:"Uniformidad",desc:"Pantalla blanca completa para detectar manchas, viñeteo y tintes de color.",
+ p:{},ctl:[],draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,"#fff"))}},
+{id:"negro",name:"Negro",cat:"Uniformidad",desc:"Pantalla negra completa para ver fuga de luz en bordes y nubosidad. Mejor en cuarto oscuro.",
+ p:{},ctl:[],draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,"#000"))}},
+{id:"gris",name:"Gris ajustable",cat:"Uniformidad",desc:"Gris plano ajustable. Los tonos medios revelan bandas y manchas que no se ven en blanco o negro.",
+ p:{l:50},ctl:[{k:"l",t:"range",label:"Nivel",min:5,max:95,step:5,fmt:function(v){return v+" %"}}],
+ draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,gy(p.l)))}},
+{id:"rgb",name:"RGB",cat:"Uniformidad",desc:"Rojo, verde y azul puros para revisar uniformidad por canal.",
+ p:{},ctl:[],draw:function(p,W,H){var w=W/3;return svg(W,H,rect(0,0,w+.3,H,"#f00")+rect(w,0,w+.3,H,"#0f0")+rect(2*w,0,w,H,"#00f"))}},
+{id:"muertos",name:"Píxeles muertos",cat:"Uniformidad",desc:"Color único a pantalla completa. Cámbialo a mano y busca puntos que no coincidan. Sin parpadeo automático.",
+ p:{c:0},ctl:[{k:"c",t:"choice",label:"Color",opts:["Negro","Blanco","Rojo","Verde","Azul"]}],
+ draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,COLORS[p.c]))}},
+{id:"ghosting",name:"Ghosting",cat:"Movimiento",desc:"Un bloque se mueve a velocidad moderada. Si deja estela, el tiempo de respuesta es lento. Más segundos por pasada es más lento.",
+ p:{d:3},live:true,ctl:[{k:"d",t:"range",label:"Pasada",min:2,max:6,step:.5,fmt:function(v){return v.toFixed(1)+" s"}}],
+ draw:function(p,W,H,live){var bw=W*.14,bh=H*.33,m=live?'class="mv" ':"",x=live?0:(W-bw)/2,
+  o=rect(0,0,W,H/2,"#000")+rect(0,H/2,W,H/2,"#808080");
+  o+='<rect '+m+'x="'+(live?W*.03:x)+'" y="'+(H*.09)+'" width="'+bw+'" height="'+bh+'" fill="#fff"/>';
+  o+='<rect '+m+'x="'+(live?W*.03:x)+'" y="'+(H*.59)+'" width="'+bw+'" height="'+bh+'" fill="#000"/>';
+  return svg(W,H,o,live?"--d:"+p.d+"s;--tx:"+(W*.94-bw)+"px":"")}},
+{id:"geometria",name:"Geometría",cat:"Nitidez",desc:"Cuadrícula, círculo y diagonales para revisar proporciones, bordes y enfoque.",
+ p:{},ctl:[],
+ draw:function(p,W,H){var o=rect(0,0,W,H,"#000"),s=W/16,i,sw=W/320;
+  for(i=0;i<=W+.01;i+=s)o+='<line x1="'+i+'" y1="0" x2="'+i+'" y2="'+H+'" stroke="#fff" stroke-width="'+sw+'"/>';
+  for(i=0;i<=H+.01;i+=s)o+='<line x1="0" y1="'+i+'" x2="'+W+'" y2="'+i+'" stroke="#fff" stroke-width="'+sw+'"/>';
+  o+='<circle cx="'+W/2+'" cy="'+H/2+'" r="'+(H/2-sw*2)+'" fill="none" stroke="#fff" stroke-width="'+sw*2+'"/>';
+  o+='<line x1="0" y1="0" x2="'+W+'" y2="'+H+'" stroke="#fff" stroke-width="'+sw*1.2+'"/><line x1="'+W+'" y1="0" x2="0" y2="'+H+'" stroke="#fff" stroke-width="'+sw*1.2+'"/>';
+  return svg(W,H,o)}}
+];
+var CATS=["Todas","Color","Uniformidad","Movimiento","Nitidez"];
+var cur="Todas";
+
+/* ---------- cuadrícula y filtros ---------- */
+var grid=document.getElementById("grid"),filters=document.getElementById("filters"),nav=document.getElementById("nav");
+function setFilter(c){
+  cur=c;
+  Array.prototype.forEach.call(filters.children,function(b){b.setAttribute("aria-pressed",b.textContent===c?"true":"false")});
+  renderGrid();
+}
+CATS.forEach(function(c){
+  var b=document.createElement("button");b.className="btn";b.textContent=c;b.setAttribute("aria-pressed",c===cur?"true":"false");
+  b.onclick=function(){setFilter(c)};filters.appendChild(b);
+});
+CATS.slice(1).forEach(function(c){
+  var b=document.createElement("button");b.type="button";b.textContent=c;
+  b.onclick=function(){setFilter(c);grid.scrollIntoView({behavior:"smooth",block:"start"})};nav.appendChild(b);
+});
+function visible(){return TOOLS.filter(function(t){return cur==="Todas"||t.cat===cur})}
+function renderGrid(){
+  grid.innerHTML="";
+  visible().forEach(function(t){
+    var b=document.createElement("button");b.className="tile";b.setAttribute("data-id",t.id);
+    b.setAttribute("aria-label","Abrir "+t.name);
+    b.innerHTML='<span class="thumb">'+t.draw(t.p,160,90,false)+'</span><p class="name">'+t.name+'</p><p class="cat">'+t.cat+(t.ctl.length?" · ajustable":"")+"</p>";
+    b.onclick=function(){openViewer(t.id)};
+    grid.appendChild(b);
+  });
+}
+
+/* ---------- visor a pantalla completa ---------- */
+var viewer=document.getElementById("viewer"),stage=document.getElementById("stage"),vc=document.getElementById("vc"),
+    vt=document.getElementById("vt"),vd=document.getElementById("vd"),vctl=document.getElementById("vctl");
+var active=null,lastFocus=null;
+function stageSize(){var W=160,ar=(window.innerHeight||90)/(window.innerWidth||160);return[W,Math.max(20,W*ar)]}
+function drawStage(){var s=stageSize();stage.innerHTML=active.draw(active.p,s[0],s[1],true)}
+function buildControls(){
+  vctl.innerHTML="";
+  active.ctl.forEach(function(c){
+    var r=document.createElement("div");r.className="ctl";
+    if(c.t==="range"){
+      r.innerHTML='<span>'+c.label+'</span><input type="range" min="'+c.min+'" max="'+c.max+'" step="'+c.step+'" value="'+active.p[c.k]+'" aria-label="'+c.label+'"><span class="o" style="min-width:3.5rem;text-align:right">'+c.fmt(active.p[c.k])+'</span>';
+      var i=r.querySelector("input"),o=r.querySelector(".o");
+      i.oninput=function(){active.p[c.k]=parseFloat(i.value);o.textContent=c.fmt(active.p[c.k]);drawStage()};
+    }else{
+      r.innerHTML="<span>"+c.label+"</span>";
+      c.opts.forEach(function(name,j){
+        var b=document.createElement("button");b.className="btn";b.textContent=name;b.setAttribute("aria-pressed",active.p[c.k]===j?"true":"false");
+        b.onclick=function(){active.p[c.k]=j;Array.prototype.forEach.call(r.querySelectorAll(".btn"),function(x,q){x.setAttribute("aria-pressed",q===j?"true":"false")});drawStage()};
+        r.appendChild(b);
+      });
+    }
+    vctl.appendChild(r);
+  });
+}
+function showTool(id){
+  active=TOOLS.filter(function(t){return t.id===id})[0];
+  vt.textContent=active.name;vd.textContent=active.desc;
+  buildControls();drawStage();
+}
+function openViewer(id){
+  lastFocus=document.activeElement;
+  viewer.classList.add("open");vc.classList.remove("hidden");
+  showTool(id);
+  var el=document.documentElement;
+  try{if(el.requestFullscreen){var p=el.requestFullscreen();if(p&&p.catch)p.catch(function(){})}else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen()}}catch(e){}
+  document.getElementById("vclose").focus();
+}
+function closeViewer(){
+  if(!viewer.classList.contains("open"))return;
+  viewer.classList.remove("open");stage.innerHTML="";active=null;
+  try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen();else if(document.webkitFullscreenElement&&document.webkitExitFullscreen)document.webkitExitFullscreen()}catch(e){}
+  if(lastFocus&&lastFocus.focus)lastFocus.focus();
+}
+function step(d){
+  var list=visible(),i=list.indexOf(active);
+  if(i<0)list=TOOLS,i=list.indexOf(active);
+  showTool(list[(i+d+list.length)%list.length].id);
+}
+document.getElementById("vclose").onclick=closeViewer;
+stage.addEventListener("click",function(){vc.classList.toggle("hidden")});
+document.addEventListener("fullscreenchange",function(){if(!document.fullscreenElement)closeViewer()});
+document.addEventListener("webkitfullscreenchange",function(){if(!document.webkitFullscreenElement)closeViewer()});
+window.addEventListener("resize",function(){if(active)drawStage()});
+
+/* ---------- teclado ---------- */
+document.addEventListener("keydown",function(e){
+  var t=e.target,isInput=t&&t.tagName==="INPUT";
+  if(viewer.classList.contains("open")){
+    if(e.key==="Escape"){closeViewer();e.preventDefault()}
+    else if(!isInput&&e.key==="ArrowRight"){step(1);e.preventDefault()}
+    else if(!isInput&&e.key==="ArrowLeft"){step(-1);e.preventDefault()}
+    else if(!isInput&&(e.key==="h"||e.key==="H")){vc.classList.toggle("hidden")}
+    return;
+  }
+  if(t&&t.classList&&t.classList.contains("tile")){
+    var k=Array.prototype.slice.call(grid.children),i=k.indexOf(t),
+        n=getComputedStyle(grid).gridTemplateColumns.split(" ").length,
+        d={ArrowRight:1,ArrowLeft:-1,ArrowDown:n,ArrowUp:-n}[e.key];
+    if(d&&k[i+d]){k[i+d].focus();e.preventDefault()}
+  }
+});
+
+/* ---------- botones de la portada ---------- */
+document.getElementById("start").onclick=function(){openViewer(TOOLS[0].id)};
+var gb=document.getElementById("guideBox");
+document.getElementById("guide").onclick=function(){
+  if(gb.hidden){
+    gb.innerHTML="<strong>Guía rápida.</strong> Toca una miniatura para abrirla a pantalla completa. Fija el brillo de tu pantalla antes de empezar. Usa Uniformidad en blanco, negro y gris para ver manchas, y Píxeles muertos para buscar puntos apagados o fijos. En Ghosting, observa si el bloque deja estela.";
+    gb.hidden=false;gb.focus();
+  }else gb.hidden=true;
+};
+
+/* ---------- tema automático ---------- */
+var KEY="dt-theme",root=document.documentElement,mq=null;
+try{mq=window.matchMedia?window.matchMedia("(prefers-color-scheme: dark)"):null;if(mq&&mq.media==="not all")mq=null}catch(e){mq=null}
+var mode="auto";
+try{var s=localStorage.getItem(KEY);if(s==="light"||s==="dark"||s==="auto")mode=s}catch(e){}
+function applyTheme(){
+  if(mode==="auto")root.removeAttribute("data-theme");else root.setAttribute("data-theme",mode);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-theme-opt")===mode?"true":"false")});
+  var eff=mode==="auto"?(mq&&mq.matches?"dark":"light"):mode,txt;
+  if(mode==="auto"){
+    txt="Cambio automático activado. Tema aplicado: "+(eff==="dark"?"oscuro":"claro")+(mq?" (del sistema).":".");
+    if(!mq)txt+=" Este dispositivo no informa su tema: se usa el tema claro.";
+  }else txt="Cambio automático desactivado. Tema fijo: "+(eff==="dark"?"oscuro":"claro")+".";
+  document.getElementById("themeStatus").textContent=txt;
+}
+Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){
+  b.onclick=function(){mode=b.getAttribute("data-theme-opt");try{localStorage.setItem(KEY,mode)}catch(e){}applyTheme()};
+});
+if(mq){try{mq.addEventListener("change",applyTheme)}catch(e){try{mq.addListener(applyTheme)}catch(e2){}}}
+
+renderGrid();applyTheme();
+})();
+</script>
+</body>
+</html>
