@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="es" data-fx="1">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>Pruebas de pantalla</title>
-<meta name="description" content="Patrones de prueba para revisar color, uniformidad, píxeles, movimiento y nitidez en móviles, escritorio y televisores.">
+<meta name="description" content="Patrones de prueba para revisar color, uniformidad, ghosting y nitidez en móviles, escritorio y televisores.">
 <style>
 :root{
   color-scheme:light;
@@ -33,21 +33,16 @@
 *{box-sizing:border-box}
 html{font-size:var(--fs)}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:.9rem;line-height:1.5}
-html[data-fx="1"] body{background:#0d0706}
 h1,h2,p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:.2rem solid var(--accent);outline-offset:.15rem}
-
-#fire{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;display:none}
-html[data-fx="1"] #fire{display:block}
-.pg{position:relative;z-index:1;padding:.6rem;display:grid;gap:.8rem}
-.panel{background:var(--card);background:color-mix(in srgb,var(--card) 88%,transparent);border:1px solid var(--line);border-radius:var(--radius)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 
 .btn{background:transparent;border:1px solid var(--line);border-radius:.6rem;padding:.4rem .9rem}
 .btn:hover{border-color:var(--muted)}
 .btn[aria-pressed="true"],.btn.primary{background:var(--fg);color:var(--bg);border-color:transparent}
 
-.top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.8rem 1.2rem}
+.top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.8rem 1.2rem;border-bottom:1px solid var(--line)}
 .brand{font-weight:500;font-size:1.15rem}
 .nav{display:none;gap:1.2rem}
 .nav button{background:none;border:0;padding:0;color:var(--muted)}
@@ -57,91 +52,85 @@ html[data-fx="1"] #fire{display:block}
 .theme .btn{padding:.2rem .7rem;font-size:.85rem}
 @media (min-width:900px){.nav{display:flex}}
 
-.hero{padding:1.4rem 1.2rem}
+.hero{padding:1.6rem 1.2rem .8rem;max-width:60rem}
 .hero h1{font-size:1.7rem;font-weight:500;line-height:1.25}
-.hero p{color:var(--muted);margin:.5rem 0 1rem;max-width:44rem}
+.hero p{color:var(--muted);margin:.5rem 0 1rem}
 .row{display:flex;gap:.6rem;flex-wrap:wrap}
 
-.main{display:grid;grid-template-columns:minmax(0,1fr);gap:.8rem}
-.filters{display:flex;gap:.4rem;flex-wrap:wrap;align-content:flex-start;padding:.7rem}
+.main{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;padding:.8rem 1.2rem}
+.filters{display:flex;gap:.4rem;flex-wrap:wrap;align-content:flex-start}
 .filters .btn{border-radius:999px;padding:.25rem .9rem}
 @media (min-width:900px){
   .main{grid-template-columns:11rem minmax(0,1fr)}
-  .filters{flex-direction:column;flex-wrap:nowrap;align-self:start}
+  .filters{flex-direction:column;flex-wrap:nowrap}
   .filters .btn{border-radius:.6rem;text-align:left}
 }
 .grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:.8rem}
-.tile{display:block;width:100%;text-align:left;padding:.6rem}
+.tile{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.6rem}
 .tile:hover{border-color:var(--muted)}
 .thumb{display:block;width:100%;aspect-ratio:16/9;border-radius:.4rem;border:1px solid var(--line);overflow:hidden;background:#000}
 .thumb svg{display:block;width:100%;height:100%}
 .tile .name{font-weight:500;margin-top:.5rem}
 .tile .cat{font-size:.85rem;color:var(--muted)}
 
-.guide{padding:.8rem 1rem}
-.warn{padding:.7rem .9rem;background:var(--warn-bg);color:var(--warn-fg);border-radius:.6rem}
+.warn{margin:1rem 1.2rem;padding:.7rem .9rem;background:var(--warn-bg);color:var(--warn-fg);border-radius:.6rem}
+.foot{border-top:1px solid var(--line);padding:.9rem 1.2rem;color:var(--muted);font-size:.85rem}
+.foot p+p{margin-top:.4rem}
 
 #viewer{position:fixed;inset:0;z-index:10;background:#000;display:none}
 #viewer.open{display:block}
 #stage{position:absolute;inset:0}
-#stage svg,#stage canvas{display:block;width:100%;height:100%}
+#stage svg{display:block;width:100%;height:100%}
 #vc{position:absolute;left:0;right:0;bottom:0;padding:1rem 1.2rem;background:rgba(0,0,0,.82);color:#f1efe8;display:flex;flex-direction:column;gap:.6rem}
 #vc.hidden{display:none}
 #vc .head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
 #vc .t{font-weight:500;font-size:1.1rem}
 #vc .d{color:#b4b2a9;font-size:.85rem;max-width:44rem}
 #vc .btn{border-color:#5f5e5a;color:#f1efe8}
-#vc .btn[aria-pressed="true"],#vc .btn.primary{background:#f1efe8;color:#1b1b1a}
+#vc .btn[aria-pressed="true"]{background:#f1efe8;color:#1b1b1a}
 #vc .ctl{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
 #vc input[type=range]{flex:1;min-width:8rem;accent-color:#85b7eb}
 #vc .hint{font-size:.8rem;color:#b4b2a9}
 
-.err{position:fixed;left:0;top:0;z-index:20;pointer-events:none;perspective:700px;display:none}
-html[data-fx="1"] .err{display:block}
-.cube{position:relative;transform-style:preserve-3d;animation:spin 5s linear infinite}
-.cube span{display:block;font-family:Impact,Haettenschweiller,"Arial Black",sans-serif;font-weight:900;font-size:2.4rem;letter-spacing:.06em;line-height:1;white-space:nowrap}
-.cube span+span{position:absolute;left:0;top:0}
-@keyframes spin{from{transform:rotateX(-14deg) rotateY(0)}to{transform:rotateX(-14deg) rotateY(360deg)}}
 .mv{animation:mv var(--d,3s) ease-in-out infinite alternate}
 @keyframes mv{from{transform:translateX(0)}to{transform:translateX(var(--tx,130px))}}
-@media (prefers-reduced-motion:reduce){.mv,.cube{animation:none}}
+@media (prefers-reduced-motion:reduce){.mv{animation:none}}
 </style>
 </head>
 <body>
-<canvas id="fire" aria-hidden="true"></canvas>
-<div class="err" id="err" aria-hidden="true"><div class="cube" id="cube"></div></div>
+<header class="top">
+  <span class="brand">Pruebas de pantalla</span>
+  <nav class="nav" id="nav" aria-label="Categorías"></nav>
+  <div class="theme" role="group" aria-label="Tema">
+    <span class="lbl">Tema</span>
+    <button class="btn" data-theme-opt="auto" aria-pressed="false">Automático</button>
+    <button class="btn" data-theme-opt="light" aria-pressed="false">Claro</button>
+    <button class="btn" data-theme-opt="dark" aria-pressed="false">Oscuro</button>
+  </div>
+</header>
 
-<div class="pg">
-  <header class="top panel">
-    <span class="brand">Pruebas de pantalla</span>
-    <nav class="nav" id="nav" aria-label="Categorías"></nav>
-    <div class="theme" role="group" aria-label="Tema">
-      <span class="lbl">Tema</span>
-      <button class="btn" data-theme-opt="auto" aria-pressed="false">Automático</button>
-      <button class="btn" data-theme-opt="light" aria-pressed="false">Claro</button>
-      <button class="btn" data-theme-opt="dark" aria-pressed="false">Oscuro</button>
-    </div>
-  </header>
+<section class="hero">
+  <h1>Revisa tu pantalla en minutos</h1>
+  <p>Patrones de color, uniformidad, ghosting y nitidez en un solo lugar. Funciona en móvil, escritorio y televisores.</p>
+  <div class="row">
+    <button class="btn primary" id="start">Iniciar pruebas</button>
+    <button class="btn" id="guide">Ver guía</button>
+  </div>
+</section>
 
-  <section class="hero panel">
-    <h1>Revisa tu pantalla en minutos</h1>
-    <p>Patrones de color, uniformidad, píxeles, movimiento y nitidez en un solo lugar. Funciona en móvil, escritorio y televisores.</p>
-    <div class="row">
-      <button class="btn primary" id="start">Iniciar pruebas</button>
-      <button class="btn" id="guide">Ver guía</button>
-    </div>
-  </section>
+<main class="main">
+  <div class="filters" id="filters" role="group" aria-label="Filtrar por categoría"></div>
+  <div>
+    <div id="guideBox" class="warn" hidden style="margin:0 0 .8rem" tabindex="-1"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</main>
 
-  <main class="main">
-    <div class="filters panel" id="filters" role="group" aria-label="Filtrar por categoría"></div>
-    <div>
-      <div id="guideBox" class="guide panel" hidden style="margin-bottom:.8rem" tabindex="-1"></div>
-      <div class="grid" id="grid"></div>
-    </div>
-  </main>
-
-  <div class="warn" role="note">Las pruebas de movimiento y de cambio de color pueden afectar a personas fotosensibles. Usa velocidades moderadas y detente si sientes molestias.</div>
-</div>
+<div class="warn" role="note">Las pruebas de movimiento pueden afectar a personas fotosensibles. Usa velocidades moderadas y detente si sientes molestias.</div>
+<footer class="foot">
+  <p id="themeStatus"></p>
+  <p>Compatible con Android, iPhone, Windows, macOS y Linux en navegadores actuales. Los colores son una aproximación: para medir, usa pantalla completa y brillo fijo.</p>
+</footer>
 
 <div id="viewer" role="dialog" aria-modal="true" aria-label="Prueba a pantalla completa">
   <div id="stage"></div>
@@ -159,20 +148,16 @@ html[data-fx="1"] .err{display:block}
 (function(){
 "use strict";
 
+/* ---------- helpers ---------- */
 function gy(l){var v=Math.round(l*255/100);return "rgb("+v+","+v+","+v+")"}
 function rect(x,y,w,h,f){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+f+'"/>'}
 function svg(W,H,body,style){return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true"'+(style?' style="'+style+'"':'')+'>'+body+'</svg>'}
-function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+var COLORS=["#000","#fff","#f00","#0f0","#00f"];
 
-var root=document.documentElement;
-var RMQ=null,RM=false;
-try{RMQ=window.matchMedia?window.matchMedia("(prefers-reduced-motion: reduce)"):null;RM=!!(RMQ&&RMQ.matches)}catch(e){}
-
-var CM=[["Rojo","#f00"],["Verde","#0f0"],["Azul","#00f"],["Cian","#0ff"],["Magenta","#f0f"],["Amarillo","#ff0"],["Blanco","#fff"],["Negro (K)","#000"]];
-var PX=["#f00","#0f0","#00f","#0ff","#f0f","#ff0","#fff","#000"];
-
+/* ---------- herramientas ---------- */
 var TOOLS=[
-{id:"smpte",name:"SMPTE barras",cat:"Color",desc:"Revisa color, brillo y niveles de negro con barras estándar.",p:{},
+{id:"smpte",name:"SMPTE barras",cat:"Color",desc:"Revisa color, brillo y niveles de negro con barras estándar.",
+ p:{},ctl:[],
  draw:function(p,W,H){var c=["#c0c0c0","#c0c000","#00c0c0","#00c000","#c000c0","#c00000","#0000c0"],
   c2=["#0000c0","#101010","#c000c0","#101010","#00c0c0","#101010","#c0c0c0"],w=W/7,h1=H*.67,h2=H*.09,h3=H-h1-h2,o="",i;
   for(i=0;i<7;i++){o+=rect(i*w,0,w+.3,h1,c[i])+rect(i*w,h1,w+.3,h2,c2[i])}
@@ -180,13 +165,9 @@ var TOOLS=[
   o+=rect(0,y,u,h3,"#00214c")+rect(u,y,u,h3,"#fff")+rect(2*u,y,u,h3,"#32006a")+rect(3*u,y,W*.285,h3,"#101010");
   o+=rect(W*.713,y,W*.037,h3,"#000")+rect(W*.75,y,W*.037,h3,"#101010")+rect(W*.787,y,W*.037,h3,"#202020")+rect(W*.824,y,W*.176,h3,"#101010");
   return svg(W,H,o)}},
-{id:"grises",name:"Escala de grises",cat:"Color",desc:"Diez pasos de negro a blanco para ver si se distinguen los tonos oscuros y claros.",p:{},
+{id:"grises",name:"Escala de grises",cat:"Color",desc:"Diez pasos de negro a blanco para ver si se distinguen los tonos oscuros y claros.",
+ p:{},ctl:[],
  draw:function(p,W,H){var o="",i,w=W/10;for(i=0;i<10;i++)o+=rect(i*w,0,w+.3,H,gy(i*100/9));return svg(W,H,o)}},
-{id:"escala",name:"Escala RGB y CMYK",cat:"Color",desc:"Diez tonalidades por fila, de oscuro a pleno. Filas: rojo, verde, azul, cian, magenta, amarillo y negro (K). El CMYK en pantalla es una aproximación.",p:{},
- draw:function(p,W,H){var rows=[[1,0,0],[0,1,0],[0,0,1],[0,1,1],[1,0,1],[1,1,0]],o="",r,i,h=H/7,w=W/10,v;
-  for(r=0;r<6;r++)for(i=1;i<=10;i++){v=Math.round(i*25.5);o+=rect((i-1)*w,r*h,w+.3,h+.3,"rgb("+rows[r][0]*v+","+rows[r][1]*v+","+rows[r][2]*v+")")}
-  for(i=1;i<=10;i++)o+=rect((i-1)*w,6*h,w+.3,h+.3,gy(100-i*10));
-  return svg(W,H,o)}},
 {id:"contraste",name:"Contraste",cat:"Color",desc:"Bloques de 5 % a 95 %. El nivel elegido se muestra grande sobre negro y sobre blanco; el marco amarillo lo señala.",
  p:{l:50},ctl:[{k:"l",t:"range",label:"Nivel",min:5,max:95,step:5,fmt:function(v){return v+" %"}}],
  draw:function(p,W,H){var o="",i,w=W/19,bh=H*.155;
@@ -196,48 +177,27 @@ var TOOLS=[
   var s=Math.min(W,H)*.45,cy=bh+(H-bh)/2-s/2;
   o+=rect(W/4-s/2,cy,s,s,gy(p.l))+rect(W*.75-s/2,cy,s,s,gy(p.l));
   return svg(W,H,o)}},
-{id:"gris",name:"Uniformidad gris",cat:"Uniformidad",desc:"Un solo gris de 0 a 100 %, con atajos para negro y blanco. El negro muestra fuga de luz y nubosidad; el blanco, manchas y viñeteo; los grises medios, bandas.",
- p:{l:50},ctl:[{k:"l",t:"range",label:"Nivel",min:0,max:100,step:5,fmt:function(v){return v+" %"}},{k:"l",t:"preset",opts:[["Negro",0],["Gris",50],["Blanco",100]]}],
+{id:"blanco",name:"Blanco",cat:"Uniformidad",desc:"Pantalla blanca completa para detectar manchas, viñeteo y tintes de color.",
+ p:{},ctl:[],draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,"#fff"))}},
+{id:"negro",name:"Negro",cat:"Uniformidad",desc:"Pantalla negra completa para ver fuga de luz en bordes y nubosidad. Mejor en cuarto oscuro.",
+ p:{},ctl:[],draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,"#000"))}},
+{id:"gris",name:"Gris ajustable",cat:"Uniformidad",desc:"Gris plano ajustable. Los tonos medios revelan bandas y manchas que no se ven en blanco o negro.",
+ p:{l:50},ctl:[{k:"l",t:"range",label:"Nivel",min:5,max:95,step:5,fmt:function(v){return v+" %"}}],
  draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,gy(p.l)))}},
-{id:"colores",name:"Uniformidad RGB y CMYK",cat:"Uniformidad",desc:"Un color a pantalla completa a la vez: rojo, verde, azul, cian, magenta, amarillo, blanco y negro (K). Cambia a mano, sin parpadeo automático. También sirve para buscar píxeles muertos: busca puntos que no coincidan con el color.",
- p:{c:0},ctl:[{k:"c",t:"choice",label:"Color",opts:CM.map(function(x){return x[0]})}],
- draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,CM[p.c][1]))},
- thumb:function(){var o="",i;for(i=0;i<8;i++)o+=rect((i%4)*40,Math.floor(i/4)*45,40.3,45.3,CM[i][1]);return svg(160,90,o)}},
-{id:"desatascador",name:"Desatascador de píxeles",cat:"Píxeles",kind:"cv",
- desc:"Cuadrícula de cuadros que rotan entre rojo, verde, azul, cian, magenta, amarillo, blanco y negro, desfasados entre sí. Empieza en pausa. No siempre libera un píxel atascado.",
- warn:"Cambia de color de forma repetida. Evítalo si eres fotosensible.",
- p:{s:10,v:4,play:false},
- ctl:[{t:"play"},{k:"s",t:"range",label:"Tamaño",min:4,max:25,step:1,fmt:function(v){return v+" % del ancho"}},{k:"v",t:"range",label:"Velocidad",min:1,max:10,step:1,fmt:function(v){return v+" · cada "+(5.5-.5*v).toFixed(1)+" s"}}],
- thumb:function(){var o="",i,j;for(j=0;j<5;j++)for(i=0;i<8;i++)o+=rect(i*20,j*20,20.3,20.3,PX[(i+j)%8]);return svg(160,90,o)},
- init:function(){return{t:0}},
- frame:function(x,w,h,p,st,dt){if(p.play)st.t+=dt;
-  var cols=Math.max(1,Math.round(100/p.s)),cell=w/cols,rows=Math.ceil(h/cell),step=Math.floor(st.t/(5.5-.5*p.v)),i,j;
-  for(j=0;j<rows;j++)for(i=0;i<cols;i++){x.fillStyle=PX[(step+i+j)%8];x.fillRect(i*cell,j*cell,cell+.6,cell+.6)}}},
-{id:"constelacion",name:"Constelación",cat:"Movimiento",kind:"cv",
- desc:"Estrellas de distintos tamaños que se desplazan despacio sobre negro. Si alrededor de las más brillantes aparece un halo, o se apagan al cruzar, hay local dimming.",
- p:{v:4,play:!RM},
- ctl:[{t:"play"},{k:"v",t:"range",label:"Velocidad",min:1,max:10,step:1,fmt:function(v){return String(v)}}],
- thumb:function(){var r=rng(7),o=rect(0,0,160,90,"#000"),i;for(i=0;i<46;i++)o+='<circle cx="'+(r()*160)+'" cy="'+(r()*90)+'" r="'+(i<4?3.2:.5+r()*1.4)+'" fill="#fff" opacity="'+(.6+r()*.4)+'"/>';return svg(160,90,o)},
- init:function(w,h){var s=[],n=Math.max(50,Math.round(w*h/2200)),i,a,sp,big;
-  for(i=0;i<n;i++){big=i<5;a=Math.random()*6.283;sp=.35+Math.random()*.9;
-   s.push({x:Math.random()*w,y:Math.random()*h,r:big?3.2+Math.random()*2:.6+Math.random()*1.8,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,b:.55+Math.random()*.45,c:["#ffffff","#cfe0ff","#fff2c8"][i%3],big:big})}
-  return{s:s}},
- frame:function(x,w,h,p,st,dt){x.globalAlpha=1;x.fillStyle="#000";x.fillRect(0,0,w,h);
-  var k=(w/360)*5*p.v,i,q,g;
-  for(i=0;i<st.s.length;i++){q=st.s[i];
-   if(p.play){q.x+=q.vx*k*dt;q.y+=q.vy*k*dt;if(q.x<-8)q.x=w+8;if(q.x>w+8)q.x=-8;if(q.y<-8)q.y=h+8;if(q.y>h+8)q.y=-8}
-   x.globalAlpha=q.b;
-   if(q.big){g=x.createRadialGradient(q.x,q.y,0,q.x,q.y,q.r*3);g.addColorStop(0,q.c);g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.beginPath();x.arc(q.x,q.y,q.r*3,0,6.283);x.fill()}
-   x.fillStyle=q.c;x.beginPath();x.arc(q.x,q.y,q.r,0,6.283);x.fill()}
-  x.globalAlpha=1}},
+{id:"rgb",name:"RGB",cat:"Uniformidad",desc:"Rojo, verde y azul puros para revisar uniformidad por canal.",
+ p:{},ctl:[],draw:function(p,W,H){var w=W/3;return svg(W,H,rect(0,0,w+.3,H,"#f00")+rect(w,0,w+.3,H,"#0f0")+rect(2*w,0,w,H,"#00f"))}},
+{id:"muertos",name:"Píxeles muertos",cat:"Uniformidad",desc:"Color único a pantalla completa. Cámbialo a mano y busca puntos que no coincidan. Sin parpadeo automático.",
+ p:{c:0},ctl:[{k:"c",t:"choice",label:"Color",opts:["Negro","Blanco","Rojo","Verde","Azul"]}],
+ draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,COLORS[p.c]))}},
 {id:"ghosting",name:"Ghosting",cat:"Movimiento",desc:"Un bloque se mueve a velocidad moderada. Si deja estela, el tiempo de respuesta es lento. Más segundos por pasada es más lento.",
- p:{d:3},ctl:[{k:"d",t:"range",label:"Pasada",min:2,max:6,step:.5,fmt:function(v){return v.toFixed(1)+" s"}}],
- draw:function(p,W,H,live){var bw=W*.14,bh=H*.33,m=live?'class="mv" ':"",x=live?W*.03:(W-bw)/2,
+ p:{d:3},live:true,ctl:[{k:"d",t:"range",label:"Pasada",min:2,max:6,step:.5,fmt:function(v){return v.toFixed(1)+" s"}}],
+ draw:function(p,W,H,live){var bw=W*.14,bh=H*.33,m=live?'class="mv" ':"",x=live?0:(W-bw)/2,
   o=rect(0,0,W,H/2,"#000")+rect(0,H/2,W,H/2,"#808080");
-  o+='<rect '+m+'x="'+x+'" y="'+(H*.09)+'" width="'+bw+'" height="'+bh+'" fill="#fff"/>';
-  o+='<rect '+m+'x="'+x+'" y="'+(H*.59)+'" width="'+bw+'" height="'+bh+'" fill="#000"/>';
+  o+='<rect '+m+'x="'+(live?W*.03:x)+'" y="'+(H*.09)+'" width="'+bw+'" height="'+bh+'" fill="#fff"/>';
+  o+='<rect '+m+'x="'+(live?W*.03:x)+'" y="'+(H*.59)+'" width="'+bw+'" height="'+bh+'" fill="#000"/>';
   return svg(W,H,o,live?"--d:"+p.d+"s;--tx:"+(W*.94-bw)+"px":"")}},
-{id:"geometria",name:"Geometría",cat:"Nitidez",desc:"Cuadrícula, círculo y diagonales para revisar proporciones, bordes y enfoque.",p:{},
+{id:"geometria",name:"Geometría",cat:"Nitidez",desc:"Cuadrícula, círculo y diagonales para revisar proporciones, bordes y enfoque.",
+ p:{},ctl:[],
  draw:function(p,W,H){var o=rect(0,0,W,H,"#000"),s=W/16,i,sw=W/320;
   for(i=0;i<=W+.01;i+=s)o+='<line x1="'+i+'" y1="0" x2="'+i+'" y2="'+H+'" stroke="#fff" stroke-width="'+sw+'"/>';
   for(i=0;i<=H+.01;i+=s)o+='<line x1="0" y1="'+i+'" x2="'+W+'" y2="'+i+'" stroke="#fff" stroke-width="'+sw+'"/>';
@@ -245,12 +205,10 @@ var TOOLS=[
   o+='<line x1="0" y1="0" x2="'+W+'" y2="'+H+'" stroke="#fff" stroke-width="'+sw*1.2+'"/><line x1="'+W+'" y1="0" x2="0" y2="'+H+'" stroke="#fff" stroke-width="'+sw*1.2+'"/>';
   return svg(W,H,o)}}
 ];
-var CATS=["Todas","Color","Uniformidad","Píxeles","Movimiento","Nitidez"];
+var CATS=["Todas","Color","Uniformidad","Movimiento","Nitidez"];
 var cur="Todas";
 
-function byId(id){return TOOLS.filter(function(t){return t.id===id})[0]}
-function thumbOf(t){return t.thumb?t.thumb(t.p):t.draw(t.p,160,90,false)}
-
+/* ---------- cuadrícula y filtros ---------- */
 var grid=document.getElementById("grid"),filters=document.getElementById("filters"),nav=document.getElementById("nav");
 function setFilter(c){
   cur=c;
@@ -269,47 +227,28 @@ function visible(){return TOOLS.filter(function(t){return cur==="Todas"||t.cat==
 function renderGrid(){
   grid.innerHTML="";
   visible().forEach(function(t){
-    var b=document.createElement("button");b.className="tile panel";b.setAttribute("data-id",t.id);
+    var b=document.createElement("button");b.className="tile";b.setAttribute("data-id",t.id);
     b.setAttribute("aria-label","Abrir "+t.name);
-    b.innerHTML='<span class="thumb">'+thumbOf(t)+'</span><p class="name">'+t.name+'</p><p class="cat">'+t.cat+(t.ctl?" · ajustable":"")+"</p>";
+    b.innerHTML='<span class="thumb">'+t.draw(t.p,160,90,false)+'</span><p class="name">'+t.name+'</p><p class="cat">'+t.cat+(t.ctl.length?" · ajustable":"")+"</p>";
     b.onclick=function(){openViewer(t.id)};
     grid.appendChild(b);
   });
 }
-function refreshThumbs(){
-  Array.prototype.forEach.call(grid.children,function(b){var t=byId(b.getAttribute("data-id"));if(t&&t.id!=="ghosting")b.firstChild.innerHTML=thumbOf(t)});
-}
 
+/* ---------- visor a pantalla completa ---------- */
 var viewer=document.getElementById("viewer"),stage=document.getElementById("stage"),vc=document.getElementById("vc"),
     vt=document.getElementById("vt"),vd=document.getElementById("vd"),vctl=document.getElementById("vctl");
-var active=null,lastFocus=null,raf=0;
-function stopCv(){if(raf){cancelAnimationFrame(raf);raf=0}}
-function drawStage(){
-  stopCv();
-  if(active.kind==="cv"){
-    var dpr=Math.min(2,window.devicePixelRatio||1),w=window.innerWidth,h=window.innerHeight,cv=document.createElement("canvas");
-    cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);stage.innerHTML="";stage.appendChild(cv);
-    var x=cv.getContext("2d");x.scale(dpr,dpr);
-    var st=active.init(w,h),t=active,last=performance.now();
-    (function f(now){var dt=Math.min(.05,(now-last)/1000);last=now;t.frame(x,w,h,t.p,st,dt);raf=requestAnimationFrame(f)})(last);
-  }else{
-    var W=160,ar=(window.innerHeight||90)/(window.innerWidth||160);
-    stage.innerHTML=active.draw(active.p,W,Math.max(20,W*ar),true);
-  }
-}
+var active=null,lastFocus=null;
+function stageSize(){var W=160,ar=(window.innerHeight||90)/(window.innerWidth||160);return[W,Math.max(20,W*ar)]}
+function drawStage(){var s=stageSize();stage.innerHTML=active.draw(active.p,s[0],s[1],true)}
 function buildControls(){
   vctl.innerHTML="";
-  (active.ctl||[]).forEach(function(c){
+  active.ctl.forEach(function(c){
     var r=document.createElement("div");r.className="ctl";
     if(c.t==="range"){
-      r.innerHTML='<span>'+c.label+'</span><input type="range" min="'+c.min+'" max="'+c.max+'" step="'+c.step+'" value="'+active.p[c.k]+'" aria-label="'+c.label+'"><span class="o" style="min-width:5.5rem;text-align:right">'+c.fmt(active.p[c.k])+'</span>';
+      r.innerHTML='<span>'+c.label+'</span><input type="range" min="'+c.min+'" max="'+c.max+'" step="'+c.step+'" value="'+active.p[c.k]+'" aria-label="'+c.label+'"><span class="o" style="min-width:3.5rem;text-align:right">'+c.fmt(active.p[c.k])+'</span>';
       var i=r.querySelector("input"),o=r.querySelector(".o");
-      i.oninput=function(){active.p[c.k]=parseFloat(i.value);o.textContent=c.fmt(active.p[c.k]);if(active.kind!=="cv")drawStage()};
-    }else if(c.t==="preset"){
-      c.opts.forEach(function(q){var b=document.createElement("button");b.className="btn";b.textContent=q[0];b.onclick=function(){active.p[c.k]=q[1];drawStage();buildControls()};r.appendChild(b)});
-    }else if(c.t==="play"){
-      var pb=document.createElement("button");pb.className="btn primary";pb.textContent=active.p.play?"Pausar":"Iniciar";
-      pb.onclick=function(){active.p.play=!active.p.play;pb.textContent=active.p.play?"Pausar":"Iniciar"};r.appendChild(pb);
+      i.oninput=function(){active.p[c.k]=parseFloat(i.value);o.textContent=c.fmt(active.p[c.k]);drawStage()};
     }else{
       r.innerHTML="<span>"+c.label+"</span>";
       c.opts.forEach(function(name,j){
@@ -322,8 +261,8 @@ function buildControls(){
   });
 }
 function showTool(id){
-  active=byId(id);
-  vt.textContent=active.name;vd.textContent=active.desc+(active.warn?" "+active.warn:"");
+  active=TOOLS.filter(function(t){return t.id===id})[0];
+  vt.textContent=active.name;vd.textContent=active.desc;
   buildControls();drawStage();
 }
 function openViewer(id){
@@ -336,22 +275,22 @@ function openViewer(id){
 }
 function closeViewer(){
   if(!viewer.classList.contains("open"))return;
-  stopCv();viewer.classList.remove("open");stage.innerHTML="";active=null;
+  viewer.classList.remove("open");stage.innerHTML="";active=null;
   try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen();else if(document.webkitFullscreenElement&&document.webkitExitFullscreen)document.webkitExitFullscreen()}catch(e){}
-  refreshThumbs();startFx();
   if(lastFocus&&lastFocus.focus)lastFocus.focus();
 }
 function step(d){
   var list=visible(),i=list.indexOf(active);
-  if(i<0){list=TOOLS;i=list.indexOf(active)}
+  if(i<0)list=TOOLS,i=list.indexOf(active);
   showTool(list[(i+d+list.length)%list.length].id);
 }
 document.getElementById("vclose").onclick=closeViewer;
 stage.addEventListener("click",function(){vc.classList.toggle("hidden")});
 document.addEventListener("fullscreenchange",function(){if(!document.fullscreenElement)closeViewer()});
 document.addEventListener("webkitfullscreenchange",function(){if(!document.webkitFullscreenElement)closeViewer()});
-window.addEventListener("resize",function(){if(active)drawStage();if(fxOn)initFire()});
+window.addEventListener("resize",function(){if(active)drawStage()});
 
+/* ---------- teclado ---------- */
 document.addEventListener("keydown",function(e){
   var t=e.target,isInput=t&&t.tagName==="INPUT";
   if(viewer.classList.contains("open")){
@@ -369,69 +308,37 @@ document.addEventListener("keydown",function(e){
   }
 });
 
+/* ---------- botones de la portada ---------- */
 document.getElementById("start").onclick=function(){openViewer(TOOLS[0].id)};
 var gb=document.getElementById("guideBox");
 document.getElementById("guide").onclick=function(){
   if(gb.hidden){
-    gb.innerHTML="<strong>Guía rápida.</strong> Toca una miniatura para abrirla a pantalla completa. Fija el brillo antes de empezar. Usa Uniformidad para ver manchas y fuga de luz, Píxeles para buscar puntos apagados o atascados, y Constelación para detectar halos de local dimming. En Ghosting, observa si el bloque deja estela.";
+    gb.innerHTML="<strong>Guía rápida.</strong> Toca una miniatura para abrirla a pantalla completa. Fija el brillo de tu pantalla antes de empezar. Usa Uniformidad en blanco, negro y gris para ver manchas, y Píxeles muertos para buscar puntos apagados o fijos. En Ghosting, observa si el bloque deja estela.";
     gb.hidden=false;gb.focus();
   }else gb.hidden=true;
 };
 
-var KEY="dt-theme",mq=null,mode="auto";
+/* ---------- tema automático ---------- */
+var KEY="dt-theme",root=document.documentElement,mq=null;
 try{mq=window.matchMedia?window.matchMedia("(prefers-color-scheme: dark)"):null;if(mq&&mq.media==="not all")mq=null}catch(e){mq=null}
+var mode="auto";
 try{var s=localStorage.getItem(KEY);if(s==="light"||s==="dark"||s==="auto")mode=s}catch(e){}
 function applyTheme(){
   if(mode==="auto")root.removeAttribute("data-theme");else root.setAttribute("data-theme",mode);
   Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-theme-opt")===mode?"true":"false")});
+  var eff=mode==="auto"?(mq&&mq.matches?"dark":"light"):mode,txt;
+  if(mode==="auto"){
+    txt="Cambio automático activado. Tema aplicado: "+(eff==="dark"?"oscuro":"claro")+(mq?" (del sistema).":".");
+    if(!mq)txt+=" Este dispositivo no informa su tema: se usa el tema claro.";
+  }else txt="Cambio automático desactivado. Tema fijo: "+(eff==="dark"?"oscuro":"claro")+".";
+  document.getElementById("themeStatus").textContent=txt;
 }
 Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){
   b.onclick=function(){mode=b.getAttribute("data-theme-opt");try{localStorage.setItem(KEY,mode)}catch(e){}applyTheme()};
 });
+if(mq){try{mq.addEventListener("change",applyTheme)}catch(e){try{mq.addListener(applyTheme)}catch(e2){}}}
 
-var fc=document.getElementById("fire"),fctx=fc.getContext("2d"),FW=0,FH=0,heat=null,img=null,decay=2,pal=[],q0;
-for(q0=0;q0<256;q0++)pal.push([Math.min(255,q0*3),Math.min(255,Math.max(0,(q0-85)*3)),Math.min(255,Math.max(0,(q0-170)*3)),q0<22?0:Math.min(255,(q0-22)*2.2)]);
-function initFire(){
-  var w=window.innerWidth,h=window.innerHeight;if(!w||!h)return;
-  FW=Math.max(40,Math.round(w/6));FH=Math.max(30,Math.round(h/6));
-  fc.width=FW;fc.height=FH;heat=new Uint8Array(FW*FH);img=fctx.createImageData(FW,FH);decay=255/(FH*.45);
-}
-function stepFire(){
-  if(!heat)return;
-  var x,y,i,a,b,c,d,v,o,q;
-  for(x=0;x<FW;x++)heat[(FH-1)*FW+x]=185+Math.random()*70;
-  for(y=0;y<FH-1;y++)for(x=0;x<FW;x++){
-    o=(y+1)*FW;a=heat[o+x];b=heat[o+(x+FW-1)%FW];c=heat[o+(x+1)%FW];d=y+2<FH?heat[(y+2)*FW+x]:a;
-    v=(a+b+c+d)/4-decay*(.4+Math.random()*.9);heat[y*FW+x]=v<0?0:v;
-  }
-  for(i=0;i<FW*FH;i++){q=pal[heat[i]];o=i*4;img.data[o]=q[0];img.data[o+1]=q[1];img.data[o+2]=q[2];img.data[o+3]=q[3]}
-  fctx.putImageData(img,0,0);
-}
-var cube=document.getElementById("cube"),err=document.getElementById("err"),k,sp,sh;
-for(k=0;k<9;k++){
-  sp=document.createElement("span");sp.textContent="ERROR";sh=Math.round(255-k*20);
-  sp.style.transform="translateZ("+(10-k*2.5)+"px)";
-  sp.style.color=k===0?"#ff2a2a":"rgb("+Math.max(60,sh-90)+",0,0)";
-  if(k===0)sp.style.textShadow="0 0 .25em #ff7a00,0 0 .6em #ff2a00";
-  cube.appendChild(sp);
-}
-var ex=20,ey=60,evx=95,evy=70,lastT=0,fireT=0,run=0,fxOn=!RM;
-function loop(now){
-  run=requestAnimationFrame(loop);
-  var dt=Math.min(.05,(now-lastT)/1000);lastT=now;
-  if(!viewer.classList.contains("open")){fireT+=dt;if(fireT>.05){fireT=0;stepFire()}}
-  var w=window.innerWidth,h=window.innerHeight,ew=err.offsetWidth,eh=err.offsetHeight;
-  ex+=evx*dt;ey+=evy*dt;
-  if(ex<0){ex=0;evx=Math.abs(evx)}if(ex>w-ew){ex=Math.max(0,w-ew);evx=-Math.abs(evx)}
-  if(ey<0){ey=0;evy=Math.abs(evy)}if(ey>h-eh){ey=Math.max(0,h-eh);evy=-Math.abs(evy)}
-  err.style.transform="translate("+ex+"px,"+ey+"px)";
-}
-function startFx(){if(!fxOn||run)return;initFire();lastT=performance.now();run=requestAnimationFrame(loop)}
-function stopFx(){if(run){cancelAnimationFrame(run);run=0}}
-function applyFx(){root.setAttribute("data-fx",fxOn?"1":"0");stopFx();if(fxOn)startFx()}
-if(RMQ){try{RMQ.addEventListener("change",function(){fxOn=!RMQ.matches;applyFx()})}catch(e){}}
-
-renderGrid();applyTheme();applyFx();
+renderGrid();applyTheme();
 })();
 </script>
 </body>

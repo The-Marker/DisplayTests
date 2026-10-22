@@ -16,12 +16,11 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 | --- | --- | --- |
 | SMPTE barras | Color | Revisar color, brillo y niveles de negro |
 | Escala de grises | Color | Ver si se distinguen tonos oscuros y claros |
-| Escala RGB y CMYK | Color | 10 tonalidades por fila en rojo, verde, azul, cian, magenta, amarillo y negro (K) |
 | Contraste | Color | Bloques de 5 % a 95 % con nivel ajustable |
-| Uniformidad gris | Uniformidad | Gris de 0 a 100 % con atajos a negro y blanco: manchas, viñeteo, fuga de luz, nubosidad y bandas |
-| Uniformidad RGB y CMYK | Uniformidad | Un color a pantalla completa a la vez (rojo, verde, azul, cian, magenta, amarillo, blanco y negro), elegido a mano. También sirve para buscar píxeles muertos |
-| Desatascador de píxeles | Píxeles | Cuadrícula cuadrada adaptable cuyos cuadros rotan entre RGB, CMYK, blanco y negro; tamaño (4–25 % del ancho) y velocidad (1–10) ajustables |
-| Constelación | Movimiento | Estrellas de varios tamaños en movimiento sobre negro para detectar halos y local dimming |
+| Blanco y Negro | Uniformidad | Manchas, viñeteo, fuga de luz y nubosidad |
+| Gris ajustable | Uniformidad | Bandas y manchas en tonos medios, de 5 % a 95 % |
+| RGB | Uniformidad | Uniformidad por canal de color |
+| Píxeles muertos | Uniformidad | Color único con cambio manual, sin parpadeo automático |
 | Ghosting | Movimiento | Estelas por tiempo de respuesta lento; pasada de 2 a 6 s |
 | Geometría | Nitidez | Cuadrícula, círculo y diagonales para proporciones y enfoque |
 
@@ -32,9 +31,8 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 - **Navegación con teclado y control remoto:** flechas para moverse entre miniaturas, `←` `→` para cambiar de prueba en el visor, `Esc` para salir, y foco siempre visible.
 - **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Si el dispositivo no lo informa, usa el tema claro.
 - **Cambio de tema desactivable:** los botones Claro y Oscuro fijan el tema y desactivan el seguimiento del sistema. La preferencia se recuerda en el navegador.
-- **Filtros por categoría:** Color, Uniformidad, Píxeles, Movimiento y Nitidez.
-- **Estilo años 2000:** fondo de fuego animado y la palabra ERROR en rojo y 3D que rebota por toda la ventana mientras gira. Los efectos siempre están activos y solo se apagan si el sistema pide reducir el movimiento. ERROR sigue visible, rebotando por encima, incluso en las pruebas a pantalla completa; el fuego se pausa detrás del visor.
-- **Seguridad:** aviso para personas fotosensibles, movimiento sin destellos y desatascador que empieza en pausa, con cambios de color no más rápidos de 0,5 s y cuadros desfasados.
+- **Filtros por categoría:** Color, Uniformidad, Movimiento y Nitidez.
+- **Seguridad:** aviso para personas fotosensibles, movimiento sin destellos y animación desactivada con `prefers-reduced-motion`.
 
 ## Compatibilidad
 
