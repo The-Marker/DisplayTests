@@ -20,7 +20,7 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 | Contraste | Color | Bloques de 5 % a 95 % con nivel ajustable |
 | Uniformidad gris | Uniformidad | Gris de 0 a 100 % con atajos a negro y blanco: manchas, viñeteo, fuga de luz, nubosidad y bandas |
 | Uniformidad RGB y CMYK | Uniformidad | Un color a pantalla completa a la vez (rojo, verde, azul, cian, magenta, amarillo, blanco y negro), elegido a mano. También sirve para buscar píxeles muertos |
-| Desatascador de píxeles | Píxeles | Cuadrícula cuadrada adaptable cuyos cuadros rotan entre RGB, CMYK, blanco y negro; tamaño (4–25 % del ancho) y velocidad (1–10) ajustables |
+| Desatascador de píxeles | Píxeles | Cuadrícula cuadrada adaptable cuyos cuadros cambian al azar entre RGB, CMYK, blanco y negro, cada uno por su cuenta; tamaño (4–25 % del ancho) y velocidad (1–12, de cada 10 s a cada 0,45 s) ajustables |
 | Constelación | Movimiento | Estrellas de varios tamaños en movimiento sobre negro para detectar halos y local dimming |
 | Ghosting | Movimiento | Estelas por tiempo de respuesta lento; pasada de 2 a 6 s |
 | Geometría | Nitidez | Cuadrícula, círculo y diagonales para proporciones y enfoque |
@@ -33,7 +33,7 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 - **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Si el dispositivo no lo informa, usa el tema claro.
 - **Cambio de tema desactivable:** los botones Claro y Oscuro fijan el tema y desactivan el seguimiento del sistema. La preferencia se recuerda en el navegador.
 - **Filtros por categoría:** Color, Uniformidad, Píxeles, Movimiento y Nitidez.
-- **Seguridad:** aviso para personas fotosensibles, movimiento sin destellos y desatascador que empieza en pausa, con cambios de color no más rápidos de 0,5 s y cuadros desfasados.
+- **Seguridad:** aviso para personas fotosensibles, movimiento sin destellos y desatascador que empieza en pausa, con cambios de color al azar e independientes por cuadro y nunca más rápidos de 0,45 s en promedio.
 
 ## Compatibilidad
 

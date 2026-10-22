@@ -38,12 +38,13 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Los patrones animados (`kind:"cv"`) se dibujan en `canvas` con `init` y `frame`, y su miniatura es un SVG estático (`thumb`).
 - Accesibilidad: botones reales, `aria-pressed` en los selectores, foco visible, `aria-label` en miniaturas y respeto de `prefers-reduced-motion`.
 - Persistencia con `localStorage` siempre dentro de `try/catch`; el sitio debe funcionar sin ella.
+- El pie de página fue eliminado a propósito. No lo repongas.
 
 ## Reglas de seguridad
 
 - Sin destellos ni parpadeo automático. El movimiento es moderado y el aviso de fotosensibilidad debe seguir visible.
 - La velocidad del ghosting se limita a 2–6 s por pasada. No bajes de 2 s.
-- El desatascador de píxeles empieza en pausa, no cambia de color más rápido que cada 0,5 s y desfasa los cuadros para que la pantalla no parpadee completa. Mantén ese límite.
+- El desatascador de píxeles empieza en pausa. Cada cuadro cambia de color al azar y por su cuenta, con un intervalo medio mínimo de 0,45 s y variación de ±20 % (nunca más de 3 cambios por segundo por cuadro). Mantén ese límite al ampliar la velocidad.
 - Los controles del visor deben poder ocultarse, para no contaminar las pruebas de uniformidad.
 
 ## Añadir una herramienta

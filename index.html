@@ -74,8 +74,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tile .cat{font-size:.85rem;color:var(--muted)}
 
 .warn{margin:1rem 1.2rem;padding:.7rem .9rem;background:var(--warn-bg);color:var(--warn-fg);border-radius:.6rem}
-.foot{border-top:1px solid var(--line);padding:.9rem 1.2rem;color:var(--muted);font-size:.85rem}
-.foot p+p{margin-top:.4rem}
 
 #viewer{position:fixed;inset:0;z-index:10;background:#000;display:none}
 #viewer.open{display:block}
@@ -127,10 +125,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 </main>
 
 <div class="warn" role="note">Las pruebas de movimiento y de cambio de color pueden afectar a personas fotosensibles. Usa velocidades moderadas y detente si sientes molestias.</div>
-<footer class="foot">
-  <p id="themeStatus"></p>
-  <p>Compatible con Android, iPhone, Windows, macOS y Linux en navegadores actuales. Los colores son una aproximación: para medir, usa pantalla completa y brillo fijo.</p>
-</footer>
 
 <div id="viewer" role="dialog" aria-modal="true" aria-label="Prueba a pantalla completa">
   <div id="stage"></div>
@@ -194,15 +188,21 @@ var TOOLS=[
  draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,CM[p.c][1]))},
  thumb:function(){var o="",i;for(i=0;i<8;i++)o+=rect((i%4)*40,Math.floor(i/4)*45,40.3,45.3,CM[i][1]);return svg(160,90,o)}},
 {id:"desatascador",name:"Desatascador de píxeles",cat:"Píxeles",kind:"cv",
- desc:"Cuadrícula de cuadros que rotan entre rojo, verde, azul, cian, magenta, amarillo, blanco y negro, desfasados entre sí. Empieza en pausa. No siempre libera un píxel atascado.",
+ desc:"Cuadrícula de cuadros que cambian de color al azar entre rojo, verde, azul, cian, magenta, amarillo, blanco y negro, cada uno por su cuenta y sin seguir una secuencia. Empieza en pausa. No siempre libera un píxel atascado.",
  warn:"Cambia de color de forma repetida. Evítalo si eres fotosensible.",
- p:{s:10,v:4,play:false},
- ctl:[{t:"play"},{k:"s",t:"range",label:"Tamaño",min:4,max:25,step:1,fmt:function(v){return v+" % del ancho"}},{k:"v",t:"range",label:"Velocidad",min:1,max:10,step:1,fmt:function(v){return v+" · cada "+(5.5-.5*v).toFixed(1)+" s"}}],
- thumb:function(){var o="",i,j;for(j=0;j<5;j++)for(i=0;i<8;i++)o+=rect(i*20,j*20,20.3,20.3,PX[(i+j)%8]);return svg(160,90,o)},
- init:function(){return{t:0}},
- frame:function(x,w,h,p,st,dt){if(p.play)st.t+=dt;
-  var cols=Math.max(1,Math.round(100/p.s)),cell=w/cols,rows=Math.ceil(h/cell),step=Math.floor(st.t/(5.5-.5*p.v)),i,j;
-  for(j=0;j<rows;j++)for(i=0;i<cols;i++){x.fillStyle=PX[(step+i+j)%8];x.fillRect(i*cell,j*cell,cell+.6,cell+.6)}}},
+ p:{s:10,v:5,play:false},
+ ctl:[{t:"play"},{k:"s",t:"range",label:"Tamaño",min:4,max:25,step:1,fmt:function(v){return v+" % del ancho"}},{k:"v",t:"range",label:"Velocidad",min:1,max:12,step:1,fmt:function(v){var s=10*Math.pow(.045,(v-1)/11);return v+" · cada "+(s<1?s.toFixed(2):s.toFixed(1))+" s"}}],
+ thumb:function(){var r=rng(11),o="",i,j;for(j=0;j<5;j++)for(i=0;i<8;i++)o+=rect(i*20,j*20,20.3,20.3,PX[Math.floor(r()*8)]);return svg(160,90,o)},
+ init:function(){return{t:0,cols:0,rows:0,c:[],n:[]}},
+ frame:function(x,w,h,p,st,dt){
+  var cols=Math.max(1,Math.round(100/p.s)),cell=w/cols,rows=Math.ceil(h/cell),iv=10*Math.pow(.045,(p.v-1)/11),i,j,k,nc;
+  if(st.cols!==cols||st.rows!==rows){st.cols=cols;st.rows=rows;st.c=[];st.n=[];
+   for(k=0;k<cols*rows;k++){st.c.push(Math.floor(Math.random()*8));st.n.push(st.t+iv*Math.random())}}
+  if(p.play){st.t+=dt;
+   for(k=0;k<st.c.length;k++)if(st.t>=st.n[k]){
+    do{nc=Math.floor(Math.random()*8)}while(nc===st.c[k]);
+    st.c[k]=nc;st.n[k]=st.t+iv*(.8+Math.random()*.4)}}
+  for(j=0;j<rows;j++)for(i=0;i<cols;i++){x.fillStyle=PX[st.c[j*cols+i]];x.fillRect(i*cell,j*cell,cell+.6,cell+.6)}}},
 {id:"constelacion",name:"Constelación",cat:"Movimiento",kind:"cv",
  desc:"Estrellas de distintos tamaños que se desplazan despacio sobre negro. Si alrededor de las más brillantes aparece un halo, o se apagan al cruzar, hay local dimming.",
  p:{v:4,play:!RM},
@@ -377,12 +377,6 @@ try{var s=localStorage.getItem(KEY);if(s==="light"||s==="dark"||s==="auto")mode=
 function applyTheme(){
   if(mode==="auto")root.removeAttribute("data-theme");else root.setAttribute("data-theme",mode);
   Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-theme-opt")===mode?"true":"false")});
-  var eff=mode==="auto"?(mq&&mq.matches?"dark":"light"):mode,txt;
-  if(mode==="auto"){
-    txt="Cambio automático activado. Tema aplicado: "+(eff==="dark"?"oscuro":"claro")+(mq?" (del sistema).":".");
-    if(!mq)txt+=" Este dispositivo no informa su tema: se usa el tema claro.";
-  }else txt="Cambio automático desactivado. Tema fijo: "+(eff==="dark"?"oscuro":"claro")+".";
-  document.getElementById("themeStatus").textContent=txt;
 }
 Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){
   b.onclick=function(){mode=b.getAttribute("data-theme-opt");try{localStorage.setItem(KEY,mode)}catch(e){}applyTheme()};
