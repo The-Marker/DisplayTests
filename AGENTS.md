@@ -25,7 +25,7 @@ Antes de subir cambios, revisa como mínimo:
 - Tema claro, tema oscuro y tema automático. Con el tema automático desactivado, el tema fijo se mantiene.
 - Un navegador sin `matchMedia` cae en tema claro.
 - Cada herramienta abre a pantalla completa, sus controles responden y `Esc` la cierra.
-- Los efectos (fuego y ERROR) se mueven en la página y se pausan con el visor abierto.
+- Los efectos (fuego y ERROR) se mueven en la página. Con el visor abierto, ERROR sigue rebotando por encima y el fuego se pausa.
 - Con `prefers-reduced-motion: reduce`, los efectos quedan apagados.
 
 Playwright con Chromium sirve para automatizar estas revisiones.
@@ -48,7 +48,7 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Sin destellos ni parpadeo automático. El movimiento es moderado y el aviso de fotosensibilidad debe seguir visible.
 - La velocidad del ghosting se limita a 2–6 s por pasada. No bajes de 2 s.
 - El desatascador de píxeles empieza en pausa, no cambia de color más rápido que cada 0,5 s y desfasa los cuadros para que la pantalla no parpadee completa. Mantén ese límite.
-- Los efectos de fondo no deben dibujarse sobre el visor: se pausan al abrirlo y el visor queda por encima.
+- El fuego queda detrás del visor y se pausa al abrirlo. ERROR se dibuja por encima del visor a propósito (decisión del dueño del proyecto), así que puede contaminar las pruebas de uniformidad; no lo escondas sin que lo pidan.
 - Los controles del visor deben poder ocultarse, para no contaminar las pruebas de uniformidad.
 
 ## Añadir una herramienta

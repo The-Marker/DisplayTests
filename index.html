@@ -96,7 +96,7 @@ html[data-fx="1"] #fire{display:block}
 #vc input[type=range]{flex:1;min-width:8rem;accent-color:#85b7eb}
 #vc .hint{font-size:.8rem;color:#b4b2a9}
 
-.err{position:fixed;left:0;top:0;z-index:5;pointer-events:none;perspective:700px;display:none}
+.err{position:fixed;left:0;top:0;z-index:20;pointer-events:none;perspective:700px;display:none}
 html[data-fx="1"] .err{display:block}
 .cube{position:relative;transform-style:preserve-3d;animation:spin 5s linear infinite}
 .cube span{display:block;font-family:Impact,Haettenschweiller,"Arial Black",sans-serif;font-weight:900;font-size:2.4rem;letter-spacing:.06em;line-height:1;white-space:nowrap}
@@ -168,9 +168,8 @@ var root=document.documentElement;
 var RMQ=null,RM=false;
 try{RMQ=window.matchMedia?window.matchMedia("(prefers-reduced-motion: reduce)"):null;RM=!!(RMQ&&RMQ.matches)}catch(e){}
 
-var CM=[["Rojo","#f00"],["Verde","#0f0"],["Azul","#00f"],["Cian","#0ff"],["Magenta","#f0f"],["Amarillo","#ff0"],["Negro (K)","#000"]];
+var CM=[["Rojo","#f00"],["Verde","#0f0"],["Azul","#00f"],["Cian","#0ff"],["Magenta","#f0f"],["Amarillo","#ff0"],["Blanco","#fff"],["Negro (K)","#000"]];
 var PX=["#f00","#0f0","#00f","#0ff","#f0f","#ff0","#fff","#000"];
-var DEAD=["#000","#fff","#f00","#0f0","#00f"];
 
 var TOOLS=[
 {id:"smpte",name:"SMPTE barras",cat:"Color",desc:"Revisa color, brillo y niveles de negro con barras estándar.",p:{},
@@ -200,13 +199,10 @@ var TOOLS=[
 {id:"gris",name:"Uniformidad gris",cat:"Uniformidad",desc:"Un solo gris de 0 a 100 %, con atajos para negro y blanco. El negro muestra fuga de luz y nubosidad; el blanco, manchas y viñeteo; los grises medios, bandas.",
  p:{l:50},ctl:[{k:"l",t:"range",label:"Nivel",min:0,max:100,step:5,fmt:function(v){return v+" %"}},{k:"l",t:"preset",opts:[["Negro",0],["Gris",50],["Blanco",100]]}],
  draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,gy(p.l)))}},
-{id:"colores",name:"Uniformidad RGB y CMYK",cat:"Uniformidad",desc:"Un color a pantalla completa a la vez: rojo, verde, azul, cian, magenta, amarillo y negro (K). Cambia a mano, sin parpadeo automático.",
+{id:"colores",name:"Uniformidad RGB y CMYK",cat:"Uniformidad",desc:"Un color a pantalla completa a la vez: rojo, verde, azul, cian, magenta, amarillo, blanco y negro (K). Cambia a mano, sin parpadeo automático. También sirve para buscar píxeles muertos: busca puntos que no coincidan con el color.",
  p:{c:0},ctl:[{k:"c",t:"choice",label:"Color",opts:CM.map(function(x){return x[0]})}],
  draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,CM[p.c][1]))},
- thumb:function(){var o="",i;for(i=0;i<3;i++)o+=rect(i*160/3,0,160/3+.3,45,CM[i][1]);for(i=0;i<4;i++)o+=rect(i*40,45,40.3,45,CM[3+i][1]);return svg(160,90,o)}},
-{id:"muertos",name:"Píxeles muertos",cat:"Píxeles",desc:"Color único a pantalla completa. Cámbialo a mano y busca puntos que no coincidan. Sin parpadeo automático.",
- p:{c:0},ctl:[{k:"c",t:"choice",label:"Color",opts:["Negro","Blanco","Rojo","Verde","Azul"]}],
- draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,DEAD[p.c]))}},
+ thumb:function(){var o="",i;for(i=0;i<8;i++)o+=rect((i%4)*40,Math.floor(i/4)*45,40.3,45.3,CM[i][1]);return svg(160,90,o)}},
 {id:"desatascador",name:"Desatascador de píxeles",cat:"Píxeles",kind:"cv",
  desc:"Cuadrícula de cuadros que rotan entre rojo, verde, azul, cian, magenta, amarillo, blanco y negro, desfasados entre sí. Empieza en pausa. No siempre libera un píxel atascado.",
  warn:"Cambia de color de forma repetida. Evítalo si eres fotosensible.",
@@ -333,7 +329,7 @@ function showTool(id){
 function openViewer(id){
   lastFocus=document.activeElement;
   viewer.classList.add("open");vc.classList.remove("hidden");
-  stopFx();showTool(id);
+  showTool(id);
   var el=document.documentElement;
   try{if(el.requestFullscreen){var p=el.requestFullscreen();if(p&&p.catch)p.catch(function(){})}else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen()}}catch(e){}
   document.getElementById("vclose").focus();
@@ -354,7 +350,7 @@ document.getElementById("vclose").onclick=closeViewer;
 stage.addEventListener("click",function(){vc.classList.toggle("hidden")});
 document.addEventListener("fullscreenchange",function(){if(!document.fullscreenElement)closeViewer()});
 document.addEventListener("webkitfullscreenchange",function(){if(!document.webkitFullscreenElement)closeViewer()});
-window.addEventListener("resize",function(){if(active)drawStage();else if(fxOn)initFire()});
+window.addEventListener("resize",function(){if(active)drawStage();if(fxOn)initFire()});
 
 document.addEventListener("keydown",function(e){
   var t=e.target,isInput=t&&t.tagName==="INPUT";
@@ -423,7 +419,7 @@ var ex=20,ey=60,evx=95,evy=70,lastT=0,fireT=0,run=0,fxOn=!RM;
 function loop(now){
   run=requestAnimationFrame(loop);
   var dt=Math.min(.05,(now-lastT)/1000);lastT=now;
-  fireT+=dt;if(fireT>.05){fireT=0;stepFire()}
+  if(!viewer.classList.contains("open")){fireT+=dt;if(fireT>.05){fireT=0;stepFire()}}
   var w=window.innerWidth,h=window.innerHeight,ew=err.offsetWidth,eh=err.offsetHeight;
   ex+=evx*dt;ey+=evy*dt;
   if(ex<0){ex=0;evx=Math.abs(evx)}if(ex>w-ew){ex=Math.max(0,w-ew);evx=-Math.abs(evx)}
@@ -432,7 +428,7 @@ function loop(now){
 }
 function startFx(){if(!fxOn||run)return;initFire();lastT=performance.now();run=requestAnimationFrame(loop)}
 function stopFx(){if(run){cancelAnimationFrame(run);run=0}}
-function applyFx(){root.setAttribute("data-fx",fxOn?"1":"0");stopFx();if(fxOn&&!viewer.classList.contains("open"))startFx()}
+function applyFx(){root.setAttribute("data-fx",fxOn?"1":"0");stopFx();if(fxOn)startFx()}
 if(RMQ){try{RMQ.addEventListener("change",function(){fxOn=!RMQ.matches;applyFx()})}catch(e){}}
 
 renderGrid();applyTheme();applyFx();
