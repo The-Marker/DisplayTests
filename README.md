@@ -29,11 +29,27 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 
 - **Responsivo:** 2 columnas en móvil, 3 en tabletas, 4 en escritorio con filtros en barra lateral y 5 en televisores con texto más grande.
 - **Visor a pantalla completa:** cada prueba se adapta a la proporción real de la pantalla. Los controles se ocultan con `H` o tocando la pantalla, para no contaminar las pruebas de uniformidad.
-- **Navegación con teclado y control remoto:** flechas para moverse entre miniaturas, `←` `→` para cambiar de prueba en el visor, `Esc` para salir, y foco siempre visible.
+- **Varias entradas:** teclado, ratón, pantallas táctiles, controles remotos de televisión, gamepads y joysticks. Las pistas de controles del visor se adaptan a la entrada que detecta el sitio, y las teclas se muestran dentro de una caja para que resalten. Consulta la sección Controles.
 - **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Si el dispositivo no lo informa, usa el tema claro.
 - **Menú de tema:** un solo icono en el encabezado abre un menú con Automático, Claro y Oscuro, y el icono refleja el estado (círculo mitad lleno, sol o luna). Claro y Oscuro fijan el tema y desactivan el seguimiento del sistema. La preferencia se recuerda en el navegador.
 - **Filtros por categoría:** Color, Uniformidad, Píxeles, Movimiento y Nitidez.
 - **Seguridad:** aviso para personas fotosensibles, movimiento sin destellos y desatascador que empieza en pausa, con cambios de color al azar e independientes por cuadro. Desde la velocidad 13 (más de 3 cambios por segundo) la cuadrícula tiene al menos 8 columnas y se muestra un aviso.
+
+## Controles
+
+El sitio detecta la última entrada que usas y cambia las pistas del visor en consecuencia.
+
+| Acción | Teclado | Táctil | Control remoto | Gamepad o joystick |
+| --- | --- | --- | --- | --- |
+| Cambiar de prueba | `←` `→` | Deslizar a los lados, o botones Anterior y Siguiente | `◀` `▶`, `CH+` `CH−` | `◀` `▶`, `LB` `RB` |
+| Ir a los controles | `↓` (y `↑` para volver) | Tocar el control | `▼` (y `▲` para volver) | `▼` (y `▲` para volver) |
+| Ajustar un control | `←` `→` en un deslizador | Arrastrar | `◀` `▶` | `◀` `▶` o stick izquierdo |
+| Mostrar u ocultar el panel | `H` | Tocar la pantalla | `OK` o `Info` | `Start` |
+| Iniciar o pausar | `Espacio` | Botón Iniciar | `⏯` | `X` |
+| Aceptar | `Enter` | Tocar | `OK` | `A` |
+| Cerrar | `Esc` | Deslizar hacia abajo | `Atrás` | `B` |
+
+En la página principal, los controles remotos y los gamepads se mueven por botones, filtros y miniaturas con las flechas (navegación espacial). En televisores con Tizen, webOS, Android TV, Fire TV y similares, el sitio arranca con las pistas de control remoto. Los gamepads se detectan al pulsar cualquier botón.
 
 ## Compatibilidad
 

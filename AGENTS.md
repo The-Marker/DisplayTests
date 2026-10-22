@@ -25,6 +25,7 @@ Antes de subir cambios, revisa como mínimo:
 - Tema claro, tema oscuro y tema automático. Con el tema automático desactivado, el tema fijo se mantiene.
 - Un navegador sin `matchMedia` cae en tema claro.
 - Cada herramienta abre a pantalla completa, sus controles responden y `Esc` la cierra.
+- Las entradas funcionan y las pistas cambian: teclado, táctil (deslizar), control remoto (`ChannelUp`, `Info`, `GoBack`, User Agent de TV), gamepad (se puede simular reemplazando `navigator.getGamepads`).
 
 Playwright con Chromium sirve para automatizar estas revisiones.
 
@@ -41,6 +42,10 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Los iconos son SVG en línea con `currentColor`. No uses fuentes de iconos ni imágenes externas: el sitio es un solo archivo y debe verse igual abierto con doble clic.
 - El tema se elige en un menú desplegable de un icono (`#themeBtn`, `#themeMenu`) con `role="menu"`, teclado (flechas, Esc) y el icono refleja el modo (auto, claro u oscuro).
 - El pie de página fue eliminado a propósito. No lo repongas.
+- Todas las entradas (teclado, ratón, táctil, control remoto, gamepad y joystick) pasan por el despachador `act(accion, nativo)`, con acciones `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` y `playpause`. Para soportar un dispositivo nuevo, tradúcelo a esas acciones; no añadas manejadores sueltos.
+- `INPUT` guarda la última entrada detectada (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) y se refleja en `data-input` de `<html>`. Las pistas del visor (`hintHtml`) dependen de ese valor. Si añades una acción, añade su pista en todas las entradas.
+- Las teclas en las pistas se escriben con `<kbd>` (clases `r` para control remoto y `g` para gamepad) para que se vean dentro de una caja.
+- La navegación espacial (`spatial`) solo se activa con foco en un elemento (teclado y ratón) o siempre (control remoto y gamepad), para no quitar el scroll con flechas a quien usa teclado.
 
 ## Reglas de seguridad
 

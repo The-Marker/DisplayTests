@@ -84,7 +84,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 #viewer{position:fixed;inset:0;z-index:10;background:#000;display:none}
 #viewer.open{display:block}
-#stage{position:absolute;inset:0}
+#stage{position:absolute;inset:0;touch-action:none}
 #stage svg,#stage canvas{display:block;width:100%;height:100%}
 #vc{position:absolute;left:0;right:0;bottom:0;padding:1rem 1.2rem;background:rgba(0,0,0,.82);color:#f1efe8;display:flex;flex-direction:column;gap:.6rem}
 #vc.hidden{display:none}
@@ -95,7 +95,14 @@ button{font:inherit;color:inherit;cursor:pointer}
 #vc .btn[aria-pressed="true"],#vc .btn.primary{background:#f1efe8;color:#1b1b1a}
 #vc .ctl{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
 #vc input[type=range]{flex:1;min-width:8rem;accent-color:#85b7eb}
-#vc .hint{font-size:.8rem;color:#b4b2a9}
+#vc .btn{min-height:2.4rem}
+#vc .hint{font-size:.95rem;color:#e7e5dd;line-height:2.1}
+#vc :focus-visible,html[data-input="remote"] #vc :focus,html[data-input="gamepad"] #vc :focus{outline-color:#85b7eb}
+html[data-input="remote"] :focus,html[data-input="gamepad"] :focus{outline:.2rem solid var(--accent);outline-offset:.15rem}
+#stage:focus{outline:none}
+kbd{display:inline-block;min-width:1.8em;padding:.05em .5em;margin:0 .1em;text-align:center;font:inherit;font-weight:500;font-size:.95em;line-height:1.5;color:#fff;background:#3a3a37;border:1px solid #9a988f;border-bottom-width:3px;border-radius:.4em;white-space:nowrap}
+kbd.r{border-radius:999px}
+kbd.g{border-radius:999px;background:#1f3a5f;border-color:#85b7eb}
 
 .mv{animation:mv var(--d,3s) ease-in-out infinite alternate}
 @keyframes mv{from{transform:translateX(0)}to{transform:translateX(var(--tx,130px))}}
@@ -136,14 +143,18 @@ button{font:inherit;color:inherit;cursor:pointer}
 <div class="warn" role="note">Las pruebas de movimiento y de cambio de color pueden afectar a personas fotosensibles. Usa velocidades moderadas y detente si sientes molestias.</div>
 
 <div id="viewer" role="dialog" aria-modal="true" aria-label="Prueba a pantalla completa">
-  <div id="stage"></div>
+  <div id="stage" tabindex="-1"></div>
   <div id="vc">
     <div class="head">
       <div><p class="t" id="vt"></p><p class="d" id="vd"></p></div>
       <button class="btn" id="vclose" aria-label="Cerrar">Cerrar</button>
     </div>
+    <div class="ctl" id="vnav">
+      <button class="btn" id="vprev" aria-label="Prueba anterior">‹ Anterior</button>
+      <button class="btn" id="vnext" aria-label="Prueba siguiente">Siguiente ›</button>
+    </div>
     <div id="vctl"></div>
-    <p class="hint">Esc cierra · ← → cambian de prueba · H oculta o muestra este panel · toca la pantalla para alternarlo</p>
+    <p class="hint" id="vhint"></p>
   </div>
 </div>
 
@@ -327,7 +338,7 @@ function buildControls(){
 function showTool(id){
   active=byId(id);
   vt.textContent=active.name;vd.textContent=active.desc+(active.warn?" "+active.warn:"");
-  buildControls();drawStage();
+  buildControls();drawStage();renderHint();
 }
 function openViewer(id){
   lastFocus=document.activeElement;
@@ -335,7 +346,7 @@ function openViewer(id){
   showTool(id);
   var el=document.documentElement;
   try{if(el.requestFullscreen){var p=el.requestFullscreen();if(p&&p.catch)p.catch(function(){})}else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen()}}catch(e){}
-  document.getElementById("vclose").focus();
+  stage.focus();
 }
 function closeViewer(){
   if(!viewer.classList.contains("open"))return;
@@ -355,22 +366,174 @@ document.addEventListener("fullscreenchange",function(){if(!document.fullscreenE
 document.addEventListener("webkitfullscreenchange",function(){if(!document.webkitFullscreenElement)closeViewer()});
 window.addEventListener("resize",function(){if(active)drawStage()});
 
+/* ---------- entradas: teclado, ratón, táctil, control remoto y gamepad ---------- */
+var RT=document.documentElement,vhint=document.getElementById("vhint");
+var TVUA=/Tizen|Web0S|webOS|SMART-TV|SmartTV|NetCast|HbbTV|Viera|BRAVIA|AppleTV|CrKey|Roku|AFT[A-Z]|GoogleTV|Android.*TV/i.test(navigator.userAgent||"");
+var INPUT=TVUA?"remote":"keyboard";
+try{if(!TVUA&&window.matchMedia&&matchMedia("(pointer: coarse)").matches&&!matchMedia("(hover: hover)").matches)INPUT="touch"}catch(e){}
+RT.setAttribute("data-input",INPUT);
+function setInput(t){if(t===INPUT)return;INPUT=t;RT.setAttribute("data-input",t);if(active)renderHint()}
+function K(x,c){return "<kbd"+(c?' class="'+c+'"':"")+">"+x+"</kbd>"}
+function hintHtml(){
+  var pl=!!(active&&active.ctl&&active.ctl.some(function(c){return c.t==="play"})),s,t=INPUT;
+  if(t==="touch"){s=["Desliza ← → para cambiar de prueba","Toca la pantalla para mostrar u ocultar el panel","Desliza hacia abajo para cerrar"]}
+  else if(t==="remote"){s=[K("◀","r")+" "+K("▶","r")+" o "+K("CH+","r")+" "+K("CH−","r")+" cambian de prueba",K("▼","r")+" controles",K("OK","r")+" muestra u oculta el panel"];if(pl)s.push(K("⏯","r")+" pausa");s.push(K("Atrás","r")+" cierra")}
+  else if(t==="gamepad"){s=[K("◀","g")+" "+K("▶","g")+" o "+K("LB","g")+" "+K("RB","g")+" cambian de prueba",K("▼","g")+" controles",K("A","g")+" acepta",K("Start","g")+" muestra u oculta el panel"];if(pl)s.push(K("X","g")+" pausa");s.push(K("B","g")+" cierra")}
+  else{s=[K("←")+" "+K("→")+" cambian de prueba",K("↓")+" controles",K("H")+" muestra u oculta el panel"];if(pl)s.push(K("Espacio")+" pausa");s.push(K("Esc")+" cierra");if(t==="mouse")s.unshift("Clic en la pantalla muestra u oculta el panel")}
+  return s.join(" · ");
+}
+function renderHint(){vhint.innerHTML=hintHtml()}
+document.addEventListener("pointerdown",function(e){setInput(e.pointerType==="mouse"?"mouse":"touch")},true);
+document.addEventListener("pointermove",function(e){if(e.pointerType==="mouse")setInput("mouse")},true);
+
+function vOpen(){return viewer.classList.contains("open")}
+function rows(){return Array.prototype.slice.call(vc.querySelectorAll(".head,.ctl")).filter(function(r){return r.querySelector("button,input")})}
+function focs(r){return Array.prototype.slice.call(r.querySelectorAll("button,input"))}
+function rowOf(t){var rs=rows(),i;for(i=0;i<rs.length;i++)if(rs[i].contains(t))return i;return -1}
+function focusStage(){stage.focus()}
+function enterPanel(){vc.classList.remove("hidden");var rs=rows(),r=rs[2]||rs[1]||rs[0];if(r)focs(r)[0].focus()}
+function moveRow(t,d){
+  var rs=rows(),j=rowOf(t)+d;
+  if(j<0){focusStage();return}
+  if(j>=rs.length)return;
+  var c=t.getBoundingClientRect(),cx=c.left+c.width/2,best=null,bd=1/0;
+  focs(rs[j]).forEach(function(el){var r=el.getBoundingClientRect(),dd=Math.abs(r.left+r.width/2-cx);if(dd<bd){bd=dd;best=el}});
+  if(best)best.focus();
+}
+function moveInRow(t,d){var r=rows()[rowOf(t)],fs=focs(r),i=fs.indexOf(t);if(fs[i+d])fs[i+d].focus()}
+function adjust(inp,d){if(d>0)inp.stepUp();else inp.stepDown();inp.dispatchEvent(new Event("input",{bubbles:true}))}
+function clickPlay(){var b=vctl.querySelector(".btn.primary");if(b){b.click();return true}return false}
+function focusables(){
+  return Array.prototype.slice.call(document.querySelectorAll("button,a[href],input,[tabindex]:not([tabindex='-1'])")).filter(function(el){
+    if(el.disabled)return false;var r=el.getBoundingClientRect();return r.width>0&&r.height>0});
+}
+function spatial(dir){
+  var cur=document.activeElement,list=focusables();
+  if(!cur||cur===document.body||list.indexOf(cur)<0){
+    if(INPUT==="keyboard"||INPUT==="mouse"||INPUT==="touch")return false;
+    var f=document.getElementById("start");if(f){f.focus();return true}return false;
+  }
+  var c=cur.getBoundingClientRect(),cx=c.left+c.width/2,cy=c.top+c.height/2,best=null,bs=1/0,fb=null,fs=1/0,ov=null,os=1/0,horiz=dir==="left"||dir==="right";
+  list.forEach(function(el){
+    if(el===cur)return;
+    var r=el.getBoundingClientRect(),dx=r.left+r.width/2-cx,dy=r.top+r.height/2-cy,pri,sec,s,over;
+    if(dir==="right"){pri=dx;sec=Math.abs(dy)}else if(dir==="left"){pri=-dx;sec=Math.abs(dy)}else if(dir==="down"){pri=dy;sec=Math.abs(dx)}else{pri=-dy;sec=Math.abs(dx)}
+    if(pri<=1)return;
+    over=horiz?(r.top<c.bottom&&r.bottom>c.top):(r.left<c.right&&r.right>c.left);
+    if(over&&pri+sec*.25<os){os=pri+sec*.25;ov=el}
+    s=pri+sec*2;
+    if(sec<=pri*2&&s<bs){bs=s;best=el}
+    if(s<fs){fs=s;fb=el}
+  });
+  var t=ov||best||fb;
+  if(!t)return false;
+  t.focus();t.scrollIntoView({block:"nearest",inline:"nearest"});return true;
+}
+function viewerAct(a,t,native){
+  var inp=!!(t&&vc.contains(t));
+  if(a==="back"||a==="backspace"){closeViewer();return true}
+  if(a==="next"||a==="prev"){step(a==="next"?1:-1);if(inp)focusStage();return true}
+  if(a==="toggle"){vc.classList.toggle("hidden");if(vc.classList.contains("hidden"))focusStage();return true}
+  if(a==="playpause")return clickPlay();
+  if(a==="confirm"){
+    if(inp){if(native)return false;if(t.tagName!=="INPUT")t.click();return true}
+    vc.classList.toggle("hidden");return true;
+  }
+  if(a==="left"||a==="right"){
+    var d=a==="right"?1:-1;
+    if(!inp){step(d);return true}
+    if(t.type==="range"){if(native)return false;adjust(t,d);return true}
+    moveInRow(t,d);return true;
+  }
+  if(a==="down"||a==="up"){
+    if(!inp){if(a==="down"){enterPanel();return true}return false}
+    moveRow(t,a==="down"?1:-1);return true;
+  }
+  return false;
+}
+function homeAct(a,t,native){
+  if(a==="left"||a==="right"||a==="up"||a==="down")return spatial(a);
+  if(a==="confirm"&&!native&&t&&t!==document.body&&t.click){t.click();return true}
+  return false;
+}
+function act(a,native){
+  var t=document.activeElement;
+  if(!tm.hidden){
+    if(native)return false;
+    var it=Array.prototype.slice.call(tm.querySelectorAll("button")),i=it.indexOf(t);
+    if(a==="down"){it[(i+1)%it.length].focus();return true}
+    if(a==="up"){it[(i-1+it.length)%it.length].focus();return true}
+    if(a==="confirm"){if(t&&t.click)t.click();return true}
+    if(a==="back"){menuOpen(false);tb.focus();return true}
+    return false;
+  }
+  return vOpen()?viewerAct(a,t,native):homeAct(a,t,native);
+}
+var REMOTEKEYS={ChannelUp:1,ChannelDown:1,MediaPlayPause:1,MediaPlay:1,MediaPause:1,MediaStop:1,Info:1,GoBack:1,BrowserBack:1,XF86Back:1,ColorF0Red:1,ColorF1Green:1,ColorF2Yellow:1,ColorF3Blue:1};
+var REMOTECODES={403:1,404:1,405:1,406:1,413:1,415:1,427:1,428:1,457:1,461:1,10009:1,19:1};
+function isRemoteKey(e){return !!(REMOTEKEYS[e.key]||REMOTECODES[e.keyCode])}
+function keyAction(e){
+  var k=e.key,c=e.keyCode;
+  if(k==="ArrowLeft")return"left";if(k==="ArrowRight")return"right";if(k==="ArrowUp")return"up";if(k==="ArrowDown")return"down";
+  if(k==="Enter"||k==="Select")return"confirm";
+  if(k==="Escape"||k==="GoBack"||k==="BrowserBack"||k==="XF86Back"||c===10009||c===461)return"back";
+  if(k==="Backspace")return"backspace";
+  if(k==="ChannelUp"||c===427||k==="PageDown")return"next";
+  if(k==="ChannelDown"||c===428||k==="PageUp")return"prev";
+  if(k==="h"||k==="H"||k==="Info"||k==="ColorF2Yellow"||c===405||c===457)return"toggle";
+  if(k==="MediaPlayPause"||k==="MediaPlay"||k==="MediaPause"||c===179||c===415||c===19||k===" ")return"playpause";
+  return null;
+}
 document.addEventListener("keydown",function(e){
-  var t=e.target,isInput=t&&t.tagName==="INPUT";
-  if(viewer.classList.contains("open")){
-    if(e.key==="Escape"){closeViewer();e.preventDefault()}
-    else if(!isInput&&e.key==="ArrowRight"){step(1);e.preventDefault()}
-    else if(!isInput&&e.key==="ArrowLeft"){step(-1);e.preventDefault()}
-    else if(!isInput&&(e.key==="h"||e.key==="H")){vc.classList.toggle("hidden")}
-    return;
-  }
-  if(t&&t.classList&&t.classList.contains("tile")){
-    var k=Array.prototype.slice.call(grid.children),i=k.indexOf(t),
-        n=getComputedStyle(grid).gridTemplateColumns.split(" ").length,
-        d={ArrowRight:1,ArrowLeft:-1,ArrowDown:n,ArrowUp:-n}[e.key];
-    if(d&&k[i+d]){k[i+d].focus();e.preventDefault()}
-  }
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  var a=keyAction(e),t=e.target,tag=t&&t.tagName;
+  if(isRemoteKey(e))setInput("remote");
+  else if(a||(e.key&&e.key.length===1))setInput(TVUA&&!(e.key&&e.key.length===1)?"remote":"keyboard");
+  if(!tm.hidden){if(a==="back"&&e.key!=="Escape"){menuOpen(false);tb.focus();e.preventDefault()}return}
+  if(!a)return;
+  if(e.key===" "&&(tag==="BUTTON"||tag==="INPUT"||tag==="A"))return;
+  if(a==="backspace"&&!vOpen())return;
+  if(act(a,true))e.preventDefault();
 });
+
+var swx=0,swy=0,swid=null;
+stage.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse")return;swid=e.pointerId;swx=e.clientX;swy=e.clientY});
+stage.addEventListener("pointerup",function(e){
+  if(e.pointerId!==swid)return;swid=null;
+  var dx=e.clientX-swx,dy=e.clientY-swy,ax=Math.abs(dx),ay=Math.abs(dy);
+  if(ax>=60&&ax>ay*1.5)step(dx<0?1:-1);
+  else if(dy>=90&&dy>ax*1.5)closeViewer();
+});
+stage.addEventListener("pointercancel",function(){swid=null});
+document.getElementById("vprev").onclick=function(){step(-1);focusStage()};
+document.getElementById("vnext").onclick=function(){step(1);focusStage()};
+
+var GP={},gpRaf=0,DIRS={left:1,right:1,up:1,down:1};
+function gpActions(p){
+  var b=p.buttons,ax=p.axes,o={};
+  function bt(i){return !!(b[i]&&(b[i].pressed||b[i].value>.5))}
+  o.left=bt(14)||ax[0]<-.6;o.right=bt(15)||ax[0]>.6;o.up=bt(12)||ax[1]<-.6;o.down=bt(13)||ax[1]>.6;
+  o.confirm=bt(0);o.back=bt(1);o.playpause=bt(2);o.prev=bt(4);o.next=bt(5);o.toggle=bt(9);
+  return o;
+}
+function gpPoll(now){
+  var pads=navigator.getGamepads?navigator.getGamepads():[],any=false,i,k,p,o,st,s;
+  for(i=0;i<pads.length;i++){
+    p=pads[i];if(!p||!p.connected)continue;any=true;
+    o=gpActions(p);st=GP[p.index]||(GP[p.index]={});
+    for(k in o){
+      s=st[k]||(st[k]={on:false,t:0,r:0});
+      if(o[k]){
+        if(!s.on){s.on=true;s.t=now;s.r=0;setInput("gamepad");act(k,false)}
+        else if(DIRS[k]&&now-s.t>=(s.r?130:420)){s.t=now;s.r=1;act(k,false)}
+      }else s.on=false;
+    }
+  }
+  gpRaf=any?requestAnimationFrame(gpPoll):0;
+}
+function gpStart(){if(!gpRaf)gpRaf=requestAnimationFrame(gpPoll)}
+window.addEventListener("gamepadconnected",function(){setInput("gamepad");gpStart()});
+try{if(navigator.getGamepads&&Array.prototype.some.call(navigator.getGamepads(),function(p){return p&&p.connected}))gpStart()}catch(e){}
 
 /* ---------- botones de la portada ---------- */
 document.getElementById("start").onclick=function(){openViewer(TOOLS[0].id)};
