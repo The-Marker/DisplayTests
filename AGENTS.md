@@ -38,13 +38,15 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Los patrones animados (`kind:"cv"`) se dibujan en `canvas` con `init` y `frame`, y su miniatura es un SVG estático (`thumb`).
 - Accesibilidad: botones reales, `aria-pressed` en los selectores, foco visible, `aria-label` en miniaturas y respeto de `prefers-reduced-motion`.
 - Persistencia con `localStorage` siempre dentro de `try/catch`; el sitio debe funcionar sin ella.
+- Los iconos son SVG en línea con `currentColor`. No uses fuentes de iconos ni imágenes externas: el sitio es un solo archivo y debe verse igual abierto con doble clic.
+- El tema se elige en un menú desplegable de un icono (`#themeBtn`, `#themeMenu`) con `role="menu"`, teclado (flechas, Esc) y el icono refleja el modo (auto, claro u oscuro).
 - El pie de página fue eliminado a propósito. No lo repongas.
 
 ## Reglas de seguridad
 
 - Sin destellos ni parpadeo automático. El movimiento es moderado y el aviso de fotosensibilidad debe seguir visible.
 - La velocidad del ghosting se limita a 2–6 s por pasada. No bajes de 2 s.
-- El desatascador de píxeles empieza en pausa. Cada cuadro cambia de color al azar y por su cuenta, con un intervalo medio mínimo de 0,45 s y variación de ±20 % (nunca más de 3 cambios por segundo por cuadro). Mantén ese límite al ampliar la velocidad.
+- El desatascador de píxeles empieza en pausa. Cada cuadro cambia de color al azar y por su cuenta, con un intervalo medio que va de 10 s a 0,1 s (velocidades 1–16) y variación de ±40 %, y los cuadros se reprograman al mover la velocidad para que nunca cambien juntos. Por encima de 3 cambios por segundo (velocidad 13 o más) se fuerzan al menos 8 columnas, para que el parpadeo no se concentre en pocos cuadros, y la etiqueta marca "rápido". No quites ese límite ni subas la velocidad sin avisar al dueño del proyecto.
 - Los controles del visor deben poder ocultarse, para no contaminar las pruebas de uniformidad.
 
 ## Añadir una herramienta

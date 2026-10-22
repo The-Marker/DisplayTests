@@ -43,13 +43,20 @@ button{font:inherit;color:inherit;cursor:pointer}
 .btn[aria-pressed="true"],.btn.primary{background:var(--fg);color:var(--bg);border-color:transparent}
 
 .top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.8rem 1.2rem;border-bottom:1px solid var(--line)}
-.brand{font-weight:500;font-size:1.15rem}
+.brand{display:flex;align-items:center;gap:.5rem;font-weight:500;font-size:1.15rem}
+.ico{width:1.3rem;height:1.3rem;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .nav{display:none;gap:1.2rem}
 .nav button{background:none;border:0;padding:0;color:var(--muted)}
 .nav button:hover{color:var(--fg)}
-.theme{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
-.theme .lbl{color:var(--muted);font-size:.85rem}
-.theme .btn{padding:.2rem .7rem;font-size:.85rem}
+.theme{position:relative}
+.iconbtn{display:grid;place-items:center;width:2.4rem;height:2.4rem;padding:0;background:transparent;border:1px solid var(--line);border-radius:.6rem}
+.iconbtn:hover{border-color:var(--muted)}
+.menu{position:absolute;right:0;top:calc(100% + .4rem);z-index:5;min-width:11rem;padding:.3rem;background:var(--bg);border:1px solid var(--line);border-radius:.8rem}
+.menu[hidden]{display:none}
+.menu button{display:block;width:100%;text-align:left;background:transparent;border:0;border-radius:.5rem;padding:.45rem .7rem}
+.menu button:hover,.menu button:focus-visible{background:var(--card)}
+.menu button[aria-checked="true"]{font-weight:500}
+.menu button[aria-checked="true"]::after{content:"\2713";float:right}
 @media (min-width:900px){.nav{display:flex}}
 
 .hero{padding:1.6rem 1.2rem .8rem;max-width:60rem}
@@ -97,13 +104,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 </head>
 <body>
 <header class="top">
-  <span class="brand">Pruebas de pantalla</span>
+  <span class="brand"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Pruebas de pantalla</span>
   <nav class="nav" id="nav" aria-label="Categorías"></nav>
-  <div class="theme" role="group" aria-label="Tema">
-    <span class="lbl">Tema</span>
-    <button class="btn" data-theme-opt="auto" aria-pressed="false">Automático</button>
-    <button class="btn" data-theme-opt="light" aria-pressed="false">Claro</button>
-    <button class="btn" data-theme-opt="dark" aria-pressed="false">Oscuro</button>
+  <div class="theme">
+    <button class="iconbtn" id="themeBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="themeMenu" aria-label="Tema" title="Tema"><svg class="ico" id="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg></button>
+    <div class="menu" id="themeMenu" role="menu" aria-label="Tema" hidden>
+      <button role="menuitemradio" data-theme-opt="auto" aria-checked="false">Automático</button>
+      <button role="menuitemradio" data-theme-opt="light" aria-checked="false">Claro</button>
+      <button role="menuitemradio" data-theme-opt="dark" aria-checked="false">Oscuro</button>
+    </div>
   </div>
 </header>
 
@@ -188,20 +197,24 @@ var TOOLS=[
  draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,CM[p.c][1]))},
  thumb:function(){var o="",i;for(i=0;i<8;i++)o+=rect((i%4)*40,Math.floor(i/4)*45,40.3,45.3,CM[i][1]);return svg(160,90,o)}},
 {id:"desatascador",name:"Desatascador de píxeles",cat:"Píxeles",kind:"cv",
- desc:"Cuadrícula de cuadros que cambian de color al azar entre rojo, verde, azul, cian, magenta, amarillo, blanco y negro, cada uno por su cuenta y sin seguir una secuencia. Empieza en pausa. No siempre libera un píxel atascado.",
- warn:"Cambia de color de forma repetida. Evítalo si eres fotosensible.",
+ desc:"Cuadrícula de cuadros que cambian de color al azar entre rojo, verde, azul, cian, magenta, amarillo, blanco y negro. Cada cuadro cambia por su cuenta, en un momento distinto y sin seguir una secuencia. Empieza en pausa. No siempre libera un píxel atascado.",
+ warn:"Cambia de color de forma repetida, y más rápido en las velocidades altas. Evítalo si eres fotosensible.",
  p:{s:10,v:5,play:false},
- ctl:[{t:"play"},{k:"s",t:"range",label:"Tamaño",min:4,max:25,step:1,fmt:function(v){return v+" % del ancho"}},{k:"v",t:"range",label:"Velocidad",min:1,max:12,step:1,fmt:function(v){var s=10*Math.pow(.045,(v-1)/11);return v+" · cada "+(s<1?s.toFixed(2):s.toFixed(1))+" s"}}],
+ ctl:[{t:"play"},{k:"s",t:"range",label:"Tamaño",min:4,max:25,step:1,fmt:function(v){return v+" % del ancho"}},{k:"v",t:"range",label:"Velocidad",min:1,max:16,step:1,fmt:function(v){var s=10*Math.pow(.01,(v-1)/15);return v+" · cada "+(s<1?s.toFixed(2):s.toFixed(1))+" s"+(v>=13?" · rápido":"")}}],
  thumb:function(){var r=rng(11),o="",i,j;for(j=0;j<5;j++)for(i=0;i<8;i++)o+=rect(i*20,j*20,20.3,20.3,PX[Math.floor(r()*8)]);return svg(160,90,o)},
- init:function(){return{t:0,cols:0,rows:0,c:[],n:[]}},
+ init:function(){return{t:0,cols:0,rows:0,v:0,c:[],n:[]}},
  frame:function(x,w,h,p,st,dt){
-  var cols=Math.max(1,Math.round(100/p.s)),cell=w/cols,rows=Math.ceil(h/cell),iv=10*Math.pow(.045,(p.v-1)/11),i,j,k,nc;
-  if(st.cols!==cols||st.rows!==rows){st.cols=cols;st.rows=rows;st.c=[];st.n=[];
-   for(k=0;k<cols*rows;k++){st.c.push(Math.floor(Math.random()*8));st.n.push(st.t+iv*Math.random())}}
+  var iv=10*Math.pow(.01,(p.v-1)/15),cols=Math.max(1,Math.round(100/p.s)),i,j,k,nc,cell,rows;
+  if(iv<.33)cols=Math.max(cols,8);
+  cell=w/cols;rows=Math.ceil(h/cell);
+  if(st.cols!==cols||st.rows!==rows||st.v!==p.v){
+   if(st.cols!==cols||st.rows!==rows){st.c=[];for(k=0;k<cols*rows;k++)st.c.push(Math.floor(Math.random()*8))}
+   st.cols=cols;st.rows=rows;st.v=p.v;st.n=[];
+   for(k=0;k<cols*rows;k++)st.n.push(st.t+iv*Math.random())}
   if(p.play){st.t+=dt;
    for(k=0;k<st.c.length;k++)if(st.t>=st.n[k]){
     do{nc=Math.floor(Math.random()*8)}while(nc===st.c[k]);
-    st.c[k]=nc;st.n[k]=st.t+iv*(.8+Math.random()*.4)}}
+    st.c[k]=nc;st.n[k]=st.t+iv*(.6+Math.random()*.8)}}
   for(j=0;j<rows;j++)for(i=0;i<cols;i++){x.fillStyle=PX[st.c[j*cols+i]];x.fillRect(i*cell,j*cell,cell+.6,cell+.6)}}},
 {id:"constelacion",name:"Constelación",cat:"Movimiento",kind:"cv",
  desc:"Estrellas de distintos tamaños que se desplazan despacio sobre negro. Si alrededor de las más brillantes aparece un halo, o se apagan al cruzar, hay local dimming.",
@@ -371,15 +384,33 @@ document.getElementById("guide").onclick=function(){
 
 /* ---------- tema automático ---------- */
 var KEY="dt-theme",root=document.documentElement,mq=null;
+var tb=document.getElementById("themeBtn"),tm=document.getElementById("themeMenu"),themeIcon=document.getElementById("themeIcon");
+var NAMES={auto:"Automático",light:"Claro",dark:"Oscuro"};
+var ICONS={
+ auto:'<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>',
+ light:'<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>',
+ dark:'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'};
+function menuOpen(o){tm.hidden=!o;tb.setAttribute("aria-expanded",o?"true":"false");if(o){var c=tm.querySelector('[aria-checked="true"]')||tm.firstElementChild;c.focus()}}
+tb.onclick=function(){menuOpen(tm.hidden)};
+document.addEventListener("click",function(e){if(!tm.hidden&&!tm.contains(e.target)&&!tb.contains(e.target))menuOpen(false)});
+tm.addEventListener("keydown",function(e){
+  var it=Array.prototype.slice.call(tm.querySelectorAll("button")),i=it.indexOf(document.activeElement);
+  if(e.key==="ArrowDown"){it[(i+1)%it.length].focus();e.preventDefault()}
+  else if(e.key==="ArrowUp"){it[(i-1+it.length)%it.length].focus();e.preventDefault()}
+  else if(e.key==="Escape"){menuOpen(false);tb.focus();e.preventDefault()}
+  else if(e.key==="Tab"){menuOpen(false)}
+});
 try{mq=window.matchMedia?window.matchMedia("(prefers-color-scheme: dark)"):null;if(mq&&mq.media==="not all")mq=null}catch(e){mq=null}
 var mode="auto";
 try{var s=localStorage.getItem(KEY);if(s==="light"||s==="dark"||s==="auto")mode=s}catch(e){}
 function applyTheme(){
   if(mode==="auto")root.removeAttribute("data-theme");else root.setAttribute("data-theme",mode);
-  Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-theme-opt")===mode?"true":"false")});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){b.setAttribute("aria-checked",b.getAttribute("data-theme-opt")===mode?"true":"false")});
+  var eff=mode==="auto"?(mq&&mq.matches?"dark":"light"):mode,lab="Tema: "+NAMES[mode]+(mode==="auto"?" ("+(eff==="dark"?"oscuro":"claro")+")":"");
+  themeIcon.innerHTML=ICONS[mode];tb.setAttribute("aria-label",lab);tb.title=lab;
 }
 Array.prototype.forEach.call(document.querySelectorAll("[data-theme-opt]"),function(b){
-  b.onclick=function(){mode=b.getAttribute("data-theme-opt");try{localStorage.setItem(KEY,mode)}catch(e){}applyTheme()};
+  b.onclick=function(){mode=b.getAttribute("data-theme-opt");try{localStorage.setItem(KEY,mode)}catch(e){}applyTheme();menuOpen(false);tb.focus()};
 });
 if(mq){try{mq.addEventListener("change",applyTheme)}catch(e){try{mq.addListener(applyTheme)}catch(e2){}}}
 
