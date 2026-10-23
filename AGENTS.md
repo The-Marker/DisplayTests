@@ -44,7 +44,9 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Los iconos son SVG en línea con `currentColor`. No uses fuentes de iconos ni imágenes externas: el sitio es un solo archivo y debe verse igual abierto con doble clic.
 - El tema se elige en un menú desplegable de un icono (`#themeBtn`, `#themeMenu`) con `role="menu"`, teclado (flechas, Esc) y el icono refleja el modo (auto, claro u oscuro).
 - El pie de página fue eliminado a propósito. No lo repongas.
-- Prueba táctil: cada toque en el visor pinta una casilla y también muestra u oculta el panel. Con dos o más dedos, el contador debe subir.
+- Pruebas táctiles: el contador de toques crea un círculo por punto y borra los anteriores al tocar de nuevo; la cuadrícula de deslizamiento pinta los cuadros que cruza el dedo o el ratón. Cada toque en el visor también muestra u oculta el panel.
+- Pico de brillo: el modo HDR usa `color(rec2100-pq 1 1 1)` solo si `CSS.supports` lo acepta; si no, muestra un aviso y blanco SDR.
+- `colorScale(x,y,w,h,noGray)` dibuja las filas de color; con `noGray` omite la banda de grises. Las escalas individuales usan `ramp1`.
 - El encabezado no tiene navegación por categorías; los filtros viven solo en la barra lateral y bajo la cuadrícula. No la repongas.
 - Helpers compartidos de patrones: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` y `newStar`. Reutilízalos en lugar de duplicar dibujo.
 - Todas las entradas (teclado, ratón, táctil, control remoto, gamepad y joystick) pasan por el despachador `act(accion, nativo)`, con acciones `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` y `playpause`. Para soportar un dispositivo nuevo, tradúcelo a esas acciones; no añadas manejadores sueltos.

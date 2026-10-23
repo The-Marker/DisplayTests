@@ -17,11 +17,19 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 | SMPTE barras | Color | Revisar color, brillo y niveles de negro |
 | Escala de grises | Color | Ver si se distinguen tonos oscuros y claros |
 | Negros bajos | Color | Barras de 0 a 8 % sobre negro para ver si el televisor aplasta las sombras o levanta el negro (cuarto oscuro) |
-| Escala RGB y CMYK | Color | 10 tonalidades por fila en rojo, verde, azul, cian, magenta, amarillo y negro (K) |
+| Escala RGB y CMYK | Color | Seis escalas de diez pasos, una por color (rojo, verde, azul, cian, magenta y amarillo) |
+| Escala roja | Color | Diez pasos de un solo color, de casi negro a pleno |
+| Escala verde | Color | Diez pasos de un solo color, de casi negro a pleno |
+| Escala azul | Color | Diez pasos de un solo color, de casi negro a pleno |
+| Escala cian | Color | Diez pasos de un solo color, de casi negro a pleno |
+| Escala magenta | Color | Diez pasos de un solo color, de casi negro a pleno |
+| Escala amarilla | Color | Diez pasos de un solo color, de casi negro a pleno |
+| Pico de brillo | Color | Ventana blanca de 10 a 100 % del área sobre negro para medir el pico de brillo; rango SDR o HDR (HDR solo si el navegador y la pantalla lo soportan) |
 | Contraste | Color | Bloques de 5 % a 95 % con nivel ajustable |
 | Uniformidad gris | Uniformidad | Gris de 0 a 100 % con atajos a negro y blanco: manchas, viñeteo, fuga de luz, nubosidad y bandas |
 | Uniformidad RGB y CMYK | Uniformidad | Un color a pantalla completa a la vez (rojo, verde, azul, cian, magenta, amarillo, blanco y negro), elegido a mano. También sirve para buscar píxeles muertos |
-| Prueba táctil | Táctil | Casillas para tocar o hacer clic y ver zonas sin respuesta; cuenta los puntos de contacto a la vez |
+| Contador de toques | Táctil | Un círculo de color por punto de contacto; se mantienen al soltar y se borran al volver a tocar. Cuenta los toques a la vez y el máximo |
+| Cuadrícula de deslizamiento | Táctil | Cuadrícula ajustable que pinta los cuadros que cruza el dedo o el ratón, con el porcentaje cubierto |
 | Desatascador de píxeles | Píxeles | Cuadrícula cuadrada adaptable cuyos cuadros cambian al azar entre RGB, CMYK, blanco y negro, cada uno por su cuenta y en momentos distintos; tamaño (4–25 % del ancho) y velocidad (1–16, de cada 10 s a cada 0,1 s) ajustables |
 | Atenuación local | Movimiento | Estrellas de varios tamaños en movimiento sobre negro para detectar halos y atenuación local (local dimming); velocidad y densidad ajustables |
 | Ghosting | Movimiento | Estelas por tiempo de respuesta lento; pasada de 2 a 6 s |
