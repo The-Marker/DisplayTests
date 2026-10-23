@@ -21,9 +21,10 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 | Uniformidad gris | Uniformidad | Gris de 0 a 100 % con atajos a negro y blanco: manchas, viñeteo, fuga de luz, nubosidad y bandas |
 | Uniformidad RGB y CMYK | Uniformidad | Un color a pantalla completa a la vez (rojo, verde, azul, cian, magenta, amarillo, blanco y negro), elegido a mano. También sirve para buscar píxeles muertos |
 | Desatascador de píxeles | Píxeles | Cuadrícula cuadrada adaptable cuyos cuadros cambian al azar entre RGB, CMYK, blanco y negro, cada uno por su cuenta y en momentos distintos; tamaño (4–25 % del ancho) y velocidad (1–16, de cada 10 s a cada 0,1 s) ajustables |
-| Constelación | Movimiento | Estrellas de varios tamaños en movimiento sobre negro para detectar halos y local dimming |
+| Atenuación local | Movimiento | Estrellas de varios tamaños en movimiento sobre negro para detectar halos y atenuación local (local dimming); velocidad y densidad ajustables |
 | Ghosting | Movimiento | Estelas por tiempo de respuesta lento; pasada de 2 a 6 s |
 | Geometría | Nitidez | Cuadrícula, círculo y diagonales para proporciones y enfoque |
+| Geometría y calibración | Nitidez | Lo mismo con un recuadro central dentro del círculo que reúne barras SMPTE, escala de grises, escala RGB y CMYK y contraste, y muestra resolución, densidad y escala de la pantalla; con la diagonal indicada calcula los ppp |
 
 **Sitio**
 

@@ -45,9 +45,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 .top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.8rem 1.2rem;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:.5rem;font-weight:500;font-size:1.15rem}
 .ico{width:1.3rem;height:1.3rem;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.nav{display:none;gap:1.2rem}
-.nav button{background:none;border:0;padding:0;color:var(--muted)}
-.nav button:hover{color:var(--fg)}
 .theme{position:relative}
 .iconbtn{display:grid;place-items:center;width:2.4rem;height:2.4rem;padding:0;background:transparent;border:1px solid var(--line);border-radius:.6rem}
 .iconbtn:hover{border-color:var(--muted)}
@@ -57,7 +54,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 .menu button:hover,.menu button:focus-visible{background:var(--card)}
 .menu button[aria-checked="true"]{font-weight:500}
 .menu button[aria-checked="true"]::after{content:"\2713";float:right}
-@media (min-width:900px){.nav{display:flex}}
 
 .hero{padding:1.6rem 1.2rem .8rem;max-width:60rem}
 .hero h1{font-size:1.7rem;font-weight:500;line-height:1.25}
@@ -112,7 +108,6 @@ kbd.g{border-radius:999px;background:#1f3a5f;border-color:#85b7eb}
 <body>
 <header class="top">
   <span class="brand"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Pruebas de pantalla</span>
-  <nav class="nav" id="nav" aria-label="Categorías"></nav>
   <div class="theme">
     <button class="iconbtn" id="themeBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="themeMenu" aria-label="Tema" title="Tema"><svg class="ico" id="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg></button>
     <div class="menu" id="themeMenu" role="menu" aria-label="Tema" hidden>
@@ -168,6 +163,47 @@ function rect(x,y,w,h,f){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height=
 function svg(W,H,body,style){return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true"'+(style?' style="'+style+'"':'')+'>'+body+'</svg>'}
 function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 
+function smpteSvg(x,y,w,h){
+  var c=["#c0c0c0","#c0c000","#00c0c0","#00c000","#c000c0","#c00000","#0000c0"],
+  c2=["#0000c0","#101010","#c000c0","#101010","#00c0c0","#101010","#c0c0c0"],cw=w/7,h1=h*.67,h2=h*.09,h3=h-h1-h2,o="",i;
+  for(i=0;i<7;i++){o+=rect(x+i*cw,y,cw+.3,h1,c[i])+rect(x+i*cw,y+h1,cw+.3,h2,c2[i])}
+  var yy=y+h1+h2,u=w/6.9;
+  o+=rect(x,yy,u,h3,"#00214c")+rect(x+u,yy,u,h3,"#fff")+rect(x+2*u,yy,u,h3,"#32006a")+rect(x+3*u,yy,w*.285,h3,"#101010");
+  o+=rect(x+w*.713,yy,w*.037,h3,"#000")+rect(x+w*.75,yy,w*.037,h3,"#101010")+rect(x+w*.787,yy,w*.037,h3,"#202020")+rect(x+w*.824,yy,w*.176,h3,"#101010");
+  return o}
+function grayStrip(x,y,w,h){var o="",i,cw=w/10;for(i=0;i<10;i++)o+=rect(x+i*cw,y,cw+.3,h,gy(i*100/9));return o}
+function colorScale(x,y,w,h){
+  var rows=[[1,0,0],[0,1,0],[0,0,1],[0,1,1],[1,0,1],[1,1,0]],o="",r,i,rh=h/7,cw=w/10,v;
+  for(r=0;r<6;r++)for(i=1;i<=10;i++){v=Math.round(i*25.5);o+=rect(x+(i-1)*cw,y+r*rh,cw+.3,rh+.3,"rgb("+rows[r][0]*v+","+rows[r][1]*v+","+rows[r][2]*v+")")}
+  for(i=1;i<=10;i++)o+=rect(x+(i-1)*cw,y+6*rh,cw+.3,rh+.3,gy(100-i*10));
+  return o}
+function contrastSvg(p,x,y,w,h){
+  var o="",i,bw=w/19,bh=h*.155,s=Math.min(w,h)*.45,cy;
+  for(i=1;i<=19;i++)o+=rect(x+(i-1)*bw,y,bw+.2,bh,gy(i*5));
+  o+='<rect x="'+(x+(p.l/5-1)*bw)+'" y="'+y+'" width="'+bw+'" height="'+bh+'" fill="none" stroke="#ffd400" stroke-width="'+(w/160)+'"/>';
+  o+=rect(x,y+bh,w/2,h-bh,"#000")+rect(x+w/2,y+bh,w/2,h-bh,"#fff");
+  cy=y+bh+(h-bh)/2-s/2;
+  o+=rect(x+w/4-s/2,cy,s,s,gy(p.l))+rect(x+w*.75-s/2,cy,s,s,gy(p.l));
+  return o}
+function geoBase(W,H,r){
+  var o=rect(0,0,W,H,"#000"),s=W/16,i,sw=W/320;
+  for(i=0;i<=W+.01;i+=s)o+='<line x1="'+i+'" y1="0" x2="'+i+'" y2="'+H+'" stroke="#fff" stroke-width="'+sw+'"/>';
+  for(i=0;i<=H+.01;i+=s)o+='<line x1="0" y1="'+i+'" x2="'+W+'" y2="'+i+'" stroke="#fff" stroke-width="'+sw+'"/>';
+  o+='<circle cx="'+W/2+'" cy="'+H/2+'" r="'+r+'" fill="none" stroke="#fff" stroke-width="'+sw*2+'"/>';
+  o+='<line x1="0" y1="0" x2="'+W+'" y2="'+H+'" stroke="#fff" stroke-width="'+sw*1.2+'"/><line x1="'+W+'" y1="0" x2="0" y2="'+H+'" stroke="#fff" stroke-width="'+sw*1.2+'"/>';
+  return o}
+function screenInfo(p){
+  var dpr=window.devicePixelRatio||1,sc=window.screen||{},iw=window.innerWidth||0,ih=window.innerHeight||0,
+  sw=sc.width||iw,sh=sc.height||ih,pw=Math.round(sw*dpr),ph=Math.round(sh*dpr),vw=Math.round(iw*dpr),vh=Math.round(ih*dpr),
+  a="Resolución "+pw+" × "+ph+" px",b,c;
+  if(Math.abs(vw-pw)>2||Math.abs(vh-ph)>2)a+=" · visor "+vw+" × "+vh;
+  b="Densidad "+(+dpr.toFixed(2))+"×"+(p.d>0?" · "+Math.round(Math.hypot(pw,ph)/p.d)+" ppp":" (indica la diagonal para ver ppp)");
+  c="Escala "+Math.round(dpr*100)+" % · ventana "+iw+" × "+ih+" px CSS";
+  return[a,b,c]}
+function starCount(w,h,n){return Math.min(6000,Math.max(20,Math.round(w*h/2200*Math.pow(1.35,n-5))))}
+function newStar(w,h,i){var big=i<5,a=Math.random()*6.283,sp=.35+Math.random()*.9;
+  return{x:Math.random()*w,y:Math.random()*h,r:big?3.2+Math.random()*2:.6+Math.random()*1.8,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,b:.55+Math.random()*.45,c:["#ffffff","#cfe0ff","#fff2c8"][i%3],big:big}}
+
 var root=document.documentElement;
 var RMQ=null,RM=false;
 try{RMQ=window.matchMedia?window.matchMedia("(prefers-reduced-motion: reduce)"):null;RM=!!(RMQ&&RMQ.matches)}catch(e){}
@@ -177,29 +213,14 @@ var PX=["#f00","#0f0","#00f","#0ff","#f0f","#ff0","#fff","#000"];
 
 var TOOLS=[
 {id:"smpte",name:"SMPTE barras",cat:"Color",desc:"Revisa color, brillo y niveles de negro con barras estándar.",p:{},
- draw:function(p,W,H){var c=["#c0c0c0","#c0c000","#00c0c0","#00c000","#c000c0","#c00000","#0000c0"],
-  c2=["#0000c0","#101010","#c000c0","#101010","#00c0c0","#101010","#c0c0c0"],w=W/7,h1=H*.67,h2=H*.09,h3=H-h1-h2,o="",i;
-  for(i=0;i<7;i++){o+=rect(i*w,0,w+.3,h1,c[i])+rect(i*w,h1,w+.3,h2,c2[i])}
-  var y=h1+h2,u=W/6.9;
-  o+=rect(0,y,u,h3,"#00214c")+rect(u,y,u,h3,"#fff")+rect(2*u,y,u,h3,"#32006a")+rect(3*u,y,W*.285,h3,"#101010");
-  o+=rect(W*.713,y,W*.037,h3,"#000")+rect(W*.75,y,W*.037,h3,"#101010")+rect(W*.787,y,W*.037,h3,"#202020")+rect(W*.824,y,W*.176,h3,"#101010");
-  return svg(W,H,o)}},
+ draw:function(p,W,H){return svg(W,H,smpteSvg(0,0,W,H))}},
 {id:"grises",name:"Escala de grises",cat:"Color",desc:"Diez pasos de negro a blanco para ver si se distinguen los tonos oscuros y claros.",p:{},
- draw:function(p,W,H){var o="",i,w=W/10;for(i=0;i<10;i++)o+=rect(i*w,0,w+.3,H,gy(i*100/9));return svg(W,H,o)}},
+ draw:function(p,W,H){return svg(W,H,grayStrip(0,0,W,H))}},
 {id:"escala",name:"Escala RGB y CMYK",cat:"Color",desc:"Diez tonalidades por fila, de oscuro a pleno. Filas: rojo, verde, azul, cian, magenta, amarillo y negro (K). El CMYK en pantalla es una aproximación.",p:{},
- draw:function(p,W,H){var rows=[[1,0,0],[0,1,0],[0,0,1],[0,1,1],[1,0,1],[1,1,0]],o="",r,i,h=H/7,w=W/10,v;
-  for(r=0;r<6;r++)for(i=1;i<=10;i++){v=Math.round(i*25.5);o+=rect((i-1)*w,r*h,w+.3,h+.3,"rgb("+rows[r][0]*v+","+rows[r][1]*v+","+rows[r][2]*v+")")}
-  for(i=1;i<=10;i++)o+=rect((i-1)*w,6*h,w+.3,h+.3,gy(100-i*10));
-  return svg(W,H,o)}},
+ draw:function(p,W,H){return svg(W,H,colorScale(0,0,W,H))}},
 {id:"contraste",name:"Contraste",cat:"Color",desc:"Bloques de 5 % a 95 %. El nivel elegido se muestra grande sobre negro y sobre blanco; el marco amarillo lo señala.",
  p:{l:50},ctl:[{k:"l",t:"range",label:"Nivel",min:5,max:95,step:5,fmt:function(v){return v+" %"}}],
- draw:function(p,W,H){var o="",i,w=W/19,bh=H*.155;
-  for(i=1;i<=19;i++)o+=rect((i-1)*w,0,w+.2,bh,gy(i*5));
-  o+='<rect x="'+((p.l/5-1)*w)+'" y="0" width="'+w+'" height="'+bh+'" fill="none" stroke="#ffd400" stroke-width="'+(W/160)+'"/>';
-  o+=rect(0,bh,W/2,H-bh,"#000")+rect(W/2,bh,W/2,H-bh,"#fff");
-  var s=Math.min(W,H)*.45,cy=bh+(H-bh)/2-s/2;
-  o+=rect(W/4-s/2,cy,s,s,gy(p.l))+rect(W*.75-s/2,cy,s,s,gy(p.l));
-  return svg(W,H,o)}},
+ draw:function(p,W,H){return svg(W,H,contrastSvg(p,0,0,W,H))}},
 {id:"gris",name:"Uniformidad gris",cat:"Uniformidad",desc:"Un solo gris de 0 a 100 %, con atajos para negro y blanco. El negro muestra fuga de luz y nubosidad; el blanco, manchas y viñeteo; los grises medios, bandas.",
  p:{l:50},ctl:[{k:"l",t:"range",label:"Nivel",min:0,max:100,step:5,fmt:function(v){return v+" %"}},{k:"l",t:"preset",opts:[["Negro",0],["Gris",50],["Blanco",100]]}],
  draw:function(p,W,H){return svg(W,H,rect(0,0,W,H,gy(p.l)))}},
@@ -227,17 +248,16 @@ var TOOLS=[
     do{nc=Math.floor(Math.random()*8)}while(nc===st.c[k]);
     st.c[k]=nc;st.n[k]=st.t+iv*(.6+Math.random()*.8)}}
   for(j=0;j<rows;j++)for(i=0;i<cols;i++){x.fillStyle=PX[st.c[j*cols+i]];x.fillRect(i*cell,j*cell,cell+.6,cell+.6)}}},
-{id:"constelacion",name:"Constelación",cat:"Movimiento",kind:"cv",
- desc:"Estrellas de distintos tamaños que se desplazan despacio sobre negro. Si alrededor de las más brillantes aparece un halo, o se apagan al cruzar, hay local dimming.",
- p:{v:4,play:!RM},
- ctl:[{t:"play"},{k:"v",t:"range",label:"Velocidad",min:1,max:10,step:1,fmt:function(v){return String(v)}}],
+{id:"constelacion",name:"Atenuación local",cat:"Movimiento",kind:"cv",
+ desc:"Estrellas de distintos tamaños que se desplazan despacio sobre negro. Si alrededor de las más brillantes aparece un halo, o si se apagan al cruzar, la pantalla usa atenuación local (local dimming). Cambia la densidad: con pocas estrellas el halo se ve mejor, y con muchas la prueba exige más a la retroiluminación.",
+ p:{v:4,n:5,play:!RM},
+ ctl:[{t:"play"},{k:"v",t:"range",label:"Velocidad",min:1,max:10,step:1,fmt:function(v){return String(v)}},{k:"n",t:"range",label:"Densidad",min:1,max:10,step:1,fmt:function(v){return v+" · ≈"+starCount(window.innerWidth,window.innerHeight,v)+" estrellas"}}],
  thumb:function(){var r=rng(7),o=rect(0,0,160,90,"#000"),i;for(i=0;i<46;i++)o+='<circle cx="'+(r()*160)+'" cy="'+(r()*90)+'" r="'+(i<4?3.2:.5+r()*1.4)+'" fill="#fff" opacity="'+(.6+r()*.4)+'"/>';return svg(160,90,o)},
- init:function(w,h){var s=[],n=Math.max(50,Math.round(w*h/2200)),i,a,sp,big;
-  for(i=0;i<n;i++){big=i<5;a=Math.random()*6.283;sp=.35+Math.random()*.9;
-   s.push({x:Math.random()*w,y:Math.random()*h,r:big?3.2+Math.random()*2:.6+Math.random()*1.8,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,b:.55+Math.random()*.45,c:["#ffffff","#cfe0ff","#fff2c8"][i%3],big:big})}
-  return{s:s}},
+ init:function(){return{s:[]}},
  frame:function(x,w,h,p,st,dt){x.globalAlpha=1;x.fillStyle="#000";x.fillRect(0,0,w,h);
-  var k=(w/360)*5*p.v,i,q,g;
+  var tgt=starCount(w,h,p.n),k=(w/360)*5*p.v,i,q,g;
+  while(st.s.length<tgt)st.s.push(newStar(w,h,st.s.length));
+  if(st.s.length>tgt)st.s.length=tgt;
   for(i=0;i<st.s.length;i++){q=st.s[i];
    if(p.play){q.x+=q.vx*k*dt;q.y+=q.vy*k*dt;if(q.x<-8)q.x=w+8;if(q.x>w+8)q.x=-8;if(q.y<-8)q.y=h+8;if(q.y>h+8)q.y=-8}
    x.globalAlpha=q.b;
@@ -252,11 +272,20 @@ var TOOLS=[
   o+='<rect '+m+'x="'+x+'" y="'+(H*.59)+'" width="'+bw+'" height="'+bh+'" fill="#000"/>';
   return svg(W,H,o,live?"--d:"+p.d+"s;--tx:"+(W*.94-bw)+"px":"")}},
 {id:"geometria",name:"Geometría",cat:"Nitidez",desc:"Cuadrícula, círculo y diagonales para revisar proporciones, bordes y enfoque.",p:{},
- draw:function(p,W,H){var o=rect(0,0,W,H,"#000"),s=W/16,i,sw=W/320;
-  for(i=0;i<=W+.01;i+=s)o+='<line x1="'+i+'" y1="0" x2="'+i+'" y2="'+H+'" stroke="#fff" stroke-width="'+sw+'"/>';
-  for(i=0;i<=H+.01;i+=s)o+='<line x1="0" y1="'+i+'" x2="'+W+'" y2="'+i+'" stroke="#fff" stroke-width="'+sw+'"/>';
-  o+='<circle cx="'+W/2+'" cy="'+H/2+'" r="'+(H/2-sw*2)+'" fill="none" stroke="#fff" stroke-width="'+sw*2+'"/>';
-  o+='<line x1="0" y1="0" x2="'+W+'" y2="'+H+'" stroke="#fff" stroke-width="'+sw*1.2+'"/><line x1="'+W+'" y1="0" x2="0" y2="'+H+'" stroke="#fff" stroke-width="'+sw*1.2+'"/>';
+ draw:function(p,W,H){return svg(W,H,geoBase(W,H,H/2-W/320*2))}},
+{id:"calibracion",name:"Geometría y calibración",cat:"Nitidez",
+ desc:"Cuadrícula, círculo y diagonales con un recuadro central dentro del círculo. El recuadro reúne barras SMPTE, escala de grises, escala RGB y CMYK, y contraste, y muestra la resolución, la densidad y la escala de esta pantalla. El navegador no conoce el tamaño físico: indica la diagonal para calcular los ppp. La escala incluye el zoom del navegador.",
+ p:{l:50,d:0},
+ ctl:[{k:"l",t:"range",label:"Contraste",min:5,max:95,step:5,fmt:function(v){return v+" %"}},{k:"d",t:"range",label:"Diagonal",min:0,max:100,step:.5,fmt:function(v){return v>0?v.toFixed(1)+" pulg":"no indicada"}}],
+ draw:function(p,W,H,live){
+  var sw=W/320,r=Math.min(W,H)/2-sw*2,hd=r*.94,bw=hd*1.743,bh=hd*.9806,x=W/2-bw/2,y=H/2-bh/2,o=geoBase(W,H,r),y4=y,t,i,n=0,fs;
+  o+=rect(x-sw*2,y-sw*2,bw+sw*4,bh+sw*4,"#fff")+rect(x,y,bw,bh,"#000");
+  o+=smpteSvg(x,y+bh*.2,bw,bh*.28)+grayStrip(x,y+bh*.48,bw,bh*.09)+colorScale(x,y+bh*.57,bw,bh*.22)+contrastSvg(p,x,y+bh*.79,bw,bh*.21);
+  o+=rect(x,y4,bw,bh*.2,"#101010");
+  if(live){
+   t=screenInfo(p);for(i=0;i<3;i++)n=Math.max(n,t[i].length);
+   fs=Math.min(bh*.05,bw*.94/(n*.56));
+   for(i=0;i<3;i++)o+='<text x="'+(x+bw*.03)+'" y="'+(y4+bh*(.056+.058*i))+'" font-size="'+fs+'" fill="#fff" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">'+t[i]+'</text>'}
   return svg(W,H,o)}}
 ];
 var CATS=["Todas","Color","Uniformidad","Píxeles","Movimiento","Nitidez"];
@@ -265,7 +294,7 @@ var cur="Todas";
 function byId(id){return TOOLS.filter(function(t){return t.id===id})[0]}
 function thumbOf(t){return t.thumb?t.thumb(t.p):t.draw(t.p,160,90,false)}
 
-var grid=document.getElementById("grid"),filters=document.getElementById("filters"),nav=document.getElementById("nav");
+var grid=document.getElementById("grid"),filters=document.getElementById("filters");
 function setFilter(c){
   cur=c;
   Array.prototype.forEach.call(filters.children,function(b){b.setAttribute("aria-pressed",b.textContent===c?"true":"false")});
@@ -274,10 +303,6 @@ function setFilter(c){
 CATS.forEach(function(c){
   var b=document.createElement("button");b.className="btn";b.textContent=c;b.setAttribute("aria-pressed",c===cur?"true":"false");
   b.onclick=function(){setFilter(c)};filters.appendChild(b);
-});
-CATS.slice(1).forEach(function(c){
-  var b=document.createElement("button");b.type="button";b.textContent=c;
-  b.onclick=function(){setFilter(c);grid.scrollIntoView({behavior:"smooth",block:"start"})};nav.appendChild(b);
 });
 function visible(){return TOOLS.filter(function(t){return cur==="Todas"||t.cat===cur})}
 function renderGrid(){
@@ -540,7 +565,7 @@ document.getElementById("start").onclick=function(){openViewer(TOOLS[0].id)};
 var gb=document.getElementById("guideBox");
 document.getElementById("guide").onclick=function(){
   if(gb.hidden){
-    gb.innerHTML="<strong>Guía rápida.</strong> Toca una miniatura para abrirla a pantalla completa. Fija el brillo de tu pantalla antes de empezar. Usa Uniformidad para ver manchas y fuga de luz, y para buscar puntos apagados o fijos con un color a la vez. Usa Píxeles para intentar liberar un píxel atascado, y Constelación para detectar halos de local dimming. En Ghosting, observa si el bloque deja estela.";
+    gb.innerHTML="<strong>Guía rápida.</strong> Toca una miniatura para abrirla a pantalla completa. Fija el brillo de tu pantalla antes de empezar. Usa Uniformidad para ver manchas y fuga de luz, y para buscar puntos apagados o fijos con un color a la vez. Usa Píxeles para intentar liberar un píxel atascado, y Atenuación local para detectar halos de la retroiluminación. En Ghosting, observa si el bloque deja estela. En Geometría y calibración, revisa el recuadro central y la resolución, densidad y escala de tu pantalla.";
     gb.hidden=false;gb.focus();
   }else gb.hidden=true;
 };
