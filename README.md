@@ -16,13 +16,17 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 | --- | --- | --- |
 | SMPTE barras | Color | Revisar color, brillo y niveles de negro |
 | Escala de grises | Color | Ver si se distinguen tonos oscuros y claros |
+| Negros bajos | Color | Barras de 0 a 8 % sobre negro para ver si el televisor aplasta las sombras o levanta el negro (cuarto oscuro) |
 | Escala RGB y CMYK | Color | 10 tonalidades por fila en rojo, verde, azul, cian, magenta, amarillo y negro (K) |
 | Contraste | Color | Bloques de 5 % a 95 % con nivel ajustable |
 | Uniformidad gris | Uniformidad | Gris de 0 a 100 % con atajos a negro y blanco: manchas, viñeteo, fuga de luz, nubosidad y bandas |
 | Uniformidad RGB y CMYK | Uniformidad | Un color a pantalla completa a la vez (rojo, verde, azul, cian, magenta, amarillo, blanco y negro), elegido a mano. También sirve para buscar píxeles muertos |
+| Prueba táctil | Táctil | Casillas para tocar o hacer clic y ver zonas sin respuesta; cuenta los puntos de contacto a la vez |
 | Desatascador de píxeles | Píxeles | Cuadrícula cuadrada adaptable cuyos cuadros cambian al azar entre RGB, CMYK, blanco y negro, cada uno por su cuenta y en momentos distintos; tamaño (4–25 % del ancho) y velocidad (1–16, de cada 10 s a cada 0,1 s) ajustables |
 | Atenuación local | Movimiento | Estrellas de varios tamaños en movimiento sobre negro para detectar halos y atenuación local (local dimming); velocidad y densidad ajustables |
 | Ghosting | Movimiento | Estelas por tiempo de respuesta lento; pasada de 2 a 6 s |
+| Overscan y márgenes | Nitidez | Recuadros a 0, 2, 5 y 10 % de los bordes para ver si la imagen se recorta (sobre todo en televisores) |
+| Líneas finas | Nitidez | Líneas de un píxel real para detectar escalado, borrosidad y moiré |
 | Geometría | Nitidez | Cuadrícula, círculo y diagonales para proporciones y enfoque |
 | Geometría y calibración | Nitidez | Lo mismo con un recuadro central dentro del círculo que reúne barras SMPTE, escala de grises, escala RGB y CMYK y contraste, y muestra resolución, densidad y escala de la pantalla; con la diagonal indicada calcula los ppp |
 
@@ -33,7 +37,7 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 - **Varias entradas:** teclado, ratón, pantallas táctiles, controles remotos de televisión, gamepads y joysticks. Las pistas de controles del visor se adaptan a la entrada que detecta el sitio, y las teclas se muestran dentro de una caja para que resalten. Consulta la sección Controles.
 - **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Si el dispositivo no lo informa, usa el tema claro.
 - **Menú de tema:** un solo icono en el encabezado abre un menú con Automático, Claro y Oscuro, y el icono refleja el estado (círculo mitad lleno, sol o luna). Claro y Oscuro fijan el tema y desactivan el seguimiento del sistema. La preferencia se recuerda en el navegador.
-- **Filtros por categoría:** Color, Uniformidad, Píxeles, Movimiento y Nitidez.
+- **Filtros por categoría:** Color, Uniformidad, Píxeles, Movimiento, Nitidez y Táctil.
 - **Seguridad:** aviso para personas fotosensibles, movimiento sin destellos y desatascador que empieza en pausa, con cambios de color al azar e independientes por cuadro. Desde la velocidad 13 (más de 3 cambios por segundo) la cuadrícula tiene al menos 8 columnas y se muestra un aviso.
 
 ## Controles

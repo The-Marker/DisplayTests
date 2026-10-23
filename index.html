@@ -286,9 +286,55 @@ var TOOLS=[
    t=screenInfo(p);for(i=0;i<3;i++)n=Math.max(n,t[i].length);
    fs=Math.min(bh*.05,bw*.94/(n*.56));
    for(i=0;i<3;i++)o+='<text x="'+(x+bw*.03)+'" y="'+(y4+bh*(.056+.058*i))+'" font-size="'+fs+'" fill="#fff" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">'+t[i]+'</text>'}
-  return svg(W,H,o)}}
+  return svg(W,H,o)}},
+{id:"pluge",name:"Negros bajos",cat:"Color",
+ desc:"Barras de 0 a 8 % de luminancia sobre negro. Lo ideal es distinguir las barras de 2 % y 4 % del fondo, y que la de 0 % se funda con él. Si todas se ven iguales, el televisor aplasta las sombras; si la de 0 % se ve gris, el negro está levantado. Haz la prueba en cuarto oscuro.",
+ p:{},
+ draw:function(p,W,H,live){
+  var lv=[0,2,4,6,8],o=rect(0,0,W,H,"#000"),i,fs=H*.07;
+  for(i=0;i<5;i++){o+=rect(i*W/5,0,W/5,H*.8,gy(lv[i]));
+   if(live)o+='<text x="'+((i+.5)*W/5)+'" y="'+(H*.92)+'" font-size="'+fs+'" fill="#fff" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">'+lv[i]+' %</text>'}
+  return svg(W,H,o)}},
+{id:"overscan",name:"Overscan y márgenes",cat:"Nitidez",
+ desc:"Recuadros blancos, rojos, cian y amarillos a 0, 2, 5 y 10 % de los bordes, con una cruz central. Si el televisor recorta la imagen, el recuadro de 0 % no se ve completo. Revisa también que la cruz esté centrada.",
+ p:{},
+ draw:function(p,W,H,live){
+  var o=rect(0,0,W,H,"#000"),sw=Math.max(1,W/160),ins=[0,.02,.05,.1],cs=["#fff","#f00","#0ff","#ff0"],k,ix,iy,c,fs=H*.05;
+  for(k=0;k<4;k++){ix=W*ins[k];iy=H*ins[k];c=cs[k];
+   o+=rect(ix,iy,W-2*ix,sw,c)+rect(ix,H-iy-sw,W-2*ix,sw,c)+rect(ix,iy,sw,H-2*iy,c)+rect(W-ix-sw,iy,sw,H-2*iy,c)}
+  o+=rect(W/2-sw/2,0,sw,H,"#444")+rect(0,H/2-sw/2,W,sw,"#444");
+  if(live){o+=rect(W*.2,H*.42,W*.6,H*.16,"#000");
+   o+='<text x="'+(W/2)+'" y="'+(H*.48)+'" font-size="'+fs+'" fill="#fff" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">Recuadros a 0, 2, 5 y 10 % del borde</text>';
+   o+='<text x="'+(W/2)+'" y="'+(H*.54)+'" font-size="'+fs+'" fill="#fff" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">¿Se ven todos los bordes?</text>'}
+  return svg(W,H,o)}},
+{id:"lineas",name:"Líneas finas",cat:"Nitidez",kind:"cv",
+ desc:"Líneas blancas y negras de un píxel real: verticales en la mitad superior y horizontales en la inferior. Deberías distinguir cada línea. Si se ven grises, borrosas o con patrones de interferencia (moiré), la pantalla escala la imagen.",
+ p:{},
+ thumb:function(){var o=rect(0,0,160,90,"#000"),i;for(i=0;i<160;i+=4)o+=rect(i,0,2,45,"#fff");for(i=45;i<90;i+=4)o+=rect(0,i,160,2,"#fff");return svg(160,90,o)},
+ init:function(){return{done:false}},
+ frame:function(x,w,h,p,st){
+  if(st.done)return;st.done=true;
+  var cw=x.canvas.width,ch=x.canvas.height,i,j;
+  x.save();x.setTransform(1,0,0,1,0,0);
+  x.fillStyle="#000";x.fillRect(0,0,cw,ch);x.fillStyle="#fff";
+  for(i=0;i<cw;i+=2)x.fillRect(i,0,1,ch/2);
+  for(j=ch/2;j<ch;j+=2)x.fillRect(0,j,cw,1);
+  x.restore()}},
+{id:"tactil",name:"Prueba táctil",cat:"Táctil",kind:"cv",
+ desc:"Toca o haz clic en las casillas para pintarlas de verde y revisa si alguna no responde. Con varios dedos a la vez, el contador muestra cuántos puntos detecta la pantalla. Cada toque también muestra u oculta el panel. Limpiar borra las casillas.",
+ p:{z:0},
+ ctl:[{k:"z",t:"preset",opts:[["Limpiar",0]]}],
+ thumb:function(){var r=rng(5),o=rect(0,0,160,90,"#1a1a1a"),i,j;for(j=0;j<8;j++)for(i=0;i<15;i++)if(r()<.25)o+=rect(i*10.67+.5,j*11.25+.5,9.67,10.25,"#0f0");return svg(160,90,o)},
+ init:function(w,h){var cell=Math.min(w,h)/8;TS={cell:cell,cols:Math.ceil(w/cell),rows:Math.ceil(h/cell),on:[],act:{},n:0,max:0};return TS},
+ frame:function(x,w,h,p,st){
+  var i,j,k,fs=Math.min(w,h)*.045;
+  x.fillStyle="#000";x.fillRect(0,0,w,h);
+  for(j=0;j<st.rows;j++)for(i=0;i<st.cols;i++){k=j*st.cols+i;x.fillStyle=st.on[k]?"#0f0":"#1a1a1a";x.fillRect(i*st.cell+1,j*st.cell+1,st.cell-2,st.cell-2)}
+  x.font=fs+"px system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif";x.lineWidth=fs*.25;x.strokeStyle="#000";x.fillStyle="#fff";
+  var t="Puntos a la vez: "+st.n+"   ·   máximo: "+st.max;
+  x.strokeText(t,st.cell*.3,st.cell*.55);x.fillText(t,st.cell*.3,st.cell*.55)}}
 ];
-var CATS=["Todas","Color","Uniformidad","Píxeles","Movimiento","Nitidez"];
+var CATS=["Todas","Color","Uniformidad","Píxeles","Movimiento","Nitidez","Táctil"];
 var cur="Todas";
 
 function byId(id){return TOOLS.filter(function(t){return t.id===id})[0]}
@@ -521,7 +567,15 @@ document.addEventListener("keydown",function(e){
   if(act(a,true))e.preventDefault();
 });
 
-var swx=0,swy=0,swid=null;
+var swx=0,swy=0,swid=null,TS=null;
+stage.addEventListener("pointerdown",function(e){
+  if(!TS||!vOpen()||!active||active.id!=="tactil")return;
+  var i=Math.floor(e.clientX/TS.cell),j=Math.floor(e.clientY/TS.cell);
+  if(i>=0&&j>=0&&i<TS.cols&&j<TS.rows)TS.on[j*TS.cols+i]=1;
+  if(e.pointerType==="touch"){TS.act[e.pointerId]=1;TS.n=Object.keys(TS.act).length;if(TS.n>TS.max)TS.max=TS.n}
+});
+function tsUp(e){if(TS&&e.pointerType==="touch"){delete TS.act[e.pointerId];TS.n=Object.keys(TS.act).length}}
+stage.addEventListener("pointerup",tsUp);stage.addEventListener("pointercancel",tsUp);
 stage.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse")return;swid=e.pointerId;swx=e.clientX;swy=e.clientY});
 stage.addEventListener("pointerup",function(e){
   if(e.pointerId!==swid)return;swid=null;
