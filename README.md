@@ -17,13 +17,7 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 | SMPTE barras | Color | Revisar color, brillo y niveles de negro |
 | Escala de grises | Color | Ver si se distinguen tonos oscuros y claros |
 | Negros bajos | Color | Barras de 0 a 8 % sobre negro para ver si el televisor aplasta las sombras o levanta el negro (cuarto oscuro) |
-| Escala RGB y CMYK | Color | Seis escalas de diez pasos, una por color (rojo, verde, azul, cian, magenta y amarillo) |
-| Escala roja | Color | Diez pasos de un solo color, de casi negro a pleno |
-| Escala verde | Color | Diez pasos de un solo color, de casi negro a pleno |
-| Escala azul | Color | Diez pasos de un solo color, de casi negro a pleno |
-| Escala cian | Color | Diez pasos de un solo color, de casi negro a pleno |
-| Escala magenta | Color | Diez pasos de un solo color, de casi negro a pleno |
-| Escala amarilla | Color | Diez pasos de un solo color, de casi negro a pleno |
+| Escala RGB y CMYK | Color | Seis escalas de diez pasos, una por color (rojo, verde, azul, cian, magenta y amarillo). Elige en Escala si quieres verlas todas o una sola |
 | Pico de brillo | Color | Ventana blanca de 10 a 100 % del área sobre negro para medir el pico de brillo; rango SDR o HDR (HDR solo si el navegador y la pantalla lo soportan) |
 | Contraste | Color | Bloques de 5 % a 95 % con nivel ajustable |
 | Uniformidad gris | Uniformidad | Gris de 0 a 100 % con atajos a negro y blanco: manchas, viñeteo, fuga de luz, nubosidad y bandas |
@@ -43,7 +37,7 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 - **Responsivo:** 2 columnas en móvil, 3 en tabletas, 4 en escritorio con filtros en barra lateral y 5 en televisores con texto más grande.
 - **Visor a pantalla completa:** cada prueba se adapta a la proporción real de la pantalla. Los controles se ocultan con `H` o tocando la pantalla, para no contaminar las pruebas de uniformidad.
 - **Varias entradas:** teclado, ratón, pantallas táctiles, controles remotos de televisión, gamepads y joysticks. Las pistas de controles del visor se adaptan a la entrada que detecta el sitio, y las teclas se muestran dentro de una caja para que resalten. Consulta la sección Controles.
-- **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Si el dispositivo no lo informa, usa el tema claro.
+- **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Con el sistema en oscuro usa negro puro, que es el mejor para pantallas OLED. Si el dispositivo no lo informa, usa el tema claro.
 - **Menú de tema:** un solo icono en el encabezado abre un menú con Automático, Claro y Oscuro, y el icono refleja el estado (círculo mitad lleno, sol o luna). Claro y Oscuro fijan el tema y desactivan el seguimiento del sistema. La preferencia se recuerda en el navegador.
 - **Idiomas:** español, inglés, portugués, francés y alemán. Se elige automáticamente según el idioma del sistema; si no es compatible o no se puede detectar, usa inglés. El icono de globo, a la izquierda del tema, permite cambiarlo a mano.
 - **Filtros por categoría:** Color, Uniformidad, Píxeles, Movimiento, Nitidez y Táctil.

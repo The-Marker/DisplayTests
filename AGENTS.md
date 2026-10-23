@@ -35,6 +35,7 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Un solo archivo, sin dependencias externas ni peticiones de red. Se debe poder abrir con doble clic.
 - Texto de la interfaz con `tr(texto)`. La clave es el texto en español, en minúsculas salvo nombres propios y siglas, y sin signos de exclamación. Las traducciones viven en `DICT` (una tabla por idioma). Si falta una traducción, se muestra el español. Para añadir un idioma: agrégalo a `SUP`, `NATIVE` y `DICT`, con todas las claves.
 - Colores y tema con variables CSS en `:root`. Nunca colores fijos en la interfaz; los patrones de prueba sí usan colores exactos, porque son el producto.
+- Temas: claro, oscuro (gris), negro puro (`data-theme="black"`, fondo #000) y automático. El automático con sistema oscuro usa negro puro; no hay API web para detectar OLED, así que esa es la señal elegida.
 - El tema por defecto es claro. El modo automático depende de `prefers-color-scheme`, con `data-theme="light|dark"` en `<html>` solo cuando el usuario lo fija.
 - Los patrones estáticos se dibujan en SVG con `viewBox` y reciben el ancho y alto (`W`, `H`) para adaptarse a la proporción real de la pantalla. La miniatura usa 160×90.
 - Los patrones animados (`kind:"cv"`) se dibujan en `canvas` con `init` y `frame`, y su miniatura es un SVG estático (`thumb`).
@@ -46,7 +47,7 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - El pie de página fue eliminado a propósito. No lo repongas.
 - Pruebas táctiles: el contador de toques crea un círculo por punto y borra los anteriores al tocar de nuevo; la cuadrícula de deslizamiento pinta los cuadros que cruza el dedo o el ratón. Cada toque en el visor también muestra u oculta el panel.
 - Pico de brillo: el modo HDR usa `color(rec2100-pq 1 1 1)` solo si `CSS.supports` lo acepta; si no, muestra un aviso y blanco SDR.
-- `colorScale(x,y,w,h,noGray)` dibuja las filas de color; con `noGray` omite la banda de grises. Las escalas individuales usan `ramp1`.
+- `colorScale(x,y,w,h,noGray)` dibuja las filas de color; con `noGray` omite la banda de grises. La prueba RGB y CMYK tiene un selector `Escala` que usa `ramp1` para mostrar una sola escala.
 - El encabezado no tiene navegación por categorías; los filtros viven solo en la barra lateral y bajo la cuadrícula. No la repongas.
 - Helpers compartidos de patrones: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` y `newStar`. Reutilízalos en lugar de duplicar dibujo.
 - Todas las entradas (teclado, ratón, táctil, control remoto, gamepad y joystick) pasan por el despachador `act(accion, nativo)`, con acciones `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` y `playpause`. Para soportar un dispositivo nuevo, tradúcelo a esas acciones; no añadas manejadores sueltos.
