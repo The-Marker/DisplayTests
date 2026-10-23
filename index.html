@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>Pruebas de pantalla</title>
-<link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23fff%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%272%27%20y%3D%273%27%20width%3D%2720%27%20height%3D%2714%27%20rx%3D%272%27%20ry%3D%272%27/%3E%3Cline%20x1%3D%278%27%20y1%3D%2721%27%20x2%3D%2716%27%20y2%3D%2721%27/%3E%3Cline%20x1%3D%2712%27%20y1%3D%2717%27%20x2%3D%2712%27%20y2%3D%2721%27/%3E%3C/svg%3E">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%272%27%20y%3D%273%27%20width%3D%2720%27%20height%3D%2714%27%20rx%3D%272%27%20ry%3D%272%27/%3E%3Cline%20x1%3D%278%27%20y1%3D%2721%27%20x2%3D%2716%27%20y2%3D%2721%27/%3E%3Cline%20x1%3D%2712%27%20y1%3D%2717%27%20x2%3D%2712%27%20y2%3D%2721%27/%3E%3C/svg%3E">
 <meta name="description" content="Patrones de prueba para revisar color, uniformidad, ghosting y nitidez en móviles, escritorio y televisores.">
 <style>
 :root{
@@ -90,11 +88,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 #vc .head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
 #vc .t{font-weight:500;font-size:1.1rem}
 #vc .d{color:#b4b2a9;font-size:.85rem;max-width:44rem}
-#vc .vwarn{display:inline-block;margin-top:.5rem;padding:.4rem .8rem;border-radius:.5rem;background:#ffd400;color:#000;font-weight:700;font-size:1rem;line-height:1.35}
+#vc .vwarn{margin:.5rem 0 0}
 #vc .vwarn[hidden]{display:none}
-#vc .btn{background:#185fa5;border-color:#185fa5;color:#fff}
-#vc .btn:hover{background:#1f6fbd;border-color:#fff}
-#vc .btn[aria-pressed="true"],#vc .btn.primary{background:#0c447c;border-color:#0c447c;color:#fff}
+#vc .btn{background:#fff;border-color:#fff;color:#000}
+#vc .btn:hover{background:#e6e6e4;border-color:#e6e6e4}
+#vc .btn[aria-pressed="true"],#vc .btn.primary{background:#d3d1c7;border-color:#d3d1c7;color:#000}
 #vc .ctl{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
 #vc input[type=range]{flex:1;min-width:8rem;accent-color:#85b7eb}
 #vc .btn{min-height:2.4rem}
@@ -102,9 +100,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 #vc :focus-visible,html[data-input="remote"] #vc :focus,html[data-input="gamepad"] #vc :focus{outline-color:#85b7eb}
 html[data-input="remote"] :focus,html[data-input="gamepad"] :focus{outline:.2rem solid var(--accent);outline-offset:.15rem}
 #stage:focus{outline:none}
-kbd{display:inline-block;min-width:1.8em;padding:.05em .5em;margin:0 .1em;text-align:center;font:inherit;font-weight:500;font-size:.95em;line-height:1.5;color:#fff;background:#3a3a37;border:1px solid #9a988f;border-bottom-width:3px;border-radius:.4em;white-space:nowrap}
+kbd{display:inline-block;min-width:1.8em;padding:.05em .5em;margin:0 .1em;text-align:center;font:inherit;font-weight:500;font-size:.95em;line-height:1.5;color:#000;background:#fff;border:1px solid #fff;border-bottom:3px solid #bdbdb8;border-radius:.4em;white-space:nowrap}
 kbd.r{border-radius:999px}
-kbd.g{border-radius:999px;background:#1f3a5f;border-color:#85b7eb}
+kbd.g{border-radius:999px}
 
 .mv{animation:mv var(--d,3s) ease-in-out infinite alternate}
 @keyframes mv{from{transform:translateX(0)}to{transform:translateX(var(--tx,130px))}}
@@ -154,7 +152,7 @@ kbd.g{border-radius:999px;background:#1f3a5f;border-color:#85b7eb}
   <div id="vc">
     <div class="head">
       <div><p class="t" id="vt"></p><p class="d" id="vd"></p>
-      <p class="vwarn" id="vwarn" hidden></p></div>
+      <p class="warn vwarn" id="vwarn" role="note" hidden></p></div>
       <button class="btn" id="vclose" data-i18n-aria="Cerrar" aria-label="Cerrar" data-i18n="Cerrar">Cerrar</button>
     </div>
     <div class="ctl" id="vnav">
@@ -724,6 +722,18 @@ lm.addEventListener("keydown",function(e){
   else if(e.key==="Escape"){langMenuOpen(false);lb.focus();e.preventDefault()}
   else if(e.key==="Tab"){langMenuOpen(false)}
 });
+/* ---------- favicon según el tema del sistema ---------- */
+var FAV=null,fmq=null;
+try{fmq=window.matchMedia?window.matchMedia("(prefers-color-scheme: dark)"):null;if(fmq&&fmq.media==="not all")fmq=null}catch(e){fmq=null}
+function favUri(c){return "data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='"+c+"' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='3' width='20' height='14' rx='2' ry='2'/><line x1='8' y1='21' x2='16' y2='21'/><line x1='12' y1='17' x2='12' y2='21'/></svg>")}
+function setFav(){
+  var dark=false;try{dark=!!(fmq&&fmq.matches)}catch(e){}
+  var nl=document.createElement("link");nl.rel="icon";nl.type="image/svg+xml";nl.href=favUri(dark?"#fff":"#000");
+  if(FAV&&FAV.parentNode)FAV.parentNode.replaceChild(nl,FAV);else document.head.appendChild(nl);
+  FAV=nl;
+}
+setFav();
+if(fmq){try{fmq.addEventListener("change",setFav)}catch(e){try{fmq.addListener(setFav)}catch(e2){}}}
 applyLang();
 })();
 </script>

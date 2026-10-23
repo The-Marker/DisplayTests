@@ -50,9 +50,9 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Todas las entradas (teclado, ratón, táctil, control remoto, gamepad y joystick) pasan por el despachador `act(accion, nativo)`, con acciones `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` y `playpause`. Para soportar un dispositivo nuevo, tradúcelo a esas acciones; no añadas manejadores sueltos.
 - `INPUT` guarda la última entrada detectada (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) y se refleja en `data-input` de `<html>`. Las pistas del visor (`hintHtml`) dependen de ese valor. Si añades una acción, añade su pista en todas las entradas.
 - Teclas del control remoto: `keyAction` acepta el nombre (`ArrowLeft` o `Left`) y también el código numérico (37–40, 13). Algunos televisores solo envían el código; no quites el respaldo.
-- Aviso de fotosensibilidad: el general va encima de la cuadrícula. Las pruebas de movimiento o cambio de color tienen `warn` y lo muestran en el visor (`#vwarn`), en amarillo y en negrita.
-- Botones del visor (`#vc .btn`): azul sólido con texto blanco. El seleccionado usa un azul más oscuro.
-- Favicon: icono de monitor como el del encabezado, negro con tema claro del sistema y blanco con tema oscuro (dos `<link rel="icon">` con `media`).
+- Aviso de fotosensibilidad: el general va encima de la cuadrícula. Las pruebas de movimiento o cambio de color tienen `warn` y lo muestran en el visor (`#vwarn`) con la misma clase `.warn` que la página principal.
+- Botones del visor (`#vc .btn`) y teclas de pista (`kbd`): blancos con texto negro. El seleccionado usa un gris claro.
+- Favicon: icono de monitor como el del encabezado. `setFav()` lo regenera con `data:` según `prefers-color-scheme` (negro en claro, blanco en oscuro) y se actualiza al cambiar el sistema. No uses `media` en los enlaces de icono: el navegador no lo aplica de forma fiable.
 - Las teclas en las pistas se escriben con `<kbd>` (clases `r` para control remoto y `g` para gamepad) para que se vean dentro de una caja.
 - La navegación espacial (`spatial`) solo se activa con foco en un elemento (teclado y ratón) o siempre (control remoto y gamepad), para no quitar el scroll con flechas a quien usa teclado.
 
