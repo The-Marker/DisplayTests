@@ -33,13 +33,14 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 ## Convenciones
 
 - Un solo archivo, sin dependencias externas ni peticiones de red. Se debe poder abrir con doble clic.
-- Texto de la interfaz en español, en minúsculas salvo nombres propios y siglas, y sin signos de exclamación.
+- Texto de la interfaz con `tr(texto)`. La clave es el texto en español, en minúsculas salvo nombres propios y siglas, y sin signos de exclamación. Las traducciones viven en `DICT` (una tabla por idioma). Si falta una traducción, se muestra el español. Para añadir un idioma: agrégalo a `SUP`, `NATIVE` y `DICT`, con todas las claves.
 - Colores y tema con variables CSS en `:root`. Nunca colores fijos en la interfaz; los patrones de prueba sí usan colores exactos, porque son el producto.
 - El tema por defecto es claro. El modo automático depende de `prefers-color-scheme`, con `data-theme="light|dark"` en `<html>` solo cuando el usuario lo fija.
 - Los patrones estáticos se dibujan en SVG con `viewBox` y reciben el ancho y alto (`W`, `H`) para adaptarse a la proporción real de la pantalla. La miniatura usa 160×90.
 - Los patrones animados (`kind:"cv"`) se dibujan en `canvas` con `init` y `frame`, y su miniatura es un SVG estático (`thumb`).
 - Accesibilidad: botones reales, `aria-pressed` en los selectores, foco visible, `aria-label` en miniaturas y respeto de `prefers-reduced-motion`.
-- Persistencia con `localStorage` siempre dentro de `try/catch`; el sitio debe funcionar sin ella.
+- Persistencia con `localStorage` siempre dentro de `try/catch`; el sitio debe funcionar sin ella. Guardan el tema (`dt-theme`) y el idioma (`dt-lang`, `auto` o un código).
+- Idioma: el automático sigue `navigator.languages`, con inglés como respaldo. Los elementos estáticos usan `data-i18n`, `data-i18n-aria` y `data-i18n-title`. Al cambiar de idioma se llama a `applyLang()`.
 - Los iconos son SVG en línea con `currentColor`. No uses fuentes de iconos ni imágenes externas: el sitio es un solo archivo y debe verse igual abierto con doble clic.
 - El tema se elige en un menú desplegable de un icono (`#themeBtn`, `#themeMenu`) con `role="menu"`, teclado (flechas, Esc) y el icono refleja el modo (auto, claro u oscuro).
 - El pie de página fue eliminado a propósito. No lo repongas.

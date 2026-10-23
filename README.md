@@ -37,6 +37,7 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 - **Varias entradas:** teclado, ratón, pantallas táctiles, controles remotos de televisión, gamepads y joysticks. Las pistas de controles del visor se adaptan a la entrada que detecta el sitio, y las teclas se muestran dentro de una caja para que resalten. Consulta la sección Controles.
 - **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Si el dispositivo no lo informa, usa el tema claro.
 - **Menú de tema:** un solo icono en el encabezado abre un menú con Automático, Claro y Oscuro, y el icono refleja el estado (círculo mitad lleno, sol o luna). Claro y Oscuro fijan el tema y desactivan el seguimiento del sistema. La preferencia se recuerda en el navegador.
+- **Idiomas:** español, inglés, portugués, francés y alemán. Se elige automáticamente según el idioma del sistema; si no es compatible o no se puede detectar, usa inglés. El icono de globo, a la izquierda del tema, permite cambiarlo a mano.
 - **Filtros por categoría:** Color, Uniformidad, Píxeles, Movimiento, Nitidez y Táctil.
 - **Seguridad:** aviso para personas fotosensibles, movimiento sin destellos y desatascador que empieza en pausa, con cambios de color al azar e independientes por cuadro. Desde la velocidad 13 (más de 3 cambios por segundo) la cuadrícula tiene al menos 8 columnas y se muestra un aviso.
 
