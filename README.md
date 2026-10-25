@@ -1,72 +1,77 @@
+**English** · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md)
+
 # DisplayTests
 
-Sitio web con herramientas para probar y diagnosticar pantallas de móviles, computadoras y televisores. Es un único archivo, `index.html`, sin dependencias ni paso de compilación.
+A website with tools to test and diagnose screens on phones, computers and televisions. It is a single file, `index.html`, with no dependencies and no build step.
 
-## Uso
+## Usage
 
-Abre `index.html` en un navegador (doble clic) o publícalo en cualquier hosting estático, por ejemplo GitHub Pages. Toca una miniatura para abrir la prueba a pantalla completa.
+Open `index.html` in a browser (double-click) or publish it on any static host, for example GitHub Pages. Tap a thumbnail to open the test full screen.
 
-Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las pruebas de negro, un cuarto oscuro. Los colores mostrados son una aproximación.
+To measure, set the screen brightness, use full screen and, for black tests, a dark room. The colors shown are an approximation.
 
-## Funciones destacables
+## Highlights
 
-**Herramientas de prueba**
+**Test tools**
 
-| Herramienta | Categoría | Para qué sirve |
+| Tool | Category | What it is for |
 | --- | --- | --- |
-| SMPTE barras | Color | Revisar color, brillo y niveles de negro |
-| Escala de grises | Color | Ver si se distinguen tonos oscuros y claros |
-| Negros bajos | Color | Barras de 0 a 8 % sobre negro para ver si el televisor aplasta las sombras o levanta el negro (cuarto oscuro) |
-| Escala RGB y CMYK | Color | Seis escalas de diez pasos, una por color (rojo, verde, azul, cian, magenta y amarillo). Elige en Escala si quieres verlas todas o una sola |
-| Pico de brillo | Color | Ventana blanca de 10 a 100 % del área sobre negro para medir el pico de brillo; rango SDR o HDR (HDR solo si el navegador y la pantalla lo soportan) |
-| Contraste | Color | Bloques de 5 % a 95 % con nivel ajustable |
-| Uniformidad gris | Uniformidad | Gris de 0 a 100 % con atajos a negro y blanco: manchas, viñeteo, fuga de luz, nubosidad y bandas |
-| Uniformidad RGB y CMYK | Uniformidad | Un color a pantalla completa a la vez (rojo, verde, azul, cian, magenta, amarillo, blanco y negro), elegido a mano. También sirve para buscar píxeles muertos |
-| Contador de toques | Táctil | Un círculo de color por punto de contacto; se mantienen al soltar y se borran al volver a tocar. Cuenta los toques a la vez y el máximo |
-| Cuadrícula de deslizamiento | Táctil | Cuadrícula ajustable que pinta los cuadros que cruza el dedo o el ratón, con el porcentaje cubierto |
-| Desatascador de píxeles | Píxeles | Cuadrícula cuadrada adaptable cuyos cuadros cambian al azar entre RGB, CMYK, blanco y negro, cada uno por su cuenta y en momentos distintos; tamaño (4–25 % del ancho) y velocidad (1–16, de cada 10 s a cada 0,1 s) ajustables |
-| Atenuación local | Movimiento | Estrellas de varios tamaños en movimiento sobre negro para detectar halos y atenuación local (local dimming); velocidad y densidad ajustables |
-| Ghosting | Movimiento | Estelas por tiempo de respuesta lento; pasada de 2 a 6 s |
-| Overscan y márgenes | Nitidez | Recuadros a 0, 2, 5 y 10 % de los bordes para ver si la imagen se recorta (sobre todo en televisores) |
-| Líneas finas | Nitidez | Líneas de un píxel real para detectar escalado, borrosidad y moiré |
-| Geometría | Nitidez | Cuadrícula, círculo y diagonales para proporciones y enfoque |
-| Geometría y calibración | Nitidez | Lo mismo con un recuadro central dentro del círculo que reúne barras SMPTE, escala de grises, escala RGB y CMYK y contraste, y muestra resolución, densidad y escala de la pantalla; con la diagonal indicada calcula los ppp |
+| SMPTE bars | Color | Checking color, brightness and black levels |
+| Grayscale ramp | Color | Seeing whether dark and light tones can be told apart |
+| Low blacks | Color | Bars from 0 to 8 % on black to see whether the TV crushes shadows or lifts black (dark room) |
+| RGB and CMYK scale | Color | Six ten-step scales, one per color (red, green, blue, cyan, magenta and yellow). Use the Scale option to show all of them or just one |
+| Peak brightness | Color | White window from 10 to 100 % of the area on black, to measure peak brightness; SDR or HDR range (HDR only if the browser and the display support it) |
+| Contrast | Color | Blocks from 5 % to 95 % with an adjustable level |
+| Gray uniformity | Uniformity | Gray from 0 to 100 % with shortcuts to black and white: spots, vignetting, light leakage, clouding and banding |
+| RGB and CMYK uniformity | Uniformity | One full-screen color at a time (red, green, blue, cyan, magenta, yellow, white and black), chosen by hand. Also useful for finding dead pixels |
+| Touch counter | Touch | One colored circle per touch point; the circles stay after release and are cleared when the screen is touched again. Counts simultaneous touches and the maximum |
+| Swipe grid | Touch | Adjustable grid that paints the squares crossed by a finger or the mouse, with the percentage covered |
+| Pixel unsticker | Pixels | Adaptive square grid whose squares change at random between RGB, CMYK, white and black, each on its own schedule; size (4–25 % of the width) and speed (1–16, from every 10 s to every 0.1 s) are adjustable |
+| Local dimming | Motion | Stars of several sizes moving over black to detect halos and local dimming; speed and density are adjustable |
+| Smearing (VA) | Motion | A white bar moves over dark backgrounds to show the dark or bright trail left on VA panels; speed and background are adjustable, with pause |
+| Ghosting | Motion | Trails from slow response time; pass from 2 to 6 s |
+| Overscan and margins | Sharpness | Frames at 0, 2, 5 and 10 % from the edges to see whether the image is cropped (mainly on TVs) |
+| Fine lines | Sharpness | One-real-pixel lines to detect scaling, blur and moiré |
+| Geometry | Sharpness | Grid, circle and diagonals for proportions and focus |
+| Geometry and calibration | Sharpness | The same, with a central box inside the circle that combines SMPTE bars, grayscale, RGB and CMYK scale, and contrast, and shows the screen's resolution, density and scale; with the diagonal entered it calculates ppi |
 
-**Sitio**
+**Site**
 
-- **Responsivo:** 2 columnas en móvil, 3 en tabletas, 4 en escritorio con filtros en barra lateral y 5 en televisores con texto más grande.
-- **Visor a pantalla completa:** cada prueba se adapta a la proporción real de la pantalla. Los controles se ocultan con `H` o tocando la pantalla, para no contaminar las pruebas de uniformidad.
-- **Varias entradas:** teclado, ratón, pantallas táctiles, controles remotos de televisión, gamepads y joysticks. Las pistas de controles del visor se adaptan a la entrada que detecta el sitio, y las teclas se muestran dentro de una caja para que resalten. Consulta la sección Controles.
-- **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Con el sistema en oscuro usa negro puro, que es el mejor para pantallas OLED. Si el dispositivo no lo informa, usa el tema claro.
-- **Menú de tema:** un solo icono en el encabezado abre un menú con Automático, Claro y Oscuro, y el icono refleja el estado (círculo mitad lleno, sol o luna). Claro y Oscuro fijan el tema y desactivan el seguimiento del sistema. La preferencia se recuerda en el navegador.
-- **Idiomas:** español, inglés, portugués, francés y alemán. Se elige automáticamente según el idioma del sistema; si no es compatible o no se puede detectar, usa inglés. El icono de globo, a la izquierda del tema, permite cambiarlo a mano.
-- **Filtros por categoría:** Color, Uniformidad, Píxeles, Movimiento, Nitidez y Táctil.
-- **Seguridad:** aviso para personas fotosensibles, movimiento sin destellos y desatascador que empieza en pausa, con cambios de color al azar e independientes por cuadro. Desde la velocidad 13 (más de 3 cambios por segundo) la cuadrícula tiene al menos 8 columnas y se muestra un aviso.
+- **Responsive:** 2 columns on phones, 3 on tablets, 4 on desktops with filters in a sidebar, and 5 on TVs with larger text.
+- **Full-screen viewer:** each test adapts to the screen's real aspect ratio. The controls are hidden with `H` or by tapping the screen, so they do not contaminate uniformity tests.
+- **Several inputs:** keyboard, mouse, touch screens, television remotes, gamepads and joysticks. The control hints in the viewer adapt to the input the site detects, and keys are shown inside a box so they stand out. See the Controls section.
+- **Automatic theme:** follows the system's light or dark mode on Android, iPhone, Windows, macOS and Linux. With the system in dark mode it uses pure black, the best choice for OLED screens. If the device does not report it, it uses the light theme.
+- **Theme menu:** a single icon in the header opens a menu with Automatic, Light, Dark and Pure black, and the icon reflects the state (half-filled circle, sun, moon or filled circle). Light, Dark and Pure black fix the theme and turn off system tracking. The preference is remembered in the browser.
+- **Languages:** English, Spanish, Portuguese, French and German. The language is chosen automatically from the system language; if it is not supported or cannot be detected, English is used. The globe icon, to the left of the theme icon, lets you change it manually.
+- **Category filters:** Color, Uniformity, Pixels, Motion, Sharpness and Touch.
+- **Safety:** a photosensitivity notice, motion without flashes, and a pixel unsticker that starts paused, with random color changes that are independent for each square. From speed 13 (more than 3 changes per second) the grid has at least 8 columns and a warning is shown.
 
-## Controles
+## Controls
 
-El sitio detecta la última entrada que usas y cambia las pistas del visor en consecuencia.
+The site detects the last input you used and changes the viewer hints accordingly.
 
-| Acción | Teclado | Táctil | Control remoto | Gamepad o joystick |
+| Action | Keyboard | Touch | TV remote | Gamepad or joystick |
 | --- | --- | --- | --- | --- |
-| Cambiar de prueba | `←` `→` | Deslizar a los lados, o botones Anterior y Siguiente | `◀` `▶`, `CH+` `CH−` | `◀` `▶`, `LB` `RB` |
-| Ir a los controles | `↓` (y `↑` para volver) | Tocar el control | `▼` (y `▲` para volver) | `▼` (y `▲` para volver) |
-| Ajustar un control | `←` `→` en un deslizador | Arrastrar | `◀` `▶` | `◀` `▶` o stick izquierdo |
-| Mostrar u ocultar el panel | `H` | Tocar la pantalla | `OK` o `Info` | `Start` |
-| Iniciar o pausar | `Espacio` | Botón Iniciar | `⏯` | `X` |
-| Aceptar | `Enter` | Tocar | `OK` | `A` |
-| Cerrar | `Esc` | Deslizar hacia abajo | `Atrás` | `B` |
+| Change test | `←` `→` | Swipe sideways, or Previous and Next buttons | `◀` `▶`, `CH+` `CH−` | `◀` `▶`, `LB` `RB` |
+| Go to the controls | `↓` (and `↑` to go back) | Tap the control | `▼` (and `▲` to go back) | `▼` (and `▲` to go back) |
+| Adjust a control | `←` `→` on a slider | Drag | `◀` `▶` | `◀` `▶` or left stick |
+| Show or hide the panel | `H` | Tap the screen | `OK` or `Info` | `Start` |
+| Start or pause | `Space` | Start/Pause button between Previous and Next | `⏯` | `X` |
+| Accept | `Enter` | Tap | `OK` | `A` |
+| Close | `Esc` | Swipe down | `Back` | `B` |
 
-En la página principal, los controles remotos y los gamepads se mueven por botones, filtros y miniaturas con las flechas (navegación espacial). En televisores con Tizen, webOS, Android TV, Fire TV y similares, el sitio arranca con las pistas de control remoto. Los gamepads se detectan al pulsar cualquier botón.
+In the Swipe grid test, swipes do not change the test or close the viewer, and tapping does not hide the panel, so you can paint freely. Use the Close button, `Esc` or `H` there.
 
-## Compatibilidad
+On the home page, TV remotes and gamepads move between buttons, filters and thumbnails with the arrows (spatial navigation). On TVs running Tizen, webOS, Android TV, Fire TV and similar systems, the site starts with the TV remote hints. Gamepads are detected when you press any button.
 
-Navegadores actuales en Android, iPhone, Windows, macOS y Linux, y navegadores de televisores inteligentes con soporte moderno de CSS y JavaScript.
+## Compatibility
 
-## Colaborar
+Current browsers on Android, iPhone, Windows, macOS and Linux, and smart-TV browsers with modern CSS and JavaScript support.
 
-Consulta [AGENTS.md](AGENTS.md) para la estructura, las convenciones y cómo añadir una herramienta nueva.
+## Contributing
 
-## Licencia
+See [AGENTS.md](AGENTS.md) for the structure, conventions and how to add a new tool.
 
-GNU GPL v3. Consulta [LICENSE](LICENSE).
+## License
+
+GNU GPL v3. See [LICENSE](LICENSE).

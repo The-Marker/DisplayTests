@@ -1,79 +1,86 @@
+**English** · [Español](AGENTS.es.md) · [Português](AGENTS.pt.md) · [Français](AGENTS.fr.md) · [Deutsch](AGENTS.de.md)
+
 # AGENTS.md
 
-Guía para agentes de IA y colaboradores que modifiquen este repositorio.
+Guide for AI agents and contributors who modify this repository.
 
-## Qué es
+## What it is
 
-Sitio estático de una sola página para probar y diagnosticar pantallas (móvil, escritorio y TV). Todo vive en `index.html`: HTML, CSS y JavaScript sin dependencias, sin bundler y sin red.
+A static, single-page site for testing and diagnosing screens (phone, desktop and TV). Everything lives in `index.html`: HTML, CSS and JavaScript with no dependencies, no bundler and no network requests.
 
-## Estructura
+## Structure
 
-- `index.html`: el sitio completo.
-- `README.md`: descripción y funciones para usuarios.
+- `index.html`: the whole site.
+- `README.md` (and `README.es.md`, `README.pt.md`, `README.fr.md`, `README.de.md`): description and features for users.
+- `AGENTS.md` (and `AGENTS.es.md`, `AGENTS.pt.md`, `AGENTS.fr.md`, `AGENTS.de.md`): guide for contributors. Keep all language versions in sync when you change one.
 - `LICENSE`: GPL v3.
 
-Dentro de `index.html`, el script tiene estas partes: helpers, herramientas (`TOOLS`), cuadrícula y filtros, visor a pantalla completa, teclado, portada y tema automático.
+Inside `index.html`, the script has these parts: helpers, language core (`DICT`, `tr`, `applyLang`), tools (`TOOLS`), grid and filters, full-screen viewer, keyboard and input, home page, theme and language menus, favicon and startup.
 
-## Ejecutar y probar
+## Running and testing
 
-No hay build. Abre `index.html` en un navegador o sirve la carpeta con `python3 -m http.server`.
+There is no build. Open `index.html` in a browser or serve the folder with `python3 -m http.server`.
 
-Antes de subir cambios, revisa como mínimo:
+Before pushing changes, check at least:
 
-- No hay errores en la consola.
-- Móvil (~390 px), escritorio (~1280 px) y TV (~1920 px) sin scroll horizontal.
-- Tema claro, tema oscuro y tema automático. Con el tema automático desactivado, el tema fijo se mantiene.
-- Un navegador sin `matchMedia` cae en tema claro.
-- Cada herramienta abre a pantalla completa, sus controles responden y `Esc` la cierra.
-- Geometría y calibración: el recuadro queda centrado dentro del círculo en móvil, escritorio y TV, y muestra resolución, densidad y escala (con `H` oculto el panel para leerlo).
-- Las entradas funcionan y las pistas cambian: teclado, táctil (deslizar), control remoto (`ChannelUp`, `Info`, `GoBack`, User Agent de TV), gamepad (se puede simular reemplazando `navigator.getGamepads`).
+- No errors in the console.
+- Phone (~390 px), desktop (~1280 px) and TV (~1920 px) with no horizontal scroll.
+- Light, dark, pure black and automatic themes. With automatic off, the fixed theme stays.
+- A browser without `matchMedia` falls back to the light theme.
+- Each tool opens full screen, its controls respond and `Esc` closes it.
+- Geometry and calibration: the box is centered inside the circle on phone, desktop and TV, and shows resolution, density and scale (with `H` hiding the panel so you can read it).
+- Languages: with the system in an unsupported language the site uses English; the menu lists English first, then the system language, then the rest; the choice persists after a reload.
+- Inputs work and hints change: keyboard, touch (swipe), TV remote (`ChannelUp`, `Info`, `GoBack`, and keyCode-only events 37–40/13 with a TV user agent), gamepad (simulate by replacing `navigator.getGamepads`).
+- Swipe grid: dragging paints squares and does not change test or close the viewer.
 
-Playwright con Chromium sirve para automatizar estas revisiones.
+Playwright with Chromium is useful to automate these checks.
 
-## Convenciones
+## Conventions
 
-- Un solo archivo, sin dependencias externas ni peticiones de red. Se debe poder abrir con doble clic.
-- Texto de la interfaz con `tr(texto)`. La clave es el texto en español, en minúsculas salvo nombres propios y siglas, y sin signos de exclamación. Las traducciones viven en `DICT` (una tabla por idioma). Si falta una traducción, se muestra el español. Para añadir un idioma: agrégalo a `SUP`, `NATIVE` y `DICT`, con todas las claves.
-- Colores y tema con variables CSS en `:root`. Nunca colores fijos en la interfaz; los patrones de prueba sí usan colores exactos, porque son el producto.
-- Temas: claro, oscuro (gris), negro puro (`data-theme="black"`, fondo #000) y automático. El automático con sistema oscuro usa negro puro; no hay API web para detectar OLED, así que esa es la señal elegida.
-- El tema por defecto es claro. El modo automático depende de `prefers-color-scheme`, con `data-theme="light|dark"` en `<html>` solo cuando el usuario lo fija.
-- Los patrones estáticos se dibujan en SVG con `viewBox` y reciben el ancho y alto (`W`, `H`) para adaptarse a la proporción real de la pantalla. La miniatura usa 160×90.
-- Los patrones animados (`kind:"cv"`) se dibujan en `canvas` con `init` y `frame`, y su miniatura es un SVG estático (`thumb`).
-- Accesibilidad: botones reales, `aria-pressed` en los selectores, foco visible, `aria-label` en miniaturas y respeto de `prefers-reduced-motion`.
-- Persistencia con `localStorage` siempre dentro de `try/catch`; el sitio debe funcionar sin ella. Guardan el tema (`dt-theme`) y el idioma (`dt-lang`, `auto` o un código).
-- Idioma: el automático sigue `navigator.languages`, con inglés como respaldo. Los elementos estáticos usan `data-i18n`, `data-i18n-aria` y `data-i18n-title`. Al cambiar de idioma se llama a `applyLang()`.
-- Los iconos son SVG en línea con `currentColor`. No uses fuentes de iconos ni imágenes externas: el sitio es un solo archivo y debe verse igual abierto con doble clic.
-- El tema se elige en un menú desplegable de un icono (`#themeBtn`, `#themeMenu`) con `role="menu"`, teclado (flechas, Esc) y el icono refleja el modo (auto, claro u oscuro).
-- El pie de página fue eliminado a propósito. No lo repongas.
-- Pruebas táctiles: el contador de toques crea un círculo por punto y borra los anteriores al tocar de nuevo; la cuadrícula de deslizamiento pinta los cuadros que cruza el dedo o el ratón. Cada toque en el visor también muestra u oculta el panel.
-- Pico de brillo: el modo HDR usa `color(rec2100-pq 1 1 1)` solo si `CSS.supports` lo acepta; si no, muestra un aviso y blanco SDR.
-- `colorScale(x,y,w,h,noGray)` dibuja las filas de color; con `noGray` omite la banda de grises. La prueba RGB y CMYK tiene un selector `Escala` que usa `ramp1` para mostrar una sola escala.
-- El encabezado no tiene navegación por categorías; los filtros viven solo en la barra lateral y bajo la cuadrícula. No la repongas.
-- Helpers compartidos de patrones: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` y `newStar`. Reutilízalos en lugar de duplicar dibujo.
-- Todas las entradas (teclado, ratón, táctil, control remoto, gamepad y joystick) pasan por el despachador `act(accion, nativo)`, con acciones `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` y `playpause`. Para soportar un dispositivo nuevo, tradúcelo a esas acciones; no añadas manejadores sueltos.
-- `INPUT` guarda la última entrada detectada (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) y se refleja en `data-input` de `<html>`. Las pistas del visor (`hintHtml`) dependen de ese valor. Si añades una acción, añade su pista en todas las entradas.
-- Teclas del control remoto: `keyAction` acepta el nombre (`ArrowLeft` o `Left`) y también el código numérico (37–40, 13). Algunos televisores solo envían el código; no quites el respaldo.
-- Aviso de fotosensibilidad: el general va encima de la cuadrícula. Las pruebas de movimiento o cambio de color tienen `warn` y lo muestran en el visor (`#vwarn`) con la misma clase `.warn` que la página principal.
-- Botones del visor (`#vc .btn`) y teclas de pista (`kbd`): blancos con texto negro. El seleccionado usa un gris claro.
-- Favicon: icono de monitor como el del encabezado. `setFav()` lo regenera con `data:` según `prefers-color-scheme` (negro en claro, blanco en oscuro) y se actualiza al cambiar el sistema. No uses `media` en los enlaces de icono: el navegador no lo aplica de forma fiable.
-- Las teclas en las pistas se escriben con `<kbd>` (clases `r` para control remoto y `g` para gamepad) para que se vean dentro de una caja.
-- La navegación espacial (`spatial`) solo se activa con foco en un elemento (teclado y ratón) o siempre (control remoto y gamepad), para no quitar el scroll con flechas a quien usa teclado.
+- One file, no external dependencies, no network requests. It must open with a double click.
+- Interface text goes through `tr(text)`. The key is the Spanish text, in lowercase except proper nouns and acronyms, with no exclamation marks. Translations live in `DICT` (one table per language). A missing translation shows the Spanish text. To add a language: add it to `SUP`, `NATIVE` and `DICT` with every key, and add a README and AGENTS translation.
+- Colors and theme use CSS variables in `:root`. Never hard-code colors in the interface; test patterns do use exact colors because they are the product.
+- Themes: light, dark (gray), pure black (`data-theme="black"`, background #000) and automatic. Automatic with a dark system uses pure black; there is no web API to detect OLED, so the dark system setting is the signal.
+- The default theme is light. Automatic depends on `prefers-color-scheme`, with `data-theme="light|dark|black"` on `<html>` only when the user sets it.
+- Static patterns are drawn as SVG with `viewBox` and receive the width and height (`W`, `H`) so they fit the screen's real aspect ratio. The thumbnail uses 160×90.
+- Animated patterns (`kind:"cv"`) are drawn on a `canvas` with `init` and `frame`, and their thumbnail is a static SVG (`thumb`).
+- Accessibility: real buttons, `aria-pressed` on selectors, visible focus, `aria-label` on thumbnails, and respect for `prefers-reduced-motion`.
+- Persistence with `localStorage` always inside `try/catch`; the site must work without it. It stores the theme (`dt-theme`) and the language (`dt-lang`, `auto` or a code).
+- Language: automatic follows `navigator.languages`, with English as fallback. Static elements use `data-i18n`, `data-i18n-aria` and `data-i18n-title`. Changing language calls `applyLang()`.
+- Icons are inline SVG with `currentColor`. Do not use icon fonts or external images: the site is one file and must look the same when opened with a double click.
+- The theme is chosen in a dropdown menu from one icon (`#themeBtn`, `#themeMenu`) with `role="menu"`, keyboard support (arrows, Esc), and the icon reflects the mode. The language menu (`#langBtn`, `#langMenu`) works the same way.
+- The footer was removed on purpose. Do not put it back.
+- Touch tests: the touch counter creates one circle per point and clears the old ones when the screen is touched again; the swipe grid paints the squares crossed by a finger or the mouse. In the swipe grid, swipe gestures (navigate, close) and tap-to-toggle-panel are disabled on purpose.
+- Peak brightness: HDR mode uses `color(rec2100-pq 1 1 1)` only if `CSS.supports` accepts it; otherwise it shows a notice and SDR white.
+- `colorScale(x,y,w,h,noGray)` draws the color rows; with `noGray` it omits the gray band. The RGB and CMYK test has a `Scale` selector that uses `ramp1` to show one scale.
+- Play/pause: the play button lives in the `#vnav` row between Previous and Next (class `playbtn`), not in the controls panel. `clickPlay()` finds it there.
+- The header has no category navigation; filters live only in the sidebar and under the grid. Do not add it back.
+- Shared pattern helpers: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` and `newStar`. Reuse them instead of duplicating drawing code.
+- All inputs (keyboard, mouse, touch, TV remote, gamepad and joystick) go through the dispatcher `act(action, native)`, with actions `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` and `playpause`. To support a new device, map it to those actions; do not add loose handlers.
+- `INPUT` stores the last detected input (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) and is reflected in `data-input` on `<html>`. The viewer hints (`hintHtml`) depend on it. If you add an action, add its hint for every input.
+- TV remote keys: `keyAction` accepts the name (`ArrowLeft` or `Left`) and the numeric code (37–40, 13). Some TVs only send the code; do not remove that fallback.
+- Photosensitivity notice: the general one sits above the grid. Motion or color-change tests have a `warn` and show it in the viewer (`#vwarn`) with the same `.warn` class as the home page.
+- Viewer buttons (`#vc .btn`) and key hints (`kbd`) are white with black text. The selected one uses a light gray.
+- Favicon: a monitor icon like the header one. `setFav()` regenerates it as a `data:` URI according to `prefers-color-scheme` (black in light, white in dark) and updates when the system changes. Do not use `media` on icon links: browsers do not apply it reliably.
+- Keys in hints are written with `<kbd>` (classes `r` for remote and `g` for gamepad) so they show inside a box.
+- Spatial navigation (`spatial`) only runs with focus on an element (keyboard and mouse) or always (TV remote and gamepad), so keyboard users keep arrow scrolling.
 
-## Reglas de seguridad
+## Safety rules
 
-- Sin destellos ni parpadeo automático. El movimiento es moderado y el aviso de fotosensibilidad debe seguir visible.
-- La velocidad del ghosting se limita a 2–6 s por pasada. No bajes de 2 s.
-- El desatascador de píxeles empieza en pausa. Cada cuadro cambia de color al azar y por su cuenta, con un intervalo medio que va de 10 s a 0,1 s (velocidades 1–16) y variación de ±40 %, y los cuadros se reprograman al mover la velocidad para que nunca cambien juntos. Por encima de 3 cambios por segundo (velocidad 13 o más) se fuerzan al menos 8 columnas, para que el parpadeo no se concentre en pocos cuadros, y la etiqueta marca "rápido". No quites ese límite ni subas la velocidad sin avisar al dueño del proyecto.
-- Los controles del visor deben poder ocultarse, para no contaminar las pruebas de uniformidad.
+- No flashes or automatic flicker. Motion stays moderate and the photosensitivity notice must stay visible.
+- Ghosting speed is limited to 2–6 s per pass. Do not go below 2 s.
+- The pixel unsticker starts paused. Each square changes color at random and on its own, with an average interval from 10 s to 0.1 s (speeds 1–16) and ±40 % variation; squares are rescheduled when the speed changes so they never change together. Above 3 changes per second (speed 13 or more) it forces at least 8 columns so flicker is not concentrated in a few squares, and the label says "fast". Do not remove that limit or raise the speed without telling the project owner.
+- The smearing test starts paused and shows the photosensitivity notice.
+- Viewer controls must be hideable, so they do not contaminate uniformity tests.
 
-## Añadir una herramienta
+## Adding a tool
 
-1. Agrega un objeto a `TOOLS` con `id`, `name`, `cat`, `desc`, `p` (parámetros por defecto), `ctl` (controles, opcional) y `draw(p, W, H, live)` que devuelve el SVG. Si es animada, usa `kind:"cv"` con `init`, `frame` y `thumb`.
-2. Si es una categoría nueva, agrégala a `CATS`.
-3. Los controles pueden ser `range` (`min`, `max`, `step`, `fmt`), `choice` (`opts`), `preset` (atajos a un valor) o `play` (iniciar y pausar).
-4. Actualiza la tabla de herramientas del `README.md`.
-5. Revisa el sitio con la lista de pruebas de arriba.
+1. Add an object to `TOOLS` with `id`, `name`, `cat`, `desc`, `p` (default parameters), `ctl` (optional controls) and `draw(p, W, H, live)` that returns the SVG. If it is animated, use `kind:"cv"` with `init`, `frame` and `thumb`.
+2. If it is a new category, add it to `CATS`.
+3. Controls can be `range` (`min`, `max`, `step`, `fmt`), `choice` (`opts`), `preset` (shortcuts to a value) or `play` (start and pause).
+4. Add every visible Spanish string to every language in `DICT`, and update the tool table in `README.md` and its translations.
+5. Check the site with the test list above.
 
 ## Commits
 
-Mensajes cortos en español o inglés, en imperativo, con una línea de resumen. Un cambio por commit cuando sea posible.
+Short messages in English or Spanish, in the imperative, with a one-line summary. One change per commit when possible.
