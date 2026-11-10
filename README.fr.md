@@ -20,15 +20,18 @@ Pour mesurer, réglez la luminosité de l'écran, utilisez le plein écran et, p
 | Échelle de gris | Couleur | Voir si les tons sombres et clairs se distinguent |
 | Noirs foncés | Couleur | Barres de 0 à 8 % sur noir pour voir si la TV écrase les ombres ou relève le noir (pièce sombre) |
 | Échelle RVB et CMJN | Couleur | Six échelles de dix paliers, une par couleur (rouge, vert, bleu, cyan, magenta et jaune). Choisissez dans Échelle pour toutes les afficher ou une seule |
-| Luminosité crête | Couleur | Fenêtre blanche de 10 à 100 % de la surface sur noir, pour mesurer la luminosité crête ; plage SDR ou HDR (HDR seulement si le navigateur et l'écran le prennent en charge) |
+| Luminosité crête | Couleur | Fenêtre blanche de 10 à 100 % de la surface sur noir, pour mesurer la luminosité crête ; plage SDR ou HDR. Le HDR exige un navigateur et un écran compatibles, et la visionneuse explique comment l'activer |
 | Contraste | Couleur | Blocs de 5 % à 95 % avec niveau réglable |
 | Uniformité grise | Uniformité | Gris de 0 à 100 % avec raccourcis vers le noir et le blanc : taches, vignetage, fuites de lumière, nuages et bandes |
 | Uniformité RVB et CMJN | Uniformité | Une couleur en plein écran à la fois (rouge, vert, bleu, cyan, magenta, jaune, blanc et noir), choisie à la main. Sert aussi à trouver les pixels morts |
 | Compteur de touchers | Tactile | Un cercle coloré par point de contact ; ils restent après le relâchement et sont effacés quand on touche à nouveau l'écran. Compte les touchers simultanés et le maximum |
 | Grille de glissement | Tactile | Grille réglable qui peint les carrés traversés par le doigt ou la souris, avec le pourcentage couvert |
 | Débloqueur de pixels | Pixels | Grille carrée adaptative dont les carrés changent au hasard entre RVB, CMJN, blanc et noir, chacun à son rythme ; taille (4–25 % de la largeur) et vitesse (1–16, de toutes les 10 s à toutes les 0,1 s) réglables |
-| Gradation locale | Mouvement | Étoiles de plusieurs tailles qui se déplacent sur noir pour détecter les halos et la gradation locale (local dimming) ; vitesse et densité réglables |
+| Gradation locale | Mouvement | Étoiles de plusieurs tailles qui se déplacent sur noir pour détecter les halos et la gradation locale (local dimming) ; vitesse et densité réglables; taille des étoiles réglable |
 | Smearing (VA) | Mouvement | Une barre blanche se déplace sur des fonds sombres pour montrer la traînée sombre ou claire des dalles VA ; vitesse et fond réglables, avec pause |
+| Texte en mouvement | Mouvement | Lignes de texte qui défilent en sens opposés. Sur les dalles VA, le texte en mouvement se floute ou laisse une traînée ; comparez la netteté à l'arrêt et en mouvement. Vitesse réglable, avec pause |
+| Angles de vision | Uniformité | Gris, couleurs ou tons sombres pour voir comment ils changent vus de côté, de dessus ou de dessous ; choisissez le motif avec l'option Vue |
+| Netteté du texte | Netteté | Texte en plusieurs tailles, avec empattement, à chasse fixe et en couleur, sur blanc et sur noir, pour vérifier la netteté sur les écrans à pixel blanc (comme le W-OLED) |
 | Rémanence | Mouvement | Traînées dues à un temps de réponse lent ; passage de 2 à 6 s |
 | Overscan et marges | Netteté | Cadres à 0, 2, 5 et 10 % des bords pour voir si l'image est rognée (surtout sur les TV) |
 | Lignes fines | Netteté | Lignes d'un pixel réel pour détecter la mise à l'échelle, le flou et le moiré |
@@ -40,8 +43,8 @@ Pour mesurer, réglez la luminosité de l'écran, utilisez le plein écran et, p
 - **Adaptatif :** 2 colonnes sur mobile, 3 sur tablette, 4 sur ordinateur avec filtres dans une barre latérale et 5 sur TV avec un texte plus grand.
 - **Visionneuse plein écran :** chaque test s'adapte au format réel de l'écran. Les commandes se masquent avec `H` ou en touchant l'écran, pour ne pas polluer les tests d'uniformité.
 - **Plusieurs entrées :** clavier, souris, écrans tactiles, télécommandes de TV, manettes et joysticks. Les indications de commande de la visionneuse s'adaptent à l'entrée détectée, et les touches s'affichent dans une case pour bien ressortir. Voir la section Commandes.
-- **Thème automatique :** suit le mode clair ou sombre du système sur Android, iPhone, Windows, macOS et Linux. Avec le système en sombre, il utilise le noir pur, idéal pour les écrans OLED. Si l'appareil ne le signale pas, il utilise le thème clair.
-- **Menu de thème :** une seule icône dans l'en-tête ouvre un menu Automatique, Clair, Sombre et Noir pur, et l'icône reflète l'état. Clair, Sombre et Noir pur fixent le thème et désactivent le suivi du système. La préférence est mémorisée dans le navigateur.
+- **Thème automatique :** suit le mode clair ou sombre du système sur Android, iPhone, Windows, macOS et Linux. Avec le système en sombre, il utilise le thème sombre gris, ou le noir pur si vous cochez l'option du menu de thème. Si l'appareil ne le signale pas, il utilise le thème clair.
+- **Menu de thème :** une seule icône dans l'en-tête ouvre un menu Automatique, Clair, Sombre et Noir pur, et l'icône reflète l'état. Clair, Sombre et Noir pur fixent le thème et désactivent le suivi du système. En dessous, la case **Utiliser le noir pur en mode sombre** fait utiliser le noir pur au thème sombre, idéal pour les écrans OLED. La préférence est mémorisée dans le navigateur.
 - **Langues :** anglais, espagnol, portugais, français et allemand. La langue est choisie automatiquement d'après la langue du système ; si elle n'est pas prise en charge ou ne peut pas être détectée, l'anglais est utilisé. L'icône globe, à gauche de l'icône de thème, permet de la changer à la main.
 - **Filtres par catégorie :** Couleur, Uniformité, Pixels, Mouvement, Netteté et Tactile.
 - **Sécurité :** avertissement pour les personnes photosensibles, mouvement sans flashs, et un débloqueur de pixels qui démarre en pause, avec des changements de couleur aléatoires et indépendants pour chaque carré. À partir de la vitesse 13 (plus de 3 changements par seconde), la grille compte au moins 8 colonnes et un avertissement s'affiche.

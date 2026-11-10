@@ -40,7 +40,7 @@ O Playwright com Chromium ajuda a automatizar essas verificações.
 - Um único arquivo, sem dependências externas nem requisições de rede. Deve abrir com um clique duplo.
 - Texto da interface com `tr(texto)`. A chave é o texto em espanhol, em minúsculas exceto nomes próprios e siglas, e sem pontos de exclamação. As traduções ficam em `DICT` (uma tabela por idioma). Se faltar uma tradução, aparece o espanhol. Para adicionar um idioma: inclua-o em `SUP`, `NATIVE` e `DICT`, com todas as chaves, e adicione seu README e AGENTS.
 - Cores e tema com variáveis CSS em `:root`. Nunca use cores fixas na interface; os padrões de teste usam cores exatas, porque são o produto.
-- Temas: claro, escuro (cinza), preto puro (`data-theme="black"`, fundo #000) e automático. O automático com sistema escuro usa preto puro; não há API web para detectar OLED, então a configuração escura do sistema é o sinal escolhido.
+- Temas: claro, escuro (cinza), preto puro (`data-theme="black"`, fundo #000) e automático. O automático com sistema escuro usa o tema escuro cinza; a caixa **Usar preto puro no modo escuro** do menu de tema troca o escuro por preto puro (`dt-oled` em `localStorage`). Não há API web para detectar OLED, então a escolha é do usuário.
 - O tema padrão é claro. O modo automático depende de `prefers-color-scheme`, com `data-theme="light|dark|black"` em `<html>` somente quando o usuário fixa o tema.
 - Os padrões estáticos são desenhados em SVG com `viewBox` e recebem largura e altura (`W`, `H`) para se adaptar à proporção real da tela. A miniatura usa 160×90.
 - Os padrões animados (`kind:"cv"`) são desenhados em `canvas` com `init` e `frame`, e a miniatura é um SVG estático (`thumb`).
@@ -51,7 +51,7 @@ O Playwright com Chromium ajuda a automatizar essas verificações.
 - O tema é escolhido em um menu suspenso de um ícone (`#themeBtn`, `#themeMenu`) com `role="menu"`, teclado (setas, Esc) e o ícone reflete o modo. O menu de idioma (`#langBtn`, `#langMenu`) funciona da mesma forma.
 - O rodapé foi removido de propósito. Não o recoloque.
 - Testes de toque: o contador de toques cria um círculo por ponto e apaga os anteriores ao tocar de novo; a grade de deslizamento pinta os quadrados cruzados pelo dedo ou pelo mouse. Na grade, os gestos de deslizar (navegar, fechar) e tocar para mostrar ou ocultar o painel estão desativados de propósito.
-- Brilho de pico: o modo HDR usa `color(rec2100-pq 1 1 1)` somente se `CSS.supports` aceitar; caso contrário, mostra um aviso e branco SDR.
+- Brilho de pico: o modo HDR usa `color(rec2100-pq 1 1 1)` somente se `CSS.supports` aceitar; caso contrário, mostra um aviso e branco SDR. O campo `help` de uma ferramenta (aqui `HDR_HELP`) aparece em uma seção recolhível do visor (`#vhelp`).
 - `colorScale(x,y,w,h,noGray)` desenha as linhas de cor; com `noGray` omite a faixa de cinzas. O teste RGB e CMYK tem um seletor `Escala` que usa `ramp1` para mostrar uma única escala.
 - Pausar/iniciar: o botão fica na linha `#vnav`, entre Anterior e Próximo (classe `playbtn`), e não no painel de controles. `clickPlay()` o procura ali.
 - O cabeçalho não tem navegação por categorias; os filtros ficam somente na barra lateral e abaixo da grade. Não os coloque de volta.
@@ -60,7 +60,7 @@ O Playwright com Chromium ajuda a automatizar essas verificações.
 - `INPUT` guarda a última entrada detectada (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) e é refletida em `data-input` no `<html>`. As dicas do visor (`hintHtml`) dependem desse valor. Se adicionar uma ação, adicione a dica para todas as entradas.
 - Teclas do controle remoto: `keyAction` aceita o nome (`ArrowLeft` ou `Left`) e também o código numérico (37–40, 13). Algumas TVs enviam só o código; não remova esse recurso de reserva.
 - Aviso de fotossensibilidade: o geral fica acima da grade. Os testes de movimento ou mudança de cor têm `warn` e o exibem no visor (`#vwarn`) com a mesma classe `.warn` da página inicial.
-- Botões do visor (`#vc .btn`) e teclas de dica (`kbd`): brancos com texto preto. O selecionado usa um cinza claro.
+- Botões do visor (`#vc .btn`), botão de pausa e botões selecionados: azul dos controles deslizantes `#85b7eb` com texto preto (os demais, brancos com texto preto). As teclas de dica (`kbd`) são brancas com texto preto e planas, sem relevo inferior.
 - Favicon: ícone de monitor igual ao do cabeçalho. `setFav()` o regenera como `data:` conforme `prefers-color-scheme` (preto no claro, branco no escuro) e o atualiza quando o sistema muda. Não use `media` nos links de ícone: os navegadores não o aplicam de forma confiável.
 - As teclas nas dicas são escritas com `<kbd>` (classes `r` para controle remoto e `g` para gamepad) para ficarem dentro de uma caixa.
 - A navegação espacial (`spatial`) só é ativada com foco em um elemento (teclado e mouse) ou sempre (controle remoto e gamepad), para não tirar a rolagem com setas de quem usa teclado.

@@ -40,7 +40,7 @@ Playwright with Chromium is useful to automate these checks.
 - One file, no external dependencies, no network requests. It must open with a double click.
 - Interface text goes through `tr(text)`. The key is the Spanish text, in lowercase except proper nouns and acronyms, with no exclamation marks. Translations live in `DICT` (one table per language). A missing translation shows the Spanish text. To add a language: add it to `SUP`, `NATIVE` and `DICT` with every key, and add a README and AGENTS translation.
 - Colors and theme use CSS variables in `:root`. Never hard-code colors in the interface; test patterns do use exact colors because they are the product.
-- Themes: light, dark (gray), pure black (`data-theme="black"`, background #000) and automatic. Automatic with a dark system uses pure black; there is no web API to detect OLED, so the dark system setting is the signal.
+- Themes: light, dark (gray), pure black (`data-theme="black"`, background #000) and automatic. Automatic with a dark system uses the gray dark theme. The checkbox **Use pure black in dark mode** in the theme menu swaps dark for pure black (`dt-oled` in `localStorage`); there is no web API to detect OLED, so the user decides.
 - The default theme is light. Automatic depends on `prefers-color-scheme`, with `data-theme="light|dark|black"` on `<html>` only when the user sets it.
 - Static patterns are drawn as SVG with `viewBox` and receive the width and height (`W`, `H`) so they fit the screen's real aspect ratio. The thumbnail uses 160×90.
 - Animated patterns (`kind:"cv"`) are drawn on a `canvas` with `init` and `frame`, and their thumbnail is a static SVG (`thumb`).
@@ -51,7 +51,7 @@ Playwright with Chromium is useful to automate these checks.
 - The theme is chosen in a dropdown menu from one icon (`#themeBtn`, `#themeMenu`) with `role="menu"`, keyboard support (arrows, Esc), and the icon reflects the mode. The language menu (`#langBtn`, `#langMenu`) works the same way.
 - The footer was removed on purpose. Do not put it back.
 - Touch tests: the touch counter creates one circle per point and clears the old ones when the screen is touched again; the swipe grid paints the squares crossed by a finger or the mouse. In the swipe grid, swipe gestures (navigate, close) and tap-to-toggle-panel are disabled on purpose.
-- Peak brightness: HDR mode uses `color(rec2100-pq 1 1 1)` only if `CSS.supports` accepts it; otherwise it shows a notice and SDR white.
+- Peak brightness: HDR mode uses `color(rec2100-pq 1 1 1)` only if `CSS.supports` accepts it; otherwise it shows a notice and SDR white. A tool's `help` field (here `HDR_HELP`) is shown in a collapsible section in the viewer (`#vhelp`).
 - `colorScale(x,y,w,h,noGray)` draws the color rows; with `noGray` it omits the gray band. The RGB and CMYK test has a `Scale` selector that uses `ramp1` to show one scale.
 - Play/pause: the play button lives in the `#vnav` row between Previous and Next (class `playbtn`), not in the controls panel. `clickPlay()` finds it there.
 - The header has no category navigation; filters live only in the sidebar and under the grid. Do not add it back.
@@ -60,7 +60,7 @@ Playwright with Chromium is useful to automate these checks.
 - `INPUT` stores the last detected input (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) and is reflected in `data-input` on `<html>`. The viewer hints (`hintHtml`) depend on it. If you add an action, add its hint for every input.
 - TV remote keys: `keyAction` accepts the name (`ArrowLeft` or `Left`) and the numeric code (37–40, 13). Some TVs only send the code; do not remove that fallback.
 - Photosensitivity notice: the general one sits above the grid. Motion or color-change tests have a `warn` and show it in the viewer (`#vwarn`) with the same `.warn` class as the home page.
-- Viewer buttons (`#vc .btn`) and key hints (`kbd`) are white with black text. The selected one uses a light gray.
+- Viewer buttons (`#vc .btn`), the play button and selected buttons use the slider blue `#85b7eb` with black text (other viewer buttons are white with black text). Key hints (`kbd`) are white with black text and flat, with no bottom relief.
 - Favicon: a monitor icon like the header one. `setFav()` regenerates it as a `data:` URI according to `prefers-color-scheme` (black in light, white in dark) and updates when the system changes. Do not use `media` on icon links: browsers do not apply it reliably.
 - Keys in hints are written with `<kbd>` (classes `r` for remote and `g` for gamepad) so they show inside a box.
 - Spatial navigation (`spatial`) only runs with focus on an element (keyboard and mouse) or always (TV remote and gamepad), so keyboard users keep arrow scrolling.

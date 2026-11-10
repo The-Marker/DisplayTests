@@ -20,15 +20,18 @@ Stellen Sie zum Messen die Helligkeit des Bildschirms ein, verwenden Sie Vollbil
 | Graustufen | Farbe | Prüfen, ob sich dunkle und helle Töne unterscheiden lassen |
 | Tiefe Schwarztöne | Farbe | Balken von 0 bis 8 % auf Schwarz, um zu sehen, ob der Fernseher Schatten abschneidet oder Schwarz anhebt (dunkler Raum) |
 | RGB- und CMYK-Skala | Farbe | Sechs Skalen mit zehn Stufen, je eine pro Farbe (Rot, Grün, Blau, Cyan, Magenta und Gelb). Mit der Option Skala zeigen Sie alle oder nur eine an |
-| Spitzenhelligkeit | Farbe | Weißes Fenster von 10 bis 100 % der Fläche auf Schwarz, zur Messung der Spitzenhelligkeit; SDR- oder HDR-Bereich (HDR nur, wenn Browser und Bildschirm es unterstützen) |
+| Spitzenhelligkeit | Farbe | Weißes Fenster von 10 bis 100 % der Fläche auf Schwarz, zur Messung der Spitzenhelligkeit; SDR- oder HDR-Bereich. HDR braucht einen kompatiblen Browser und Bildschirm; die Ansicht erklärt, wie man es aktiviert |
 | Kontrast | Farbe | Blöcke von 5 % bis 95 % mit einstellbarer Stufe |
 | Graue Gleichmäßigkeit | Gleichmäßigkeit | Grau von 0 bis 100 % mit Kurzwahl für Schwarz und Weiß: Flecken, Vignettierung, Lichtlecks, Wolken und Banding |
 | RGB- und CMYK-Gleichmäßigkeit | Gleichmäßigkeit | Immer eine Vollbildfarbe: Rot, Grün, Blau, Cyan, Magenta, Gelb, Weiß und Schwarz, von Hand gewählt. Auch geeignet, um tote Pixel zu finden |
 | Berührungszähler | Touch | Ein farbiger Kreis pro Berührungspunkt; die Kreise bleiben nach dem Loslassen und werden gelöscht, wenn der Bildschirm erneut berührt wird. Zählt gleichzeitige Berührungen und das Maximum |
 | Wischraster | Touch | Einstellbares Raster, das die vom Finger oder von der Maus überquerten Felder einfärbt, mit dem abgedeckten Prozentsatz |
 | Pixel-Entstopper | Pixel | Adaptives quadratisches Raster, dessen Felder zufällig zwischen RGB, CMYK, Weiß und Schwarz wechseln, jedes in eigenem Takt; Größe (4–25 % der Breite) und Geschwindigkeit (1–16, von alle 10 s bis alle 0,1 s) einstellbar |
-| Local Dimming | Bewegung | Sterne verschiedener Größe, die über Schwarz wandern, um Halos und lokales Dimming zu erkennen; Geschwindigkeit und Dichte einstellbar |
+| Local Dimming | Bewegung | Sterne verschiedener Größe, die über Schwarz wandern, um Halos und lokales Dimming zu erkennen; Geschwindigkeit und Dichte einstellbar; Sternengröße einstellbar |
 | Smearing (VA) | Bewegung | Ein weißer Balken wandert über dunkle Hintergründe, um die dunkle oder helle Spur von VA-Panels zu zeigen; Geschwindigkeit und Hintergrund einstellbar, mit Pause |
+| Bewegter Text | Bewegung | Textzeilen, die in gegensätzliche Richtungen laufen. Bei VA-Panels verschmiert bewegter Text oder hinterlässt Schlieren; vergleiche die Schärfe im Stillstand und in Bewegung. Geschwindigkeit einstellbar, mit Pause |
+| Blickwinkel | Gleichmäßigkeit | Graustufen, Farben oder dunkle Töne, um zu sehen, wie sie sich seitlich, von oben oder unten verändern; das Muster wählst du mit der Option Ansicht |
+| Textschärfe | Schärfe | Text in mehreren Größen, mit Serifen, nichtproportional und farbig, auf Weiß und auf Schwarz, um die Schärfe auf Bildschirmen mit weißem Subpixel (z. B. W-OLED) zu prüfen |
 | Ghosting | Bewegung | Spuren durch langsame Reaktionszeit; Durchgang von 2 bis 6 s |
 | Overscan und Ränder | Schärfe | Rahmen bei 0, 2, 5 und 10 % vom Rand, um zu sehen, ob das Bild beschnitten wird (vor allem bei Fernsehern) |
 | Feine Linien | Schärfe | Linien mit einem echten Pixel, um Skalierung, Unschärfe und Moiré zu erkennen |
@@ -40,8 +43,8 @@ Stellen Sie zum Messen die Helligkeit des Bildschirms ein, verwenden Sie Vollbil
 - **Responsiv:** 2 Spalten auf dem Handy, 3 auf Tablets, 4 auf dem Computer mit Filtern in einer Seitenleiste und 5 auf Fernsehern mit größerer Schrift.
 - **Vollbild-Ansicht:** Jeder Test passt sich dem tatsächlichen Seitenverhältnis des Bildschirms an. Die Bedienelemente werden mit `H` oder durch Tippen auf den Bildschirm ausgeblendet, damit Gleichmäßigkeitstests nicht verfälscht werden.
 - **Mehrere Eingaben:** Tastatur, Maus, Touchscreens, Fernbedienungen, Gamepads und Joysticks. Die Bedienhinweise in der Ansicht passen sich der erkannten Eingabe an, und Tasten werden in einem Kasten angezeigt, damit sie auffallen. Siehe Abschnitt Bedienung.
-- **Automatisches Design:** folgt dem hellen oder dunklen Modus des Systems auf Android, iPhone, Windows, macOS und Linux. Ist das System dunkel, wird reines Schwarz verwendet, das sich besonders für OLED-Bildschirme eignet. Meldet das Gerät nichts, wird das helle Design verwendet.
-- **Designmenü:** Ein einzelnes Symbol in der Kopfzeile öffnet ein Menü mit Automatisch, Hell, Dunkel und Reines Schwarz; das Symbol zeigt den aktuellen Zustand. Hell, Dunkel und Reines Schwarz legen das Design fest und schalten die Systemerkennung aus. Die Einstellung wird im Browser gespeichert.
+- **Automatisches Design:** folgt dem hellen oder dunklen Modus des Systems auf Android, iPhone, Windows, macOS und Linux. Ist das System dunkel, wird das graue dunkle Design verwendet, oder reines Schwarz, wenn du die Option im Designmenü aktivierst. Meldet das Gerät nichts, wird das helle Design verwendet.
+- **Designmenü:** Ein einzelnes Symbol in der Kopfzeile öffnet ein Menü mit Automatisch, Hell, Dunkel und Reines Schwarz; das Symbol zeigt den aktuellen Zustand. Hell, Dunkel und Reines Schwarz legen das Design fest und schalten die Systemerkennung aus. Darunter macht das Kästchen **Reines Schwarz im dunklen Modus verwenden** aus dem dunklen Design reines Schwarz, besonders geeignet für OLED-Bildschirme. Die Einstellung wird im Browser gespeichert.
 - **Sprachen:** Englisch, Spanisch, Portugiesisch, Französisch und Deutsch. Die Sprache wird automatisch anhand der Systemsprache gewählt; ist sie nicht unterstützt oder nicht erkennbar, wird Englisch verwendet. Das Globus-Symbol links neben dem Designsymbol ermöglicht die manuelle Auswahl.
 - **Kategoriefilter:** Farbe, Gleichmäßigkeit, Pixel, Bewegung, Schärfe und Touch.
 - **Sicherheit:** Hinweis für lichtempfindliche Personen, Bewegung ohne Blitze und ein Pixel-Entstopper, der pausiert startet, mit zufälligen und für jedes Feld unabhängigen Farbwechseln. Ab Geschwindigkeit 13 (mehr als 3 Wechsel pro Sekunde) hat das Raster mindestens 8 Spalten und es erscheint ein Hinweis.
