@@ -39,7 +39,8 @@ To measure, set the screen brightness, use full screen and, for black tests, a d
 **Site**
 
 - **Responsive:** 2 columns on phones, 3 on tablets, 4 on desktops, and 5 on TVs with larger text. Filters are a row of buttons on every screen size, as on phones. The header, the photosensitivity notice and the filters stay at the top while you scroll.
-- **Full-screen viewer:** each test adapts to the screen's real aspect ratio. The controls are shown and hidden with `H` or a mouse click (on touch screens, a double tap), and they hide on their own after 5 seconds without input, so they do not contaminate uniformity tests. Moving the mouse does not show them.
+- **Full-screen viewer:** each test adapts to the screen's real aspect ratio. The controls are shown and hidden with `H` or a mouse click (on touch screens, a double tap), and they hide on their own after 5 seconds without input, so they do not contaminate uniformity tests. Moving the mouse does not show them. The panel slides out when it hides; the cursor hides with it and reappears for 1 second when the mouse moves.
+- **Web app:** the page can be installed as a standalone app (monitor icon, name in the site language, served over HTTPS). The start screen follows the same language rules.
 - **Several inputs:** keyboard, mouse, touch screens, television remotes, gamepads and joysticks. The control hints in the viewer adapt to the input the site detects, and keys are shown inside a box so they stand out. See the Controls section.
 - **Automatic theme:** follows the system's light or dark mode on Android, iPhone, Windows, macOS and Linux. With the system in dark mode it uses the gray dark theme, or pure black if you tick the option in the theme menu. If the device does not report it, it uses the light theme.
 - **Theme menu:** a single icon in the header opens a menu with Automatic, Light, Dark and Pure black, and the icon reflects the state (half-filled circle, sun, moon or filled circle). Light, Dark and Pure black fix the theme and turn off system tracking. Below them, the checkbox **Use pure black in dark mode** makes the dark theme use pure black instead, the best choice for OLED screens. The preference is remembered in the browser.
@@ -62,7 +63,7 @@ The site detects the last input you used and changes the viewer hints accordingl
 | Accept | `Enter` | Tap | `OK` | `A` |
 | Close | `Esc` | Swipe down | `Back` | `B` |
 
-In the Swipe grid test, swipes do not change the test or close the viewer, and tapping does not hide the panel, so you can paint freely. Use the Close button, `Esc` or `H` there.
+In the Swipe grid test, swipes do not change the test or close the viewer, and a single tap does not toggle the panel (a double tap does), so you can paint freely. Use the Close button, `Esc` or `H` there.
 
 On the home page, TV remotes and gamepads move between buttons, filters and thumbnails with the arrows (spatial navigation). On TVs running Tizen, webOS, Android TV, Fire TV and similar systems, the site starts with the TV remote hints. Gamepads are detected when you press any button.
 

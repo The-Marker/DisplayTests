@@ -40,6 +40,7 @@ Para medir, ajuste o brilho da tela, use tela cheia e, nos testes de preto, um q
 
 - **Responsivo:** 2 colunas no celular, 3 em tablets, 4 no computador e 5 em TVs com texto maior. Os filtros são uma linha de botões em qualquer tamanho, como no celular. O cabeçalho, o aviso de fotossensibilidade e os filtros ficam no topo ao rolar.
 - **Visor em tela cheia:** cada teste se adapta à proporção real da tela. Os controles são exibidos e ocultados com `H` ou um clique do mouse (em telas sensíveis ao toque, com toque duplo), e também somem sozinhos após 5 segundos sem uso, para não contaminar os testes de uniformidade. Mover o mouse não os exibe.
+- **Aplicativo web:** a página pode ser instalada como app independente (ícone de monitor, nome no idioma do site, servida por HTTPS). A tela inicial segue as mesmas regras de idioma.
 - **Várias entradas:** teclado, mouse, telas sensíveis ao toque, controles remotos de TV, gamepads e joysticks. As dicas de controle do visor se adaptam à entrada detectada, e as teclas aparecem dentro de uma caixa para se destacar. Veja a seção Controles.
 - **Tema automático:** segue o modo claro ou escuro do sistema no Android, iPhone, Windows, macOS e Linux. Com o sistema no escuro, usa o tema escuro cinza, ou preto puro se você marcar a opção no menu de tema. Se o dispositivo não informar, usa o tema claro.
 - **Menu de tema:** um único ícone no cabeçalho abre um menu com Automático, Claro, Escuro e Preto puro, e o ícone mostra o estado. Claro, Escuro e Preto puro fixam o tema e desativam o acompanhamento do sistema. Abaixo, a caixa **Usar preto puro no modo escuro** faz o tema escuro usar preto puro, o melhor para telas OLED. A preferência fica salva no navegador.
@@ -62,7 +63,7 @@ O site detecta a última entrada usada e muda as dicas do visor de acordo.
 | Aceitar | `Enter` | Tocar | `OK` | `A` |
 | Fechar | `Esc` | Deslizar para baixo | `Voltar` | `B` |
 
-No teste de grade de deslizamento, os gestos não trocam de teste nem fecham o visor, e tocar não oculta o painel, para que você possa pintar livremente. Use o botão Fechar, `Esc` ou `H` nesse teste.
+No teste de grade de deslizamento, os gestos não trocam de teste nem fecham o visor, e um toque simples não oculta o painel (o toque duplo sim), para que você possa pintar livremente. Use o botão Fechar, `Esc` ou `H` nesse teste.
 
 Na página inicial, controles remotos e gamepads se movem entre botões, filtros e miniaturas com as setas (navegação espacial). Em TVs com Tizen, webOS, Android TV, Fire TV e similares, o site começa com as dicas de controle remoto. Os gamepads são detectados ao pressionar qualquer botão.
 

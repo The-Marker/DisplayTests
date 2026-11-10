@@ -40,6 +40,7 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 
 - **Responsivo:** 2 columnas en móvil, 3 en tabletas, 4 en escritorio y 5 en televisores con texto más grande. Los filtros son una fila de botones en cualquier tamaño, como en móvil. El encabezado, el aviso de fotosensibilidad y los filtros se quedan arriba al desplazarte.
 - **Visor a pantalla completa:** cada prueba se adapta a la proporción real de la pantalla. Los controles se muestran y ocultan con `H` o un clic del ratón (en pantallas táctiles, con doble toque), y también se ocultan solos tras 5 segundos sin uso, para no contaminar las pruebas de uniformidad. Mover el ratón no los muestra.
+- **Aplicación web:** la página se puede instalar como app independiente (icono de monitor, nombre en el idioma del sitio, servida por HTTPS). La pantalla inicial sigue las mismas reglas de idioma.
 - **Varias entradas:** teclado, ratón, pantallas táctiles, controles remotos de televisión, gamepads y joysticks. Las pistas de controles del visor se adaptan a la entrada que detecta el sitio, y las teclas se muestran dentro de una caja para que resalten. Consulta la sección Controles.
 - **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Con el sistema en oscuro usa el tema oscuro gris, o negro puro si marcas la opción del menú de tema. Si el dispositivo no lo informa, usa el tema claro.
 - **Menú de tema:** un solo icono en el encabezado abre un menú con Automático, Claro, Oscuro y Negro puro, y el icono refleja el estado. Claro, Oscuro y Negro puro fijan el tema y desactivan el seguimiento del sistema. Debajo, la casilla **Usar negro puro en modo oscuro** hace que el tema oscuro use negro puro, lo mejor para pantallas OLED. La preferencia se recuerda en el navegador.
@@ -62,7 +63,7 @@ El sitio detecta la última entrada que usas y cambia las pistas del visor en co
 | Aceptar | `Enter` | Tocar | `OK` | `A` |
 | Cerrar | `Esc` | Deslizar hacia abajo | `Atrás` | `B` |
 
-En la prueba de cuadrícula de deslizamiento, los gestos no cambian de prueba ni cierran el visor, y tocar no oculta el panel, para poder pintar libremente. Usa el botón Cerrar, `Esc` o `H` en esa prueba.
+En la prueba de cuadrícula de deslizamiento, los gestos no cambian de prueba ni cierran el visor, y un toque simple no oculta el panel (el doble toque sí), para poder pintar libremente. Usa el botón Cerrar, `Esc` o `H` en esa prueba.
 
 En la página principal, los controles remotos y los gamepads se mueven por botones, filtros y miniaturas con las flechas (navegación espacial). En televisores con Tizen, webOS, Android TV, Fire TV y similares, el sitio arranca con las pistas de control remoto. Los gamepads se detectan al pulsar cualquier botón.
 
