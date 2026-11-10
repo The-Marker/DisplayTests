@@ -28,7 +28,7 @@ Avant de publier des modifications, vérifiez au minimum :
 - Thèmes clair, sombre, noir pur et automatique. Avec l'automatique désactivé, le thème fixe reste en place.
 - Un navigateur sans `matchMedia` revient au thème clair.
 - Chaque outil s'ouvre en plein écran, ses contrôles répondent et `Échap` le ferme.
-- Géométrie et calibrage : la boîte est centrée dans le cercle sur téléphone, ordinateur et TV, et affiche la résolution, la densité et l'échelle (avec `H` pour masquer le panneau et pouvoir le lire).
+- Géométrie, mode calibrage : la boîte est centrée dans le cercle sur mobile, ordinateur et TV, et affiche la résolution, la densité et l'échelle (avec `H` pour masquer le panneau et pouvoir le lire).
 - Langues : si le système est dans une langue non prise en charge, le site utilise l'anglais ; le menu affiche l'anglais en premier, puis la langue du système, puis les autres ; le choix est conservé après un rechargement.
 - Les entrées fonctionnent et les indications changent : clavier, tactile (glissement), télécommande de TV (`ChannelUp`, `Info`, `GoBack`, et événements uniquement par code 37–40/13 avec un User Agent de TV), manette (simulable en remplaçant `navigator.getGamepads`).
 - Grille de glissement : faire glisser peint des cases et ne change ni de test ni ne ferme la visionneuse.
@@ -54,7 +54,10 @@ Playwright avec Chromium permet d'automatiser ces vérifications.
 - Luminosité de crête : le mode HDR utilise `color(rec2100-pq 1 1 1)` uniquement si `CSS.supports` l'accepte ; sinon, il affiche un avis et du blanc SDR. Le champ `help` d'un outil (ici `HDR_HELP`) s'affiche dans une section repliable de la visionneuse (`#vhelp`).
 - `colorScale(x,y,w,h,noGray)` dessine les lignes de couleur ; avec `noGray`, la bande de gris est omise. Le test RGB et CMJN possède un sélecteur `Échelle` qui utilise `ramp1` pour n'afficher qu'une seule échelle.
 - Lecture/pause : le bouton se trouve dans la ligne `#vnav`, entre Précédent et Suivant (classe `playbtn`), et non dans le panneau de contrôles. `clickPlay()` le cherche à cet endroit.
-- L'en-tête ne contient pas de navigation par catégories ; les filtres ne se trouvent que dans la barre latérale et sous la grille. Ne les réintroduisez pas.
+- L'en-tête ne contient pas de navigation par catégories ; les filtres forment une rangée de boutons au-dessus de la grille, quelle que soit la taille de l'écran, sans barre latérale. Ne les réintroduisez pas.
+- Démarrage automatique : `AUTO` (`dt-auto` dans `localStorage`) décide si les tests de la catégorie Mouvement démarrent en lecture (`showTool` définit `p.play`). Le débloqueur de pixels est exclu et démarre toujours en pause.
+- Panneau de la visionneuse : `kick()` masque `#vc` après 5 s sans action, sauf dans la grille de glissement. Toute touche ou mouvement de souris le réaffiche.
+- Contrôles conditionnels : un contrôle avec `when:{k,v}` n'apparaît que si `p[k]===v`. Un choix avec `rb:true` reconstruit le panneau lors d'un changement ; c'est ainsi que fonctionnent les modes.
 - Utilitaires partagés pour les motifs : `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` et `newStar`. Réutilisez-les plutôt que de dupliquer le code de dessin.
 - Toutes les entrées (clavier, souris, tactile, télécommande, manette et joystick) passent par le répartiteur `act(action, natif)`, avec les actions `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` et `playpause`. Pour prendre en charge un nouvel appareil, faites-le correspondre à ces actions ; n'ajoutez pas de gestionnaires isolés.
 - `INPUT` garde la dernière entrée détectée (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) et est reflétée dans `data-input` de `<html>`. Les indications de la visionneuse (`hintHtml`) en dépendent. Si vous ajoutez une action, ajoutez son indication pour toutes les entrées.
@@ -70,7 +73,7 @@ Playwright avec Chromium permet d'automatiser ces vérifications.
 - Pas de flashs ni de clignotement automatique. Le mouvement reste modéré et l'avis de photosensibilité doit rester visible.
 - La vitesse du ghosting est limitée à 2–6 s par passage. Ne descendez pas sous 2 s.
 - Le débloqueur de pixels démarre en pause. Chaque case change de couleur au hasard et de façon autonome, avec un intervalle moyen allant de 10 s à 0,1 s (vitesses 1–16) et une variation de ±40 % ; les cases sont reprogrammées lorsque la vitesse change, afin qu'elles ne changent jamais ensemble. Au-delà de 3 changements par seconde (vitesse 13 ou plus), au moins 8 colonnes sont imposées pour que le scintillement ne se concentre pas sur quelques cases, et l'étiquette indique « rapide ». Ne supprimez pas cette limite et n'augmentez pas la vitesse sans en informer le responsable du projet.
-- Le test de smearing démarre en pause et affiche l'avis de photosensibilité.
+- Le test ghosting et smearing (`respuesta`) démarre en pause et affiche l'avis de photosensibilité.
 - Les contrôles de la visionneuse doivent pouvoir être masqués, pour ne pas polluer les tests d'uniformité.
 
 ## Ajouter un outil

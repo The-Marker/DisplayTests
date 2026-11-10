@@ -28,7 +28,7 @@ Antes de subir cambios, revisa como mínimo:
 - Tema claro, oscuro, negro puro y automático. Con el tema automático desactivado, el tema fijo se mantiene.
 - Un navegador sin `matchMedia` cae en tema claro.
 - Cada herramienta abre a pantalla completa, sus controles responden y `Esc` la cierra.
-- Geometría y calibración: el recuadro queda centrado dentro del círculo en móvil, escritorio y TV, y muestra resolución, densidad y escala (con `H` oculto el panel para leerlo).
+- Geometría, modo calibración: el recuadro queda centrado dentro del círculo en móvil, escritorio y TV, y muestra resolución, densidad y escala (con `H` oculto el panel para leerlo).
 - Idiomas: con el sistema en un idioma no compatible, el sitio usa inglés; el menú lista inglés primero, después el idioma del sistema y luego los demás; la elección se mantiene al recargar.
 - Las entradas funcionan y las pistas cambian: teclado, táctil (deslizar), control remoto (`ChannelUp`, `Info`, `GoBack`, y eventos solo con código 37–40/13 con User Agent de TV), gamepad (se puede simular reemplazando `navigator.getGamepads`).
 - Cuadrícula de deslizamiento: arrastrar pinta cuadros y no cambia de prueba ni cierra el visor.
@@ -54,7 +54,10 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Pico de brillo: el modo HDR usa `color(rec2100-pq 1 1 1)` solo si `CSS.supports` lo acepta; si no, muestra un aviso y blanco SDR. El campo `help` de una herramienta (aquí `HDR_HELP`) se muestra en una sección plegable del visor (`#vhelp`).
 - `colorScale(x,y,w,h,noGray)` dibuja las filas de color; con `noGray` omite la banda de grises. La prueba RGB y CMYK tiene un selector `Escala` que usa `ramp1` para mostrar una sola escala.
 - Reproducir/pausar: el botón de pausa vive en la fila `#vnav` entre Anterior y Siguiente (clase `playbtn`), no en el panel de controles. `clickPlay()` lo busca ahí.
-- El encabezado no tiene navegación por categorías; los filtros viven solo en la barra lateral y bajo la cuadrícula. No la repongas.
+- El encabezado no tiene navegación por categorías; los filtros son una fila de botones sobre la cuadrícula en cualquier tamaño, sin barra lateral. No la repongas.
+- Inicio automático: `AUTO` (`dt-auto` en `localStorage`) decide si las pruebas de la categoría Movimiento arrancan reproduciéndose (`showTool` asigna `p.play`). El desatascador de píxeles queda excluido y siempre empieza en pausa.
+- Panel del visor: `kick()` oculta `#vc` tras 5 s sin entrada, salvo en la cuadrícula de deslizamiento. Cualquier tecla o movimiento del ratón lo vuelve a mostrar.
+- Controles condicionales: un control con `when:{k,v}` aparece solo cuando `p[k]===v`. Una opción con `rb:true` reconstruye el panel al cambiar, así funcionan los modos.
 - Helpers compartidos de patrones: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` y `newStar`. Reutilízalos en lugar de duplicar dibujo.
 - Todas las entradas (teclado, ratón, táctil, control remoto, gamepad y joystick) pasan por el despachador `act(accion, nativo)`, con acciones `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` y `playpause`. Para soportar un dispositivo nuevo, tradúcelo a esas acciones; no añadas manejadores sueltos.
 - `INPUT` guarda la última entrada detectada (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) y se refleja en `data-input` de `<html>`. Las pistas del visor (`hintHtml`) dependen de ese valor. Si añades una acción, añade su pista en todas las entradas.
@@ -70,7 +73,7 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Sin destellos ni parpadeo automático. El movimiento es moderado y el aviso de fotosensibilidad debe seguir visible.
 - La velocidad del ghosting se limita a 2–6 s por pasada. No bajes de 2 s.
 - El desatascador de píxeles empieza en pausa. Cada cuadro cambia de color al azar y por su cuenta, con un intervalo medio que va de 10 s a 0,1 s (velocidades 1–16) y variación de ±40 %, y los cuadros se reprograman al mover la velocidad para que nunca cambien juntos. Por encima de 3 cambios por segundo (velocidad 13 o más) se fuerzan al menos 8 columnas, para que el parpadeo no se concentre en pocos cuadros, y la etiqueta marca "rápido". No quites ese límite ni subas la velocidad sin avisar al dueño del proyecto.
-- La prueba de smearing empieza en pausa y muestra el aviso de fotosensibilidad.
+- La prueba de ghosting y smearing (`respuesta`) empieza en pausa y muestra el aviso de fotosensibilidad.
 - Los controles del visor deben poder ocultarse, para no contaminar las pruebas de uniformidad.
 
 ## Añadir una herramienta

@@ -28,7 +28,7 @@ Antes de enviar alterações, verifique pelo menos:
 - Tema claro, escuro, preto puro e automático. Com o automático desativado, o tema fixo se mantém.
 - Um navegador sem `matchMedia` usa o tema claro.
 - Cada ferramenta abre em tela cheia, seus controles respondem e `Esc` fecha.
-- Geometria e calibração: a caixa fica centralizada dentro do círculo em celular, computador e TV, e mostra resolução, densidade e escala (com `H` ocultando o painel para leitura).
+- Geometria, modo calibração: a caixa fica centralizada dentro do círculo em celular, computador e TV, e mostra resolução, densidade e escala (com `H` ocultando o painel para leitura).
 - Idiomas: com o sistema em um idioma não compatível, o site usa inglês; o menu lista inglês primeiro, depois o idioma do sistema e depois os demais; a escolha se mantém ao recarregar.
 - As entradas funcionam e as dicas mudam: teclado, toque (deslizar), controle remoto de TV (`ChannelUp`, `Info`, `GoBack`, e eventos somente com código 37–40/13 com User Agent de TV), gamepad (pode ser simulado substituindo `navigator.getGamepads`).
 - Grade de deslizamento: arrastar pinta quadrados e não troca de teste nem fecha o visor.
@@ -54,7 +54,10 @@ O Playwright com Chromium ajuda a automatizar essas verificações.
 - Brilho de pico: o modo HDR usa `color(rec2100-pq 1 1 1)` somente se `CSS.supports` aceitar; caso contrário, mostra um aviso e branco SDR. O campo `help` de uma ferramenta (aqui `HDR_HELP`) aparece em uma seção recolhível do visor (`#vhelp`).
 - `colorScale(x,y,w,h,noGray)` desenha as linhas de cor; com `noGray` omite a faixa de cinzas. O teste RGB e CMYK tem um seletor `Escala` que usa `ramp1` para mostrar uma única escala.
 - Pausar/iniciar: o botão fica na linha `#vnav`, entre Anterior e Próximo (classe `playbtn`), e não no painel de controles. `clickPlay()` o procura ali.
-- O cabeçalho não tem navegação por categorias; os filtros ficam somente na barra lateral e abaixo da grade. Não os coloque de volta.
+- O cabeçalho não tem navegação por categorias; os filtros são uma linha de botões acima da grade em qualquer tamanho, sem barra lateral. Não os coloque de volta.
+- Início automático: `AUTO` (`dt-auto` em `localStorage`) decide se os testes da categoria Movimento começam reproduzindo (`showTool` define `p.play`). O desentupidor de pixels fica de fora e sempre começa pausado.
+- Painel do visor: `kick()` oculta `#vc` após 5 s sem entrada, exceto na grade de deslizamento. Qualquer tecla ou movimento do mouse o mostra de novo.
+- Controles condicionais: um controle com `when:{k,v}` aparece só quando `p[k]===v`. Uma opção com `rb:true` reconstrói o painel ao mudar; é assim que funcionam os modos.
 - Helpers compartilhados de padrões: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` e `newStar`. Reutilize-os em vez de duplicar o desenho.
 - Todas as entradas (teclado, mouse, toque, controle remoto, gamepad e joystick) passam pelo despachante `act(ação, nativo)`, com as ações `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` e `playpause`. Para suportar um dispositivo novo, mapeie-o para essas ações; não adicione manipuladores soltos.
 - `INPUT` guarda a última entrada detectada (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) e é refletida em `data-input` no `<html>`. As dicas do visor (`hintHtml`) dependem desse valor. Se adicionar uma ação, adicione a dica para todas as entradas.
@@ -70,7 +73,7 @@ O Playwright com Chromium ajuda a automatizar essas verificações.
 - Sem flashes nem piscar automático. O movimento é moderado e o aviso de fotossensibilidade deve continuar visível.
 - A velocidade do ghosting fica limitada a 2–6 s por passagem. Não desça abaixo de 2 s.
 - O desentupidor de pixels começa pausado. Cada quadrado muda de cor ao acaso e por conta própria, com intervalo médio de 10 s a 0,1 s (velocidades 1–16) e variação de ±40 %; os quadrados são reprogramados ao mudar a velocidade para nunca mudarem juntos. Acima de 3 mudanças por segundo (velocidade 13 ou mais) são forçadas pelo menos 8 colunas, para que o piscar não se concentre em poucos quadrados, e o rótulo marca "rápido". Não remova esse limite nem aumente a velocidade sem avisar o dono do projeto.
-- O teste de smearing começa pausado e mostra o aviso de fotossensibilidade.
+- O teste de ghosting e smearing (`respuesta`) começa pausado e mostra o aviso de fotossensibilidade.
 - Os controles do visor devem poder ser ocultados, para não contaminar os testes de uniformidade.
 
 ## Adicionar uma ferramenta

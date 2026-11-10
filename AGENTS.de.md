@@ -28,7 +28,7 @@ Prüfe vor dem Veröffentlichen von Änderungen mindestens Folgendes:
 - Helles, dunkles, reines Schwarz und automatisches Design. Bei ausgeschalteter Automatik bleibt das feste Design erhalten.
 - Ein Browser ohne `matchMedia` fällt auf das helle Design zurück.
 - Jeder Test öffnet sich im Vollbild, seine Bedienelemente reagieren und `Esc` schließt ihn.
-- Geometrie und Kalibrierung: Das Feld ist auf Smartphone, Computer und Fernseher innerhalb des Kreises zentriert und zeigt Auflösung, Pixeldichte und Maßstab (mit `H` wird das Panel ausgeblendet, damit man es lesen kann).
+- Geometrie, Kalibrierungsmodus: Das Feld ist auf Smartphone, Computer und Fernseher innerhalb des Kreises zentriert und zeigt Auflösung, Pixeldichte und Maßstab (mit `H` wird das Panel ausgeblendet, damit man es lesen kann).
 - Sprachen: Ist das System in einer nicht unterstützten Sprache, verwendet die Website Englisch; das Menü listet zuerst Englisch, dann die Systemsprache und danach die übrigen auf; die Auswahl bleibt nach dem Neuladen erhalten.
 - Eingaben funktionieren und die Hinweise wechseln: Tastatur, Touch (Wischen), TV-Fernbedienung (`ChannelUp`, `Info`, `GoBack` sowie Ereignisse nur mit Code 37–40/13 bei einem TV-User-Agent), Gamepad (simulierbar, indem `navigator.getGamepads` ersetzt wird).
 - Wischraster: Ziehen malt Felder aus und wechselt weder den Test noch schließt es die Ansicht.
@@ -54,7 +54,10 @@ Playwright mit Chromium eignet sich, um diese Prüfungen zu automatisieren.
 - Spitzenhelligkeit: Der HDR-Modus verwendet `color(rec2100-pq 1 1 1)` nur, wenn `CSS.supports` das akzeptiert; andernfalls erscheint ein Hinweis und SDR-Weiß. Das Feld `help` eines Tests (hier `HDR_HELP`) wird in einem einklappbaren Bereich der Ansicht (`#vhelp`) angezeigt.
 - `colorScale(x,y,w,h,noGray)` zeichnet die Farbreihen; mit `noGray` wird das Graustufenband weggelassen. Der RGB- und CMYK-Test hat eine Auswahl `Skala`, die über `ramp1` nur eine einzelne Skala anzeigt.
 - Abspielen/Pausieren: Die Schaltfläche liegt in der Zeile `#vnav` zwischen Zurück und Weiter (Klasse `playbtn`), nicht im Bedienfeld. `clickPlay()` sucht sie dort.
-- Die Kopfzeile hat keine Navigation nach Kategorien; Filter gibt es nur in der Seitenleiste und unter dem Raster. Bitte nicht wieder hinzufügen.
+- Die Kopfzeile hat keine Navigation nach Kategorien; die Filter sind auf jeder Bildschirmgröße eine Reihe von Schaltflächen über dem Raster, ohne Seitenleiste. Bitte nicht wieder hinzufügen.
+- Automatischer Start: `AUTO` (`dt-auto` in `localStorage`) entscheidet, ob Tests der Kategorie Bewegung abspielend starten (`showTool` setzt `p.play`). Der Pixel-Entstopper ist ausgenommen und startet immer pausiert.
+- Panel der Ansicht: `kick()` blendet `#vc` nach 5 s ohne Eingabe aus, außer im Wischraster. Jede Taste oder Mausbewegung blendet es wieder ein.
+- Bedingte Bedienelemente: Ein Element mit `when:{k,v}` erscheint nur, wenn `p[k]===v`. Eine Auswahl mit `rb:true` baut das Panel beim Wechsel neu auf; so funktionieren die Modi.
 - Gemeinsame Hilfsfunktionen für Muster: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` und `newStar`. Verwende sie wieder, statt Zeichencode zu duplizieren.
 - Alle Eingaben (Tastatur, Maus, Touch, Fernbedienung, Gamepad und Joystick) laufen über den Verteiler `act(aktion, nativ)` mit den Aktionen `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` und `playpause`. Um ein neues Gerät zu unterstützen, ordne es diesen Aktionen zu; keine losen Handler hinzufügen.
 - `INPUT` speichert die zuletzt erkannte Eingabe (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) und wird in `data-input` auf `<html>` gespiegelt. Die Hinweise der Ansicht (`hintHtml`) hängen davon ab. Wenn du eine Aktion hinzufügst, ergänze ihren Hinweis für alle Eingaben.
@@ -70,7 +73,7 @@ Playwright mit Chromium eignet sich, um diese Prüfungen zu automatisieren.
 - Keine Lichtblitze und kein automatisches Flackern. Bewegung bleibt moderat, und der Hinweis zur Photosensitivität muss sichtbar bleiben.
 - Die Geschwindigkeit beim Ghosting ist auf 2–6 s pro Durchgang begrenzt. Nicht unter 2 s gehen.
 - Der Pixel-Entsperrer startet pausiert. Jedes Feld wechselt zufällig und eigenständig seine Farbe, mit einem mittleren Intervall von 10 s bis 0,1 s (Geschwindigkeit 1–16) und ±40 % Abweichung; die Felder werden neu geplant, wenn sich die Geschwindigkeit ändert, damit sie nie gemeinsam wechseln. Ab 3 Wechseln pro Sekunde (Geschwindigkeit 13 oder mehr) werden mindestens 8 Spalten erzwungen, damit das Flackern sich nicht auf wenige Felder konzentriert, und die Beschriftung zeigt „schnell“. Entferne diese Grenze nicht und erhöhe die Geschwindigkeit nicht, ohne den Projektverantwortlichen zu informieren.
-- Der Smearing-Test (VA) startet pausiert und zeigt den Hinweis zur Photosensitivität.
+- Der Ghosting- und Smearing-Test (`respuesta`) startet pausiert und zeigt den Hinweis zur Photosensitivität.
 - Die Bedienelemente der Ansicht müssen sich ausblenden lassen, damit Gleichmäßigkeitstests nicht verfälscht werden.
 
 ## Einen Test hinzufügen

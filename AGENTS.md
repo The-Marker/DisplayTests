@@ -28,7 +28,7 @@ Before pushing changes, check at least:
 - Light, dark, pure black and automatic themes. With automatic off, the fixed theme stays.
 - A browser without `matchMedia` falls back to the light theme.
 - Each tool opens full screen, its controls respond and `Esc` closes it.
-- Geometry and calibration: the box is centered inside the circle on phone, desktop and TV, and shows resolution, density and scale (with `H` hiding the panel so you can read it).
+- Geometry, calibration mode: the box is centered inside the circle on phone, desktop and TV, and shows resolution, density and scale (with `H` hiding the panel so you can read it).
 - Languages: with the system in an unsupported language the site uses English; the menu lists English first, then the system language, then the rest; the choice persists after a reload.
 - Inputs work and hints change: keyboard, touch (swipe), TV remote (`ChannelUp`, `Info`, `GoBack`, and keyCode-only events 37–40/13 with a TV user agent), gamepad (simulate by replacing `navigator.getGamepads`).
 - Swipe grid: dragging paints squares and does not change test or close the viewer.
@@ -54,7 +54,10 @@ Playwright with Chromium is useful to automate these checks.
 - Peak brightness: HDR mode uses `color(rec2100-pq 1 1 1)` only if `CSS.supports` accepts it; otherwise it shows a notice and SDR white. A tool's `help` field (here `HDR_HELP`) is shown in a collapsible section in the viewer (`#vhelp`).
 - `colorScale(x,y,w,h,noGray)` draws the color rows; with `noGray` it omits the gray band. The RGB and CMYK test has a `Scale` selector that uses `ramp1` to show one scale.
 - Play/pause: the play button lives in the `#vnav` row between Previous and Next (class `playbtn`), not in the controls panel. `clickPlay()` finds it there.
-- The header has no category navigation; filters live only in the sidebar and under the grid. Do not add it back.
+- The header has no category navigation; the filters are a row of buttons above the grid on every screen size, with no sidebar. Do not add it back.
+- Auto-start: `AUTO` (`dt-auto` in `localStorage`) decides whether tests in the Motion category start playing (`showTool` sets `p.play`). The pixel unsticker is excluded and always starts paused.
+- Viewer panel: `kick()` hides `#vc` after 5 s without input, except in the swipe grid. Any key or mouse movement shows it again.
+- Conditional controls: a control with `when:{k,v}` appears only when `p[k]===v`. A choice with `rb:true` rebuilds the panel when it changes, which is how modes work.
 - Shared pattern helpers: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` and `newStar`. Reuse them instead of duplicating drawing code.
 - All inputs (keyboard, mouse, touch, TV remote, gamepad and joystick) go through the dispatcher `act(action, native)`, with actions `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` and `playpause`. To support a new device, map it to those actions; do not add loose handlers.
 - `INPUT` stores the last detected input (`keyboard`, `mouse`, `touch`, `remote`, `gamepad`) and is reflected in `data-input` on `<html>`. The viewer hints (`hintHtml`) depend on it. If you add an action, add its hint for every input.
@@ -70,7 +73,7 @@ Playwright with Chromium is useful to automate these checks.
 - No flashes or automatic flicker. Motion stays moderate and the photosensitivity notice must stay visible.
 - Ghosting speed is limited to 2–6 s per pass. Do not go below 2 s.
 - The pixel unsticker starts paused. Each square changes color at random and on its own, with an average interval from 10 s to 0.1 s (speeds 1–16) and ±40 % variation; squares are rescheduled when the speed changes so they never change together. Above 3 changes per second (speed 13 or more) it forces at least 8 columns so flicker is not concentrated in a few squares, and the label says "fast". Do not remove that limit or raise the speed without telling the project owner.
-- The smearing test starts paused and shows the photosensitivity notice.
+- The ghosting and smearing test (`respuesta`) starts paused and shows the photosensitivity notice.
 - Viewer controls must be hideable, so they do not contaminate uniformity tests.
 
 ## Adding a tool
