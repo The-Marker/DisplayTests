@@ -55,7 +55,7 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - `colorScale(x,y,w,h,noGray)` dibuja las filas de color; con `noGray` omite la banda de grises. La prueba RGB y CMYK tiene un selector `Escala` que usa `ramp1` para mostrar una sola escala.
 - Reproducir/pausar: el botón de pausa vive en la fila `#vnav` entre Anterior y Siguiente (clase `playbtn`), no en el panel de controles. `clickPlay()` lo busca ahí.
 - El encabezado no tiene navegación por categorías; los filtros son una fila de botones sobre la cuadrícula en cualquier tamaño, sin barra lateral. No la repongas.
-- Inicio automático: `AUTO` (`dt-auto` en `localStorage`) decide si las pruebas de la categoría Movimiento arrancan reproduciéndose (`showTool` asigna `p.play`). El desatascador de píxeles queda excluido y siempre empieza en pausa.
+- Inicio automático: `AUTO` (`dt-auto` en `localStorage`) decide si las pruebas con control `play` arrancan reproduciéndose (`showTool` asigna `p.play`). El desatascador de píxeles está incluido. El modo Ghosting de `respuesta` siempre se mueve, como antes de la fusión; los demás modos siguen a `AUTO`.
 - Panel del visor: `kick()` oculta `#vc` tras 5 s sin entrada, salvo en la cuadrícula de deslizamiento. Cualquier tecla o movimiento del ratón lo vuelve a mostrar.
 - Controles condicionales: un control con `when:{k,v}` aparece solo cuando `p[k]===v`. Una opción con `rb:true` reconstruye el panel al cambiar, así funcionan los modos.
 - Helpers compartidos de patrones: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` y `newStar`. Reutilízalos en lugar de duplicar dibujo.
@@ -72,8 +72,10 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 
 - Sin destellos ni parpadeo automático. El movimiento es moderado y el aviso de fotosensibilidad debe seguir visible.
 - La velocidad del ghosting se limita a 2–6 s por pasada. No bajes de 2 s.
-- El desatascador de píxeles empieza en pausa. Cada cuadro cambia de color al azar y por su cuenta, con un intervalo medio que va de 10 s a 0,1 s (velocidades 1–16) y variación de ±40 %, y los cuadros se reprograman al mover la velocidad para que nunca cambien juntos. Por encima de 3 cambios por segundo (velocidad 13 o más) se fuerzan al menos 8 columnas, para que el parpadeo no se concentre en pocos cuadros, y la etiqueta marca "rápido". No quites ese límite ni subas la velocidad sin avisar al dueño del proyecto.
-- La prueba de ghosting y smearing (`respuesta`) empieza en pausa y muestra el aviso de fotosensibilidad.
+- El desatascador de píxeles empieza en pausa salvo que el inicio automático esté activado. Cada cuadro cambia de color al azar y por su cuenta, con un intervalo medio que va de 10 s a 0,1 s (velocidades 1–16) y variación de ±40 %, y los cuadros se reprograman al mover la velocidad para que nunca cambien juntos. Por encima de 3 cambios por segundo (velocidad 13 o más) se fuerzan al menos 8 columnas, para que el parpadeo no se concentre en pocos cuadros, y la etiqueta marca "rápido". No quites ese límite ni subas la velocidad sin avisar al dueño del proyecto.
+- La prueba de ghosting y smearing (`respuesta`) siempre se mueve en el modo Ghosting (`m` = 0). El modo Smearing empieza en pausa salvo que el inicio automático esté activado. Ambos muestran el aviso de fotosensibilidad.
+- Las miniaturas se dibujan con los parámetros por defecto (`thumbOf` usa `t.p0`), así que ajustar una prueba nunca cambia su miniatura. No las redibujes con los valores actuales.
+- El encabezado, el aviso de fotosensibilidad y los filtros forman un solo bloque `.sticky` arriba de la página principal. La guía y la cuadrícula se desplazan debajo.
 - Los controles del visor deben poder ocultarse, para no contaminar las pruebas de uniformidad.
 
 ## Añadir una herramienta

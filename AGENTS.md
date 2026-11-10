@@ -55,7 +55,7 @@ Playwright with Chromium is useful to automate these checks.
 - `colorScale(x,y,w,h,noGray)` draws the color rows; with `noGray` it omits the gray band. The RGB and CMYK test has a `Scale` selector that uses `ramp1` to show one scale.
 - Play/pause: the play button lives in the `#vnav` row between Previous and Next (class `playbtn`), not in the controls panel. `clickPlay()` finds it there.
 - The header has no category navigation; the filters are a row of buttons above the grid on every screen size, with no sidebar. Do not add it back.
-- Auto-start: `AUTO` (`dt-auto` in `localStorage`) decides whether tests in the Motion category start playing (`showTool` sets `p.play`). The pixel unsticker is excluded and always starts paused.
+- Auto-start: `AUTO` (`dt-auto` in `localStorage`) decides whether tests with a `play` control start playing (`showTool` sets `p.play`). The pixel unsticker is included. Ghosting mode of `respuesta` always moves, as before the merge; the other modes follow `AUTO`.
 - Viewer panel: `kick()` hides `#vc` after 5 s without input, except in the swipe grid. Any key or mouse movement shows it again.
 - Conditional controls: a control with `when:{k,v}` appears only when `p[k]===v`. A choice with `rb:true` rebuilds the panel when it changes, which is how modes work.
 - Shared pattern helpers: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` and `newStar`. Reuse them instead of duplicating drawing code.
@@ -72,8 +72,10 @@ Playwright with Chromium is useful to automate these checks.
 
 - No flashes or automatic flicker. Motion stays moderate and the photosensitivity notice must stay visible.
 - Ghosting speed is limited to 2–6 s per pass. Do not go below 2 s.
-- The pixel unsticker starts paused. Each square changes color at random and on its own, with an average interval from 10 s to 0.1 s (speeds 1–16) and ±40 % variation; squares are rescheduled when the speed changes so they never change together. Above 3 changes per second (speed 13 or more) it forces at least 8 columns so flicker is not concentrated in a few squares, and the label says "fast". Do not remove that limit or raise the speed without telling the project owner.
-- The ghosting and smearing test (`respuesta`) starts paused and shows the photosensitivity notice.
+- The pixel unsticker starts paused unless auto-start is on. Each square changes color at random and on its own, with an average interval from 10 s to 0.1 s (speeds 1–16) and ±40 % variation; squares are rescheduled when the speed changes so they never change together. Above 3 changes per second (speed 13 or more) it forces at least 8 columns so flicker is not concentrated in a few squares, and the label says "fast". Do not remove that limit or raise the speed without telling the project owner.
+- The ghosting and smearing test (`respuesta`) always moves in Ghosting mode (`m` = 0). Smearing mode starts paused unless auto-start is on. Both show the photosensitivity notice.
+- Thumbnails are drawn with the default parameters (`thumbOf` uses `t.p0`), so adjusting a test never changes its tile. Do not redraw thumbnails from current values.
+- The header, the photosensitivity notice and the filters are one `.sticky` block at the top of the home page. The guide and the grid scroll below it.
 - Viewer controls must be hideable, so they do not contaminate uniformity tests.
 
 ## Adding a tool

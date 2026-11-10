@@ -39,7 +39,7 @@ Pour mesurer, réglez la luminosité de l'écran, utilisez le plein écran et, p
 
 **Site**
 
-- **Adaptatif :** 2 colonnes sur mobile, 3 sur tablette, 4 sur ordinateur et 5 sur TV avec un texte plus grand. Les filtres forment une rangée de boutons quelle que soit la taille de l'écran, comme sur mobile.
+- **Adaptatif :** 2 colonnes sur mobile, 3 sur tablette, 4 sur ordinateur et 5 sur TV avec un texte plus grand. Les filtres forment une rangée de boutons quelle que soit la taille de l'écran, comme sur mobile. L'en-tête, l'avis de photosensibilité et les filtres restent en haut en faisant défiler la page.
 - **Visionneuse plein écran :** chaque test s'adapte au format réel de l'écran. Les contrôles se masquent avec `H` ou en touchant l'écran, et disparaissent aussi seuls après 5 secondes sans action, pour ne pas polluer les tests d'uniformité.
 - **Plusieurs entrées :** clavier, souris, écrans tactiles, télécommandes de TV, manettes et joysticks. Les indications de commande de la visionneuse s'adaptent à l'entrée détectée, et les touches s'affichent dans une case pour bien ressortir. Voir la section Commandes.
 - **Thème automatique :** suit le mode clair ou sombre du système sur Android, iPhone, Windows, macOS et Linux. Avec le système en sombre, il utilise le thème sombre gris, ou le noir pur si vous cochez l'option du menu de thème. Si l'appareil ne le signale pas, il utilise le thème clair.

@@ -39,7 +39,7 @@ Para medir, ajuste o brilho da tela, use tela cheia e, nos testes de preto, um q
 
 **Site**
 
-- **Responsivo:** 2 colunas no celular, 3 em tablets, 4 no computador e 5 em TVs com texto maior. Os filtros são uma linha de botões em qualquer tamanho, como no celular.
+- **Responsivo:** 2 colunas no celular, 3 em tablets, 4 no computador e 5 em TVs com texto maior. Os filtros são uma linha de botões em qualquer tamanho, como no celular. O cabeçalho, o aviso de fotossensibilidade e os filtros ficam no topo ao rolar.
 - **Visor em tela cheia:** cada teste se adapta à proporção real da tela. Os controles são ocultados com `H` ou tocando na tela, e também somem sozinhos após 5 segundos sem uso, para não contaminar os testes de uniformidade.
 - **Várias entradas:** teclado, mouse, telas sensíveis ao toque, controles remotos de TV, gamepads e joysticks. As dicas de controle do visor se adaptam à entrada detectada, e as teclas aparecem dentro de uma caixa para se destacar. Veja a seção Controles.
 - **Tema automático:** segue o modo claro ou escuro do sistema no Android, iPhone, Windows, macOS e Linux. Com o sistema no escuro, usa o tema escuro cinza, ou preto puro se você marcar a opção no menu de tema. Se o dispositivo não informar, usa o tema claro.

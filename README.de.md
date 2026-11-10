@@ -39,7 +39,7 @@ Stellen Sie zum Messen die Helligkeit des Bildschirms ein, verwenden Sie Vollbil
 
 **Website**
 
-- **Responsiv:** 2 Spalten auf dem Handy, 3 auf Tablets, 4 auf dem Computer und 5 auf Fernsehern mit größerer Schrift. Die Filter sind auf jeder Bildschirmgröße eine Reihe von Schaltflächen, wie auf dem Handy.
+- **Responsiv:** 2 Spalten auf dem Handy, 3 auf Tablets, 4 auf dem Computer und 5 auf Fernsehern mit größerer Schrift. Die Filter sind auf jeder Bildschirmgröße eine Reihe von Schaltflächen, wie auf dem Handy. Kopfzeile, Hinweis zur Photosensitivität und Filter bleiben beim Scrollen oben.
 - **Vollbild-Ansicht:** Jeder Test passt sich dem tatsächlichen Seitenverhältnis des Bildschirms an. Die Bedienelemente werden mit `H` oder durch Tippen auf den Bildschirm ausgeblendet und verschwinden außerdem nach 5 Sekunden ohne Eingabe von selbst, damit Gleichmäßigkeitstests nicht verfälscht werden.
 - **Mehrere Eingaben:** Tastatur, Maus, Touchscreens, Fernbedienungen, Gamepads und Joysticks. Die Bedienhinweise in der Ansicht passen sich der erkannten Eingabe an, und Tasten werden in einem Kasten angezeigt, damit sie auffallen. Siehe Abschnitt Bedienung.
 - **Automatisches Design:** folgt dem hellen oder dunklen Modus des Systems auf Android, iPhone, Windows, macOS und Linux. Ist das System dunkel, wird das graue dunkle Design verwendet, oder reines Schwarz, wenn du die Option im Designmenü aktivierst. Meldet das Gerät nichts, wird das helle Design verwendet.

@@ -55,7 +55,7 @@ Playwright avec Chromium permet d'automatiser ces vérifications.
 - `colorScale(x,y,w,h,noGray)` dessine les lignes de couleur ; avec `noGray`, la bande de gris est omise. Le test RGB et CMJN possède un sélecteur `Échelle` qui utilise `ramp1` pour n'afficher qu'une seule échelle.
 - Lecture/pause : le bouton se trouve dans la ligne `#vnav`, entre Précédent et Suivant (classe `playbtn`), et non dans le panneau de contrôles. `clickPlay()` le cherche à cet endroit.
 - L'en-tête ne contient pas de navigation par catégories ; les filtres forment une rangée de boutons au-dessus de la grille, quelle que soit la taille de l'écran, sans barre latérale. Ne les réintroduisez pas.
-- Démarrage automatique : `AUTO` (`dt-auto` dans `localStorage`) décide si les tests de la catégorie Mouvement démarrent en lecture (`showTool` définit `p.play`). Le débloqueur de pixels est exclu et démarre toujours en pause.
+- Démarrage automatique : `AUTO` (`dt-auto` dans `localStorage`) décide si les tests avec un contrôle `play` démarrent en lecture (`showTool` définit `p.play`). Le débloqueur de pixels est inclus. Le mode Ghosting de `respuesta` bouge toujours, comme avant la fusion ; les autres modes suivent `AUTO`.
 - Panneau de la visionneuse : `kick()` masque `#vc` après 5 s sans action, sauf dans la grille de glissement. Toute touche ou mouvement de souris le réaffiche.
 - Contrôles conditionnels : un contrôle avec `when:{k,v}` n'apparaît que si `p[k]===v`. Un choix avec `rb:true` reconstruit le panneau lors d'un changement ; c'est ainsi que fonctionnent les modes.
 - Utilitaires partagés pour les motifs : `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` et `newStar`. Réutilisez-les plutôt que de dupliquer le code de dessin.
@@ -72,8 +72,10 @@ Playwright avec Chromium permet d'automatiser ces vérifications.
 
 - Pas de flashs ni de clignotement automatique. Le mouvement reste modéré et l'avis de photosensibilité doit rester visible.
 - La vitesse du ghosting est limitée à 2–6 s par passage. Ne descendez pas sous 2 s.
-- Le débloqueur de pixels démarre en pause. Chaque case change de couleur au hasard et de façon autonome, avec un intervalle moyen allant de 10 s à 0,1 s (vitesses 1–16) et une variation de ±40 % ; les cases sont reprogrammées lorsque la vitesse change, afin qu'elles ne changent jamais ensemble. Au-delà de 3 changements par seconde (vitesse 13 ou plus), au moins 8 colonnes sont imposées pour que le scintillement ne se concentre pas sur quelques cases, et l'étiquette indique « rapide ». Ne supprimez pas cette limite et n'augmentez pas la vitesse sans en informer le responsable du projet.
-- Le test ghosting et smearing (`respuesta`) démarre en pause et affiche l'avis de photosensibilité.
+- Le débloqueur de pixels démarre en pause, sauf si le démarrage automatique est activé. Chaque case change de couleur au hasard et de façon autonome, avec un intervalle moyen allant de 10 s à 0,1 s (vitesses 1–16) et une variation de ±40 % ; les cases sont reprogrammées lorsque la vitesse change, afin qu'elles ne changent jamais ensemble. Au-delà de 3 changements par seconde (vitesse 13 ou plus), au moins 8 colonnes sont imposées pour que le scintillement ne se concentre pas sur quelques cases, et l'étiquette indique « rapide ». Ne supprimez pas cette limite et n'augmentez pas la vitesse sans en informer le responsable du projet.
+- Le test ghosting et smearing (`respuesta`) bouge toujours en mode Ghosting (`m` = 0). Le mode Smearing démarre en pause, sauf si le démarrage automatique est activé. Les deux affichent l'avis de photosensibilité.
+- Les vignettes sont dessinées avec les paramètres par défaut (`thumbOf` utilise `t.p0`), donc ajuster un test ne change jamais sa vignette. Ne les redessine pas avec les valeurs actuelles.
+- L'en-tête, l'avis de photosensibilité et les filtres forment un seul bloc `.sticky` en haut de la page d'accueil. Le guide et la grille défilent en dessous.
 - Les contrôles de la visionneuse doivent pouvoir être masqués, pour ne pas polluer les tests d'uniformité.
 
 ## Ajouter un outil

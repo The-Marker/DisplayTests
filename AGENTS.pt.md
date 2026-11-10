@@ -55,7 +55,7 @@ O Playwright com Chromium ajuda a automatizar essas verificações.
 - `colorScale(x,y,w,h,noGray)` desenha as linhas de cor; com `noGray` omite a faixa de cinzas. O teste RGB e CMYK tem um seletor `Escala` que usa `ramp1` para mostrar uma única escala.
 - Pausar/iniciar: o botão fica na linha `#vnav`, entre Anterior e Próximo (classe `playbtn`), e não no painel de controles. `clickPlay()` o procura ali.
 - O cabeçalho não tem navegação por categorias; os filtros são uma linha de botões acima da grade em qualquer tamanho, sem barra lateral. Não os coloque de volta.
-- Início automático: `AUTO` (`dt-auto` em `localStorage`) decide se os testes da categoria Movimento começam reproduzindo (`showTool` define `p.play`). O desentupidor de pixels fica de fora e sempre começa pausado.
+- Início automático: `AUTO` (`dt-auto` em `localStorage`) decide se os testes com controle `play` começam reproduzindo (`showTool` define `p.play`). O desentupidor de pixels está incluído. O modo Ghosting de `respuesta` sempre se move, como antes da fusão; os demais modos seguem `AUTO`.
 - Painel do visor: `kick()` oculta `#vc` após 5 s sem entrada, exceto na grade de deslizamento. Qualquer tecla ou movimento do mouse o mostra de novo.
 - Controles condicionais: um controle com `when:{k,v}` aparece só quando `p[k]===v`. Uma opção com `rb:true` reconstrói o painel ao mudar; é assim que funcionam os modos.
 - Helpers compartilhados de padrões: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` e `newStar`. Reutilize-os em vez de duplicar o desenho.
@@ -72,8 +72,10 @@ O Playwright com Chromium ajuda a automatizar essas verificações.
 
 - Sem flashes nem piscar automático. O movimento é moderado e o aviso de fotossensibilidade deve continuar visível.
 - A velocidade do ghosting fica limitada a 2–6 s por passagem. Não desça abaixo de 2 s.
-- O desentupidor de pixels começa pausado. Cada quadrado muda de cor ao acaso e por conta própria, com intervalo médio de 10 s a 0,1 s (velocidades 1–16) e variação de ±40 %; os quadrados são reprogramados ao mudar a velocidade para nunca mudarem juntos. Acima de 3 mudanças por segundo (velocidade 13 ou mais) são forçadas pelo menos 8 colunas, para que o piscar não se concentre em poucos quadrados, e o rótulo marca "rápido". Não remova esse limite nem aumente a velocidade sem avisar o dono do projeto.
-- O teste de ghosting e smearing (`respuesta`) começa pausado e mostra o aviso de fotossensibilidade.
+- O desentupidor de pixels começa pausado, salvo se o início automático estiver ativado. Cada quadrado muda de cor ao acaso e por conta própria, com intervalo médio de 10 s a 0,1 s (velocidades 1–16) e variação de ±40 %; os quadrados são reprogramados ao mudar a velocidade para nunca mudarem juntos. Acima de 3 mudanças por segundo (velocidade 13 ou mais) são forçadas pelo menos 8 colunas, para que o piscar não se concentre em poucos quadrados, e o rótulo marca "rápido". Não remova esse limite nem aumente a velocidade sem avisar o dono do projeto.
+- O teste de ghosting e smearing (`respuesta`) sempre se move no modo Ghosting (`m` = 0). O modo Smearing começa pausado, salvo se o início automático estiver ativado. Ambos mostram o aviso de fotossensibilidade.
+- As miniaturas são desenhadas com os parâmetros padrão (`thumbOf` usa `t.p0`), então ajustar um teste nunca muda sua miniatura. Não as redesenhe com os valores atuais.
+- O cabeçalho, o aviso de fotossensibilidade e os filtros formam um único bloco `.sticky` no topo da página inicial. O guia e a grade rolam abaixo dele.
 - Os controles do visor devem poder ser ocultados, para não contaminar os testes de uniformidade.
 
 ## Adicionar uma ferramenta

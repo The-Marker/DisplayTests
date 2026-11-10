@@ -39,7 +39,7 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 
 **Sitio**
 
-- **Responsivo:** 2 columnas en móvil, 3 en tabletas, 4 en escritorio y 5 en televisores con texto más grande. Los filtros son una fila de botones en cualquier tamaño, como en móvil.
+- **Responsivo:** 2 columnas en móvil, 3 en tabletas, 4 en escritorio y 5 en televisores con texto más grande. Los filtros son una fila de botones en cualquier tamaño, como en móvil. El encabezado, el aviso de fotosensibilidad y los filtros se quedan arriba al desplazarte.
 - **Visor a pantalla completa:** cada prueba se adapta a la proporción real de la pantalla. Los controles se ocultan con `H` o tocando la pantalla, y también solos tras 5 segundos sin uso, para no contaminar las pruebas de uniformidad.
 - **Varias entradas:** teclado, ratón, pantallas táctiles, controles remotos de televisión, gamepads y joysticks. Las pistas de controles del visor se adaptan a la entrada que detecta el sitio, y las teclas se muestran dentro de una caja para que resalten. Consulta la sección Controles.
 - **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Con el sistema en oscuro usa el tema oscuro gris, o negro puro si marcas la opción del menú de tema. Si el dispositivo no lo informa, usa el tema claro.

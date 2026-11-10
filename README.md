@@ -39,7 +39,7 @@ To measure, set the screen brightness, use full screen and, for black tests, a d
 
 **Site**
 
-- **Responsive:** 2 columns on phones, 3 on tablets, 4 on desktops, and 5 on TVs with larger text. Filters are a row of buttons on every screen size, as on phones.
+- **Responsive:** 2 columns on phones, 3 on tablets, 4 on desktops, and 5 on TVs with larger text. Filters are a row of buttons on every screen size, as on phones. The header, the photosensitivity notice and the filters stay at the top while you scroll.
 - **Full-screen viewer:** each test adapts to the screen's real aspect ratio. The controls are hidden with `H` or by tapping the screen, and they hide on their own after 5 seconds without input, so they do not contaminate uniformity tests.
 - **Several inputs:** keyboard, mouse, touch screens, television remotes, gamepads and joysticks. The control hints in the viewer adapt to the input the site detects, and keys are shown inside a box so they stand out. See the Controls section.
 - **Automatic theme:** follows the system's light or dark mode on Android, iPhone, Windows, macOS and Linux. With the system in dark mode it uses the gray dark theme, or pure black if you tick the option in the theme menu. If the device does not report it, it uses the light theme.
