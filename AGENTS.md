@@ -42,7 +42,7 @@ Playwright with Chromium is useful to automate these checks.
 - Colors and theme use CSS variables in `:root`. Never hard-code colors in the interface; test patterns do use exact colors because they are the product.
 - Themes: light, dark (gray), pure black (`data-theme="black"`, background #000) and automatic. Automatic with a dark system uses the gray dark theme. The checkbox **Use pure black in dark mode** in the theme menu swaps dark for pure black (`dt-oled` in `localStorage`); there is no web API to detect OLED, so the user decides.
 - The default theme is light. Automatic depends on `prefers-color-scheme`, with `data-theme="light|dark|black"` on `<html>` only when the user sets it.
-- Static patterns are drawn as SVG with `viewBox` and receive the width and height (`W`, `H`) so they fit the screen's real aspect ratio. The thumbnail uses 160×90.
+- Static patterns are drawn as SVG with `viewBox` and receive the width and height (`W`, `H`) in device pixels, so they are drawn at the screen's real resolution. The thumbnail uses 160×90 with default parameters.
 - Animated patterns (`kind:"cv"`) are drawn on a `canvas` with `init` and `frame`, and their thumbnail is a static SVG (`thumb`).
 - Accessibility: real buttons, `aria-pressed` on selectors, visible focus, `aria-label` on thumbnails, and respect for `prefers-reduced-motion`.
 - Persistence with `localStorage` always inside `try/catch`; the site must work without it. It stores the theme (`dt-theme`) and the language (`dt-lang`, `auto` or a code).
@@ -56,7 +56,7 @@ Playwright with Chromium is useful to automate these checks.
 - Play/pause: the play button lives in the `#vnav` row between Previous and Next (class `playbtn`), not in the controls panel. `clickPlay()` finds it there.
 - The header has no category navigation; the filters are a row of buttons above the grid on every screen size, with no sidebar. Do not add it back.
 - Auto-start: `AUTO` (`dt-auto` in `localStorage`) decides whether tests with a `play` control start playing (`showTool` sets `p.play`). The pixel unsticker is included. Ghosting mode of `respuesta` always moves, as before the merge; the other modes follow `AUTO`.
-- Viewer panel: `kick()` hides `#vc` after 5 s without input, except in the swipe grid. Any key or mouse movement shows it again.
+- Viewer panel: `kick()` hides `#vc` after 5 s without input, except in the swipe grid. Keys show it; mouse movement does not. A mouse click toggles it, and on touch a double tap does (a single tap does nothing, so touch tests keep working). Closing fades out.
 - Conditional controls: a control with `when:{k,v}` appears only when `p[k]===v`. A choice with `rb:true` rebuilds the panel when it changes, which is how modes work.
 - Shared pattern helpers: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` and `newStar`. Reuse them instead of duplicating drawing code.
 - All inputs (keyboard, mouse, touch, TV remote, gamepad and joystick) go through the dispatcher `act(action, native)`, with actions `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` and `playpause`. To support a new device, map it to those actions; do not add loose handlers.

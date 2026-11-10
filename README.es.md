@@ -30,17 +30,16 @@ Para medir, fija el brillo de la pantalla, usa pantalla completa y, en las prueb
 | Ghosting y smearing | Movimiento | Elige un modo. Ghosting: un bloque cruza la pantalla para mostrar estelas por respuesta lenta (pasada de 2 a 6 s). Smearing (VA): una barra blanca deja una estela oscura o clara en paneles VA; velocidad y fondo ajustables |
 | Texto en movimiento | Movimiento | Líneas de texto que se desplazan en direcciones opuestas, en horizontal o en vertical, con tamaño uniforme o variado; compara la nitidez en pausa y en movimiento |
 | Geometría | Nitidez | Cuadrícula, o calibración con un recuadro central dentro del círculo que reúne barras SMPTE, escalas de grises, RGB y CMYK, y contraste, y muestra resolución, densidad y escala de la pantalla; con la diagonal indicada calcula los ppp |
-| Convergencia | Nitidez | Rejillas roja, verde y azul; el desajuste se ve como bordes de color |
-| Relación de aspecto | Nitidez | Círculo y marcos de 4:3, 16:9 y 21:9 para ver si la imagen está estirada |
+| Convergencia | Nitidez | Rejillas roja, verde y azul, con puntos en las esquinas de cada cuadro; el desajuste se ve como bordes o puntos de color. Para tubos CRT y proyectores de tres paneles; en pantallas planas de un solo panel la convergencia viene de fábrica |
+| Relación de aspecto y overscan | Nitidez | Modo: círculo y marcos de 4:3, 16:9, 21:9 y 32:9, cada uno tocando el borde más cercano y con su nombre; o Overscan, con recuadros a 0, 2, 5 y 10 % de los bordes para ver si la imagen se recorta (sobre todo en televisores) |
 | Cuadros cuadrados | Nitidez | Tablero de cuadros; si salen rectangulares, el escalado es desigual |
-| Overscan y márgenes | Nitidez | Recuadros a 0, 2, 5 y 10 % de los bordes para ver si la imagen se recorta (sobre todo en televisores) |
 | Líneas finas | Nitidez | Líneas de un píxel real para detectar escalado, borrosidad y moiré |
 | Nitidez de texto | Nitidez | Texto en muchos tamaños, con serif, monoespaciado y en color, sobre blanco y sobre negro, para revisar la nitidez en pantallas de píxel blanco (como W-OLED) |
 
 **Sitio**
 
 - **Responsivo:** 2 columnas en móvil, 3 en tabletas, 4 en escritorio y 5 en televisores con texto más grande. Los filtros son una fila de botones en cualquier tamaño, como en móvil. El encabezado, el aviso de fotosensibilidad y los filtros se quedan arriba al desplazarte.
-- **Visor a pantalla completa:** cada prueba se adapta a la proporción real de la pantalla. Los controles se ocultan con `H` o tocando la pantalla, y también solos tras 5 segundos sin uso, para no contaminar las pruebas de uniformidad.
+- **Visor a pantalla completa:** cada prueba se adapta a la proporción real de la pantalla. Los controles se muestran y ocultan con `H` o un clic del ratón (en pantallas táctiles, con doble toque), y también se ocultan solos tras 5 segundos sin uso, para no contaminar las pruebas de uniformidad. Mover el ratón no los muestra.
 - **Varias entradas:** teclado, ratón, pantallas táctiles, controles remotos de televisión, gamepads y joysticks. Las pistas de controles del visor se adaptan a la entrada que detecta el sitio, y las teclas se muestran dentro de una caja para que resalten. Consulta la sección Controles.
 - **Tema automático:** sigue el modo claro u oscuro del sistema en Android, iPhone, Windows, macOS y Linux. Con el sistema en oscuro usa el tema oscuro gris, o negro puro si marcas la opción del menú de tema. Si el dispositivo no lo informa, usa el tema claro.
 - **Menú de tema:** un solo icono en el encabezado abre un menú con Automático, Claro, Oscuro y Negro puro, y el icono refleja el estado. Claro, Oscuro y Negro puro fijan el tema y desactivan el seguimiento del sistema. Debajo, la casilla **Usar negro puro en modo oscuro** hace que el tema oscuro use negro puro, lo mejor para pantallas OLED. La preferencia se recuerda en el navegador.
@@ -58,7 +57,7 @@ El sitio detecta la última entrada que usas y cambia las pistas del visor en co
 | Cambiar de prueba | `←` `→` | Deslizar a los lados, o botones Anterior y Siguiente | `◀` `▶`, `CH+` `CH−` | `◀` `▶`, `LB` `RB` |
 | Ir a los controles | `↓` (y `↑` para volver) | Tocar el control | `▼` (y `▲` para volver) | `▼` (y `▲` para volver) |
 | Ajustar un control | `←` `→` en un deslizador | Arrastrar | `◀` `▶` | `◀` `▶` o stick izquierdo |
-| Mostrar u ocultar el panel | `H` | Tocar la pantalla | `OK` o `Info` | `Start` |
+| Mostrar u ocultar el panel | `H` | Clic en la pantalla (táctil: doble toque) | `OK` o `Info` | `Start` |
 | Iniciar o pausar | `Espacio` | Botón Pausar/Iniciar entre Anterior y Siguiente | `⏯` | `X` |
 | Aceptar | `Enter` | Tocar | `OK` | `A` |
 | Cerrar | `Esc` | Deslizar hacia abajo | `Atrás` | `B` |

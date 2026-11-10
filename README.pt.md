@@ -30,17 +30,16 @@ Para medir, ajuste o brilho da tela, use tela cheia e, nos testes de preto, um q
 | Ghosting e smearing | Movimento | Escolha um modo. Ghosting: um bloco atravessa a tela para mostrar rastros por resposta lenta (passagem de 2 a 6 s). Smearing (VA): uma barra branca deixa um rastro escuro ou claro em painéis VA; velocidade e fundo ajustáveis |
 | Texto em movimento | Movimento | Linhas de texto que rolam em sentidos opostos, na horizontal ou na vertical, com tamanho uniforme ou variado; compare a nitidez parado e em movimento |
 | Geometria | Nitidez | Grade, ou calibração com uma caixa central dentro do círculo que reúne barras SMPTE, escalas de cinza, RGB e CMYK, e contraste, e mostra resolução, densidade e escala da tela; com a diagonal informada calcula o ppp |
-| Convergência | Nitidez | Grades vermelha, verde e azul; o desalinhamento aparece como bordas coloridas |
-| Proporção de tela | Nitidez | Círculo e quadros de 4:3, 16:9 e 21:9 para ver se a imagem está esticada |
+| Convergência | Nitidez | Grades vermelha, verde e azul, com pontos nas esquinas de cada quadrado; o desalinhamento aparece como bordas ou pontos coloridos. Para tubos CRT e projetores de três painéis; em telas planas de painel único a convergência vem de fábrica |
+| Proporção de tela e overscan | Nitidez | Modo: círculo e quadros de 4:3, 16:9, 21:9 e 32:9, cada um tocando a borda mais próxima e com seu nome; ou Overscan, com quadros a 0, 2, 5 e 10 % das bordas para ver se a imagem é cortada (principalmente em TVs) |
 | Quadrados | Nitidez | Tabuleiro de quadrados; se saírem retangulares, o escalonamento é desigual |
-| Overscan e margens | Nitidez | Quadros a 0, 2, 5 e 10 % das bordas para ver se a imagem é cortada (principalmente em TVs) |
 | Linhas finas | Nitidez | Linhas de um pixel real para detectar escalonamento, borrão e moiré |
 | Nitidez do texto | Nitidez | Texto em muitos tamanhos, com serifa, monoespaçado e colorido, sobre branco e sobre preto, para verificar a nitidez em telas de pixel branco (como W-OLED) |
 
 **Site**
 
 - **Responsivo:** 2 colunas no celular, 3 em tablets, 4 no computador e 5 em TVs com texto maior. Os filtros são uma linha de botões em qualquer tamanho, como no celular. O cabeçalho, o aviso de fotossensibilidade e os filtros ficam no topo ao rolar.
-- **Visor em tela cheia:** cada teste se adapta à proporção real da tela. Os controles são ocultados com `H` ou tocando na tela, e também somem sozinhos após 5 segundos sem uso, para não contaminar os testes de uniformidade.
+- **Visor em tela cheia:** cada teste se adapta à proporção real da tela. Os controles são exibidos e ocultados com `H` ou um clique do mouse (em telas sensíveis ao toque, com toque duplo), e também somem sozinhos após 5 segundos sem uso, para não contaminar os testes de uniformidade. Mover o mouse não os exibe.
 - **Várias entradas:** teclado, mouse, telas sensíveis ao toque, controles remotos de TV, gamepads e joysticks. As dicas de controle do visor se adaptam à entrada detectada, e as teclas aparecem dentro de uma caixa para se destacar. Veja a seção Controles.
 - **Tema automático:** segue o modo claro ou escuro do sistema no Android, iPhone, Windows, macOS e Linux. Com o sistema no escuro, usa o tema escuro cinza, ou preto puro se você marcar a opção no menu de tema. Se o dispositivo não informar, usa o tema claro.
 - **Menu de tema:** um único ícone no cabeçalho abre um menu com Automático, Claro, Escuro e Preto puro, e o ícone mostra o estado. Claro, Escuro e Preto puro fixam o tema e desativam o acompanhamento do sistema. Abaixo, a caixa **Usar preto puro no modo escuro** faz o tema escuro usar preto puro, o melhor para telas OLED. A preferência fica salva no navegador.
@@ -58,7 +57,7 @@ O site detecta a última entrada usada e muda as dicas do visor de acordo.
 | Trocar de teste | `←` `→` | Deslizar para os lados, ou botões Anterior e Próximo | `◀` `▶`, `CH+` `CH−` | `◀` `▶`, `LB` `RB` |
 | Ir aos controles | `↓` (e `↑` para voltar) | Tocar no controle | `▼` (e `▲` para voltar) | `▼` (e `▲` para voltar) |
 | Ajustar um controle | `←` `→` em um deslizador | Arrastar | `◀` `▶` | `◀` `▶` ou analógico esquerdo |
-| Mostrar ou ocultar o painel | `H` | Tocar na tela | `OK` ou `Info` | `Start` |
+| Mostrar ou ocultar o painel | `H` | Clique na tela (toque: toque duplo) | `OK` ou `Info` | `Start` |
 | Iniciar ou pausar | `Espaço` | Botão Pausar/Iniciar entre Anterior e Próximo | `⏯` | `X` |
 | Aceitar | `Enter` | Tocar | `OK` | `A` |
 | Fechar | `Esc` | Deslizar para baixo | `Voltar` | `B` |

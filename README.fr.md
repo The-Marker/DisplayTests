@@ -30,17 +30,16 @@ Pour mesurer, réglez la luminosité de l'écran, utilisez le plein écran et, p
 | Ghosting et smearing | Mouvement | Choisissez un mode. Ghosting : un bloc traverse l'écran pour montrer les traînées d'une réponse lente (passage de 2 à 6 s). Smearing (VA) : une barre blanche laisse une traînée sombre ou claire sur les dalles VA ; vitesse et fond réglables |
 | Texte en mouvement | Mouvement | Lignes de texte qui défilent en sens opposés, à l'horizontale ou à la verticale, en taille uniforme ou variée ; comparez la netteté à l'arrêt et en mouvement |
 | Géométrie | Netteté | Grille, ou calibrage avec un cadre central dans le cercle qui réunit barres SMPTE, échelles de gris, RVB et CMJN, et contraste, et affiche la résolution, la densité et l'échelle de l'écran ; avec la diagonale saisie, il calcule les ppp |
-| Convergence | Netteté | Grilles rouge, verte et bleue ; le désalignement apparaît en bords colorés |
-| Rapport d'aspect | Netteté | Cercle et cadres 4:3, 16:9 et 21:9 pour voir si l'image est étirée |
+| Convergence | Netteté | Grilles rouge, verte et bleue, avec des points près des coins de chaque carré ; le désalignement apparaît en bords ou points colorés. Pour tubes CRT et projecteurs à trois panneaux ; sur les écrans plats à panneau unique, la convergence est réglée en usine |
+| Format d'image et overscan | Netteté | Mode : cercle et cadres 4:3, 16:9, 21:9 et 32:9, chacun touchant le bord le plus proche et nommé ; ou Overscan, avec des cadres à 0, 2, 5 et 10 % des bords pour voir si l'image est rognée (surtout sur TV) |
 | Carrés | Netteté | Damier de carrés ; des carrés rectangulaires révèlent une mise à l'échelle inégale |
-| Overscan et marges | Netteté | Cadres à 0, 2, 5 et 10 % des bords pour voir si l'image est rognée (surtout sur TV) |
 | Lignes fines | Netteté | Lignes d'un pixel réel pour détecter la mise à l'échelle, le flou et le moiré |
 | Netteté du texte | Netteté | Texte en nombreuses tailles, avec empattement, à chasse fixe et en couleur, sur blanc et sur noir, pour vérifier la netteté sur les écrans à pixel blanc (comme le W-OLED) |
 
 **Site**
 
 - **Adaptatif :** 2 colonnes sur mobile, 3 sur tablette, 4 sur ordinateur et 5 sur TV avec un texte plus grand. Les filtres forment une rangée de boutons quelle que soit la taille de l'écran, comme sur mobile. L'en-tête, l'avis de photosensibilité et les filtres restent en haut en faisant défiler la page.
-- **Visionneuse plein écran :** chaque test s'adapte au format réel de l'écran. Les contrôles se masquent avec `H` ou en touchant l'écran, et disparaissent aussi seuls après 5 secondes sans action, pour ne pas polluer les tests d'uniformité.
+- **Visionneuse plein écran :** chaque test s'adapte au format réel de l'écran. Les contrôles s'affichent et se masquent avec `H` ou un clic de souris (sur écran tactile, double toucher), et disparaissent aussi seuls après 5 secondes sans action, pour ne pas polluer les tests d'uniformité. Bouger la souris ne les affiche pas.
 - **Plusieurs entrées :** clavier, souris, écrans tactiles, télécommandes de TV, manettes et joysticks. Les indications de commande de la visionneuse s'adaptent à l'entrée détectée, et les touches s'affichent dans une case pour bien ressortir. Voir la section Commandes.
 - **Thème automatique :** suit le mode clair ou sombre du système sur Android, iPhone, Windows, macOS et Linux. Avec le système en sombre, il utilise le thème sombre gris, ou le noir pur si vous cochez l'option du menu de thème. Si l'appareil ne le signale pas, il utilise le thème clair.
 - **Menu de thème :** une seule icône dans l'en-tête ouvre un menu Automatique, Clair, Sombre et Noir pur, et l'icône reflète l'état. Clair, Sombre et Noir pur fixent le thème et désactivent le suivi du système. En dessous, la case **Utiliser le noir pur en mode sombre** fait utiliser le noir pur au thème sombre, idéal pour les écrans OLED. La préférence est mémorisée dans le navigateur.
@@ -58,7 +57,7 @@ Le site détecte la dernière entrée utilisée et adapte les indications de la 
 | Changer de test | `←` `→` | Glisser sur les côtés, ou boutons Précédent et Suivant | `◀` `▶`, `CH+` `CH−` | `◀` `▶`, `LB` `RB` |
 | Aller aux commandes | `↓` (et `↑` pour revenir) | Toucher la commande | `▼` (et `▲` pour revenir) | `▼` (et `▲` pour revenir) |
 | Régler une commande | `←` `→` sur un curseur | Faire glisser | `◀` `▶` | `◀` `▶` ou stick gauche |
-| Afficher ou masquer le panneau | `H` | Toucher l'écran | `OK` ou `Info` | `Start` |
+| Afficher ou masquer le panneau | `H` | Cliquer sur l'écran (tactile : double toucher) | `OK` ou `Info` | `Start` |
 | Démarrer ou mettre en pause | `Espace` | Bouton Pause/Démarrer entre Précédent et Suivant | `⏯` | `X` |
 | Valider | `Entrée` | Toucher | `OK` | `A` |
 | Fermer | `Échap` | Glisser vers le bas | `Retour` | `B` |

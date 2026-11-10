@@ -30,17 +30,16 @@ Stellen Sie zum Messen die Helligkeit des Bildschirms ein, verwenden Sie Vollbil
 | Ghosting und Smearing | Bewegung | Wähle einen Modus. Ghosting: ein Block überquert den Bildschirm, um Schlieren durch langsame Reaktion zu zeigen (Durchgang von 2 bis 6 s). Smearing (VA): ein weißer Balken hinterlässt auf VA-Panels eine dunkle oder helle Spur; Geschwindigkeit und Hintergrund einstellbar |
 | Bewegter Text | Bewegung | Textzeilen, die in gegensätzliche Richtungen laufen, waagerecht oder senkrecht, mit einheitlicher oder gemischter Größe; vergleiche die Schärfe im Stillstand und in Bewegung |
 | Geometrie | Schärfe | Raster, oder Kalibrierung mit einem zentralen Kasten im Kreis, der SMPTE-Balken, Graustufen, RGB- und CMYK-Skalen und Kontrast vereint und Auflösung, Dichte und Maßstab des Bildschirms zeigt; mit eingegebener Diagonale berechnet er die ppi |
-| Konvergenz | Schärfe | Rote, grüne und blaue Raster; Versatz zeigt sich als farbige Ränder |
-| Seitenverhältnis | Schärfe | Kreis und Rahmen für 4:3, 16:9 und 21:9, um zu sehen, ob das Bild gestreckt ist |
+| Konvergenz | Schärfe | Rote, grüne und blaue Raster, mit Punkten nahe den Ecken jedes Feldes; Versatz zeigt sich als farbige Ränder oder Punkte. Für Röhrenbildschirme und Drei-Panel-Projektoren; flache Einzelpanel-Displays sind werkseitig konvergiert |
+| Seitenverhältnis und Overscan | Schärfe | Modus: Kreis und Rahmen für 4:3, 16:9, 21:9 und 32:9, jeder am nächsten Rand anliegend und benannt; oder Overscan, mit Rahmen bei 0, 2, 5 und 10 % vom Rand, um zu sehen, ob das Bild beschnitten wird (vor allem bei Fernsehern) |
 | Quadratische Felder | Schärfe | Schachbrett aus Quadraten; rechteckige Felder zeigen ungleiche Skalierung |
-| Overscan und Ränder | Schärfe | Rahmen bei 0, 2, 5 und 10 % vom Rand, um zu sehen, ob das Bild beschnitten wird (vor allem bei Fernsehern) |
 | Feine Linien | Schärfe | Linien mit genau einem Pixel, um Skalierung, Unschärfe und Moiré zu erkennen |
 | Textschärfe | Schärfe | Text in vielen Größen, mit Serifen, nichtproportional und farbig, auf Weiß und auf Schwarz, um die Schärfe auf Bildschirmen mit weißem Subpixel (z. B. W-OLED) zu prüfen |
 
 **Website**
 
 - **Responsiv:** 2 Spalten auf dem Handy, 3 auf Tablets, 4 auf dem Computer und 5 auf Fernsehern mit größerer Schrift. Die Filter sind auf jeder Bildschirmgröße eine Reihe von Schaltflächen, wie auf dem Handy. Kopfzeile, Hinweis zur Photosensitivität und Filter bleiben beim Scrollen oben.
-- **Vollbild-Ansicht:** Jeder Test passt sich dem tatsächlichen Seitenverhältnis des Bildschirms an. Die Bedienelemente werden mit `H` oder durch Tippen auf den Bildschirm ausgeblendet und verschwinden außerdem nach 5 Sekunden ohne Eingabe von selbst, damit Gleichmäßigkeitstests nicht verfälscht werden.
+- **Vollbild-Ansicht:** Jeder Test passt sich dem tatsächlichen Seitenverhältnis des Bildschirms an. Die Bedienelemente werden mit `H` oder einem Mausklick ein- und ausgeblendet (auf Touchscreens mit Doppeltipp) und verschwinden außerdem nach 5 Sekunden ohne Eingabe von selbst, damit Gleichmäßigkeitstests nicht verfälscht werden. Mausbewegung blendet sie nicht ein.
 - **Mehrere Eingaben:** Tastatur, Maus, Touchscreens, Fernbedienungen, Gamepads und Joysticks. Die Bedienhinweise in der Ansicht passen sich der erkannten Eingabe an, und Tasten werden in einem Kasten angezeigt, damit sie auffallen. Siehe Abschnitt Bedienung.
 - **Automatisches Design:** folgt dem hellen oder dunklen Modus des Systems auf Android, iPhone, Windows, macOS und Linux. Ist das System dunkel, wird das graue dunkle Design verwendet, oder reines Schwarz, wenn du die Option im Designmenü aktivierst. Meldet das Gerät nichts, wird das helle Design verwendet.
 - **Designmenü:** Ein einzelnes Symbol in der Kopfzeile öffnet ein Menü mit Automatisch, Hell, Dunkel und Reines Schwarz; das Symbol zeigt den aktuellen Zustand. Hell, Dunkel und Reines Schwarz legen das Design fest und schalten die Systemerkennung aus. Darunter macht das Kästchen **Reines Schwarz im dunklen Modus verwenden** aus dem dunklen Design reines Schwarz, besonders geeignet für OLED-Bildschirme. Die Einstellung wird im Browser gespeichert.
@@ -58,7 +57,7 @@ Die Website erkennt die zuletzt verwendete Eingabe und passt die Hinweise in der
 | Test wechseln | `←` `→` | Seitlich wischen, oder Schaltflächen Zurück und Weiter | `◀` `▶`, `CH+` `CH−` | `◀` `▶`, `LB` `RB` |
 | Zu den Bedienelementen | `↓` (und `↑` zum Zurückgehen) | Bedienelement antippen | `▼` (und `▲` zum Zurückgehen) | `▼` (und `▲` zum Zurückgehen) |
 | Bedienelement einstellen | `←` `→` am Schieberegler | Ziehen | `◀` `▶` | `◀` `▶` oder linker Stick |
-| Bedienfeld ein- oder ausblenden | `H` | Bildschirm antippen | `OK` oder `Info` | `Start` |
+| Bedienfeld ein- oder ausblenden | `H` | Bildschirm anklicken (Touch: Doppeltipp) | `OK` oder `Info` | `Start` |
 | Starten oder pausieren | `Leertaste` | Schaltfläche Pausieren/Starten zwischen Zurück und Weiter | `⏯` | `X` |
 | Bestätigen | `Enter` | Antippen | `OK` | `A` |
 | Schließen | `Esc` | Nach unten wischen | `Zurück` | `B` |

@@ -42,7 +42,7 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Colores y tema con variables CSS en `:root`. Nunca colores fijos en la interfaz; los patrones de prueba sí usan colores exactos, porque son el producto.
 - Temas: claro, oscuro (gris), negro puro (`data-theme="black"`, fondo #000) y automático. El automático con sistema oscuro usa el tema oscuro gris; la casilla **Usar negro puro en modo oscuro** del menú de tema cambia el oscuro por negro puro (`dt-oled` en `localStorage`). No hay API web para detectar OLED, así que la elección la hace el usuario.
 - El tema por defecto es claro. El modo automático depende de `prefers-color-scheme`, con `data-theme="light|dark|black"` en `<html>` solo cuando el usuario lo fija.
-- Los patrones estáticos se dibujan en SVG con `viewBox` y reciben el ancho y alto (`W`, `H`) para adaptarse a la proporción real de la pantalla. La miniatura usa 160×90.
+- Los patrones estáticos se dibujan en SVG con `viewBox` y reciben el ancho y alto (`W`, `H`) en píxeles de dispositivo, así que se dibujan a la resolución real de la pantalla. La miniatura usa 160×90 con los parámetros por defecto.
 - Los patrones animados (`kind:"cv"`) se dibujan en `canvas` con `init` y `frame`, y su miniatura es un SVG estático (`thumb`).
 - Accesibilidad: botones reales, `aria-pressed` en los selectores, foco visible, `aria-label` en miniaturas y respeto de `prefers-reduced-motion`.
 - Persistencia con `localStorage` siempre dentro de `try/catch`; el sitio debe funcionar sin ella. Guardan el tema (`dt-theme`) y el idioma (`dt-lang`, `auto` o un código).
@@ -56,7 +56,7 @@ Playwright con Chromium sirve para automatizar estas revisiones.
 - Reproducir/pausar: el botón de pausa vive en la fila `#vnav` entre Anterior y Siguiente (clase `playbtn`), no en el panel de controles. `clickPlay()` lo busca ahí.
 - El encabezado no tiene navegación por categorías; los filtros son una fila de botones sobre la cuadrícula en cualquier tamaño, sin barra lateral. No la repongas.
 - Inicio automático: `AUTO` (`dt-auto` en `localStorage`) decide si las pruebas con control `play` arrancan reproduciéndose (`showTool` asigna `p.play`). El desatascador de píxeles está incluido. El modo Ghosting de `respuesta` siempre se mueve, como antes de la fusión; los demás modos siguen a `AUTO`.
-- Panel del visor: `kick()` oculta `#vc` tras 5 s sin entrada, salvo en la cuadrícula de deslizamiento. Cualquier tecla o movimiento del ratón lo vuelve a mostrar.
+- Panel del visor: `kick()` oculta `#vc` tras 5 s sin entrada, salvo en la cuadrícula de deslizamiento. Las teclas lo muestran; el movimiento del ratón no. Un clic del ratón lo alterna, y en táctil lo hace un doble toque (un toque simple no hace nada, así que las pruebas táctiles siguen funcionando). Al cerrar se desvanece.
 - Controles condicionales: un control con `when:{k,v}` aparece solo cuando `p[k]===v`. Una opción con `rb:true` reconstruye el panel al cambiar, así funcionan los modos.
 - Helpers compartidos de patrones: `smpteSvg`, `grayStrip`, `colorScale`, `contrastSvg`, `geoBase`, `screenInfo`, `starCount` y `newStar`. Reutilízalos en lugar de duplicar dibujo.
 - Todas las entradas (teclado, ratón, táctil, control remoto, gamepad y joystick) pasan por el despachador `act(accion, nativo)`, con acciones `left`, `right`, `up`, `down`, `confirm`, `back`, `next`, `prev`, `toggle` y `playpause`. Para soportar un dispositivo nuevo, tradúcelo a esas acciones; no añadas manejadores sueltos.
