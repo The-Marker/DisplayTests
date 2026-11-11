@@ -87,11 +87,12 @@ a.iconbtn{text-decoration:none;color:inherit}
 
 .warn{margin:1rem 1.2rem;padding:.7rem .9rem;background:var(--warn-bg);color:var(--warn-fg);border-radius:.6rem}
 
-#viewer{position:fixed;inset:0;z-index:10;background:#000;display:none}
+#viewer{position:fixed;inset:0;z-index:10;background:#000;display:none;overflow:hidden}
+html.viewing{overflow:hidden}
 #viewer.open{display:block;animation:fadeIn .25s ease}
 #viewer.closing{animation:fadeOut .22s ease forwards}
 @keyframes fadeOut{to{opacity:0}}
-#stage{position:absolute;inset:0;touch-action:none}
+#stage{position:absolute;inset:0;touch-action:none;overflow:hidden}
 #stage svg,#stage canvas{display:block;width:100%;height:100%}
 #vc{position:absolute;left:0;right:0;top:0;max-height:100%;overflow-y:auto;padding:1rem 1.2rem;background:rgba(0,0,0,.82);color:#f1efe8;display:flex;flex-direction:column;gap:.6rem;animation:dropIn .3s ease}
 #vc #vclose{margin-left:auto}
@@ -262,6 +263,9 @@ var PX=["#f00","#0f0","#00f","#0ff","#f0f","#ff0","#fff","#000"];
 var HDR_HELP=["HDR todavía no es compatible con todos los navegadores: el soporte en CSS depende del navegador, su versión y su motor. Esta prueba no se ha verificado en navegadores reales con HDR.", "Activa HDR en el sistema: en Windows, Configuración › Sistema › Pantalla › Usar HDR (o Win + Alt + B). En macOS, Android y Linux, busca la opción de HDR en los ajustes de pantalla.", "Chrome: si la prueba sigue en SDR, abre chrome://flags/#force-color-profile, elige HDR10 o scRGB linear y reinicia el navegador.", "Edge (basado en Chromium): busca la misma opción de perfil de color en edge://flags.", "Firefox: usa la versión 153 o posterior y comprueba si la prueba cambia; el soporte es reciente.", "Safari (macOS): usa una pantalla compatible con HDR y comprueba la prueba; no hemos podido verificarlo.", "Si la prueba sigue en SDR aunque lo hayas activado, el navegador no soporta HDR en CSS. Para comparar, abre testufo.com/hdr."];
 function alt(s){return s.split("").map(function(c,i){return i%2?c.toUpperCase():c.toLowerCase()}).join("")}
 var ALPHDIG="0123456789";
+function fitE(n,L){var e=[],i;for(i=0;i<=n;i++)e.push(Math.round(i*L/n));return e}
+var MC=document.createElement("canvas").getContext("2d");
+function findI(e,v){for(var i=0;i<e.length-1;i++)if(v<e[i+1])return v<e[0]?-1:i;return -1}
 var SANSF="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif";
 var ALPHF=[SANSF,"'Hiragino Sans','Yu Gothic','Meiryo','Noto Sans CJK JP',"+SANSF,"'Malgun Gothic','Apple SD Gothic Neo','Noto Sans CJK KR',"+SANSF,"'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',"+SANSF,SANSF,"'Segoe UI',Tahoma,Arial,'Noto Sans Arabic','Geeza Pro',sans-serif"];
 var ALPH=[alt("abcdefghijklmnopqrstuvwxyz")+" "+ALPHDIG,
@@ -306,9 +310,9 @@ var TOOLS=[
  thumb:function(){var r=rng(11),o="",i,j;for(j=0;j<5;j++)for(i=0;i<8;i++)o+=rect(i*20,j*20,20.3,20.3,PX[Math.floor(r()*8)]);return svg(160,90,o)},
  init:function(){return{t:0,cols:0,rows:0,v:0,c:[],n:[]}},
  frame:function(x,w,h,p,st,dt){
-  var iv=10*Math.pow(.01,(p.v-1)/15),cols=Math.max(1,Math.round(10*p.s)),i,j,k,nc,cell,rows;
+  var iv=10*Math.pow(.01,(p.v-1)/15),cols=Math.max(1,Math.round(10*p.s)),i,j,k,nc,rows,xs,ys,Wd=x.canvas.width,Hd=x.canvas.height,sx=Wd/w,sy=Hd/h;
   if(iv<.33)cols=Math.max(cols,8);
-  cell=w/cols;rows=Math.ceil(h/cell);
+  rows=Math.max(1,Math.round(Hd*cols/Wd));xs=fitE(cols,Wd);ys=fitE(rows,Hd);
   if(st.cols!==cols||st.rows!==rows||st.v!==p.v){
    if(st.cols!==cols||st.rows!==rows){st.c=[];for(k=0;k<cols*rows;k++)st.c.push(Math.floor(Math.random()*8))}
    st.cols=cols;st.rows=rows;st.v=p.v;st.n=[];
@@ -317,11 +321,7 @@ var TOOLS=[
    for(k=0;k<st.c.length;k++)if(st.t>=st.n[k]){
     do{nc=Math.floor(Math.random()*8)}while(nc===st.c[k]);
     st.c[k]=nc;st.n[k]=st.t+iv*(.6+Math.random()*.8)}}
-  var Wd=x.canvas.width,Hd=x.canvas.height,sx=Wd/w,sy=Hd/h,x0,x1,y0,y1;
-  for(j=0;j<rows;j++)for(i=0;i<cols;i++){x.fillStyle=PX[st.c[j*cols+i]];
-   x0=Math.round(i*Wd/cols);x1=i===cols-1?Wd:Math.round((i+1)*Wd/cols);
-   y0=Math.round(j*Wd/cols);y1=Math.min(Hd,j===rows-1?Hd:Math.round((j+1)*Wd/cols));
-   x.fillRect(x0/sx,y0/sy,(x1-x0)/sx,(y1-y0)/sy)}}},
+  for(j=0;j<rows;j++)for(i=0;i<cols;i++){x.fillStyle=PX[st.c[j*cols+i]];x.fillRect(xs[i]/sx,ys[j]/sy,(xs[i+1]-xs[i])/sx,(ys[j+1]-ys[j])/sy)}}},
 {id:"constelacion",name:"Atenuación local",cat:"Movimiento",kind:"cv",
  desc:"Estrellas de distintos tamaños que se desplazan despacio sobre negro. Si alrededor de las más brillantes aparece un halo, o si se apagan al cruzar, la pantalla usa atenuación local (local dimming). Cambia la densidad: con pocas estrellas el halo se ve mejor, y con muchas la prueba exige más a la retroiluminación.",
  warn:"Hay movimiento. Puede afectar a personas fotosensibles; usa velocidades moderadas.",
@@ -384,14 +384,14 @@ var TOOLS=[
  desc:"Rejillas roja, verde y azul superpuestas. Aplica a tubos CRT y a proyectores de tres paneles o chips (3LCD, DLP de 3 chips). En pantallas planas de un solo panel (LCD, OLED, Mini LED) la convergencia viene de fábrica y no se ajusta: la prueba solo muestra desalineación de color. Con buena convergencia las líneas y los puntos se ven blancos; si no converge, aparecen bordes o puntos de color.",
  p:{},
  draw:function(p,W,H){
-  var s=Math.max(8,Math.round(Math.min(W,H)/12)),cols=Math.floor(W/s),rows=Math.floor(H/s),ox=Math.floor((W-cols*s)/2),oy=Math.floor((H-rows*s)/2),
-      sw=Math.max(1,Math.round(s/120)),dr=Math.max(1.5,s*.035),ins=s*.14,o=rect(0,0,W,H,"#000"),ch=["#f00","#0f0","#00f"],c,i,j,x,y,q;
+  var s=Math.max(8,Math.round(Math.min(W,H)/12)),cols=Math.max(1,Math.round(W/s)),rows=Math.max(1,Math.round(H/s)),
+      xs=fitE(cols,W),ys=fitE(rows,H),sw=Math.max(1,Math.round(s/120)),dr=Math.max(1.5,s*.035),ins=s*.14,o=rect(0,0,W,H,"#000"),ch=["#f00","#0f0","#00f"],c,i,j,x0,x1,y0,y1,q;
   for(c=0;c<3;c++){
    o+='<g style="mix-blend-mode:screen">';
-   for(i=0;i<=cols;i++)o+=rect(Math.round(ox+i*s-sw/2),oy,sw,rows*s,ch[c]);
-   for(j=0;j<=rows;j++)o+=rect(ox,Math.round(oy+j*s-sw/2),cols*s,sw,ch[c]);
-   for(i=0;i<cols;i++)for(j=0;j<rows;j++){x=ox+i*s;y=oy+j*s;
-    for(q=0;q<4;q++){var px=q%2?s-ins:ins,py=q<2?ins:s-ins;o+='<circle cx="'+(x+px)+'" cy="'+(y+py)+'" r="'+dr+'" fill="'+ch[c]+'"/>'}}
+   for(i=0;i<=cols;i++)o+=rect(Math.round(xs[i]-sw/2),0,sw,H,ch[c]);
+   for(j=0;j<=rows;j++)o+=rect(0,Math.round(ys[j]-sw/2),W,sw,ch[c]);
+   for(i=0;i<cols;i++)for(j=0;j<rows;j++){x0=xs[i];x1=xs[i+1];y0=ys[j];y1=ys[j+1];
+    for(q=0;q<4;q++){var px=q%2?x1-ins:x0+ins,py=q<2?y0+ins:y1-ins;o+='<circle cx="'+px+'" cy="'+py+'" r="'+dr+'" fill="'+ch[c]+'"/>'}}
    o+='</g>';
   }
   return svg(W,H,o)}},
@@ -425,8 +425,8 @@ var TOOLS=[
  desc:"Tablero de cuadros que deben verse cuadrados. Si salen rectangulares, la imagen está escalada de forma desigual en horizontal y vertical.",
  p:{},
  draw:function(p,W,H){
-  var cs=Math.max(1,Math.round(H/9)),cols=Math.ceil(W/cs),rows=Math.ceil(H/cs),o=rect(0,0,W,H,"#000"),i,j;
-  for(j=0;j<rows;j++)for(i=0;i<cols;i++)if((i+j)%2===0)o+=rect(i*cs,j*cs,cs,cs,"#fff");
+  var cs=Math.max(1,Math.round(H/9)),cols=Math.max(1,Math.round(W/cs)),rows=Math.max(1,Math.round(H/cs)),xs=fitE(cols,W),ys=fitE(rows,H),o=rect(0,0,W,H,"#000"),i,j;
+  for(j=0;j<rows;j++)for(i=0;i<cols;i++)if((i+j)%2===0)o+=rect(xs[i],ys[j],xs[i+1]-xs[i],ys[j+1]-ys[j],"#fff");
   return svg(W,H,o)}},
 {id:"pluge",name:"Negros bajos",cat:"Color",
  desc:"Barras de 0 a 8 % de luminancia sobre negro. Lo ideal es distinguir las barras de 2 % y 4 % del fondo, y que la de 0 % se funda con él. Si todas se ven iguales, el televisor aplasta las sombras; si la de 0 % se ve gris, el negro está levantado. Haz la prueba en cuarto oscuro.",
@@ -470,9 +470,9 @@ var TOOLS=[
  init:function(){TG={cols:0,rows:0,cell:0,on:[],hit:0};return TG},
  frame:function(x,w,h,p,st){
   var cols=p.c,cell,rows,i,j,k,fs=Math.min(w,h)*.045,pct;
-  if(st.cols!==cols){cell=w/cols;rows=Math.ceil(h/cell);st.cols=cols;st.rows=rows;st.cell=cell;st.on=[];st.hit=0}
+  if(st.cols!==cols||st.w!==w||st.h!==h){rows=Math.max(1,Math.round(h*cols/w));st.cols=cols;st.rows=rows;st.w=w;st.h=h;st.xs=fitE(cols,w);st.ys=fitE(rows,h);st.on=[];st.hit=0}
   x.fillStyle="#000";x.fillRect(0,0,w,h);
-  for(j=0;j<st.rows;j++)for(i=0;i<st.cols;i++){k=j*st.cols+i;x.fillStyle=st.on[k]?"#2ecc71":"#1a1a1a";x.fillRect(i*st.cell+1,j*st.cell+1,st.cell-2,st.cell-2)}
+  for(j=0;j<st.rows;j++)for(i=0;i<st.cols;i++){k=j*st.cols+i;x.fillStyle=st.on[k]?"#2ecc71":"#1a1a1a";x.fillRect(st.xs[i]+1,st.ys[j]+1,st.xs[i+1]-st.xs[i]-2,st.ys[j+1]-st.ys[j]-2)}
   var tot=st.rows*st.cols;pct=st.hit>=tot?100:Math.floor(st.hit*100/tot);
   x.font=fs+"px system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif";x.lineWidth=fs*.25;x.strokeStyle="#000";x.fillStyle="#fff";
   var t=pct+" % "+tr("cubierto");x.strokeText(t,fs*.6,fs*1.4);x.fillText(t,fs*.6,fs*1.4)}},
@@ -486,11 +486,8 @@ var TOOLS=[
   function ln(x0,y0,f,c,fam){return '<text x="'+x0+'" y="'+y0+'" font-size="'+f+'" fill="'+c+'" font-family="'+fam+'"'+(rtl?' direction="rtl"':'')+'>'+t+'</text>'}
   function field(x0,y0,fw,fh,bg,fg,cs){
    function clip(g){return '<svg x="'+x0+'" y="'+y0+'" width="'+fw+'" height="'+fh+'" viewBox="'+x0+' '+y0+' '+fw+' '+fh+'" overflow="hidden">'+g+'</svg>'}
-   var s=rect(x0,y0,fw,fh,bg),y=y0+fh*.02,i,g="";
-   for(i=0;i<sz.length;i++){y+=H*sz[i]*1.6;g+=ln(x0+fw*.03,y,H*sz[i],fg,SANS)}
-   [.011,.014,.018].forEach(function(f){y+=H*f*1.6;g+=ln(x0+fw*.03,y,H*f,fg,SERIF)});
-   [.011,.014].forEach(function(f){y+=H*f*1.6;g+=ln(x0+fw*.03,y,H*f,fg,MONO)});
-   cs.forEach(function(c){y+=H*.013*1.6;g+=ln(x0+fw*.03,y,H*.013,c,SANS)});
+   var s=rect(x0,y0,fw,fh,bg),y=y0+fh*.02,f=H*.005,g="";
+   for(;;){var ny=y+f*1.6;if(ny>y0+fh)break;MC.font=f+"px "+SANS;if(MC.measureText(t).width>fw*.94-fw*.03)break;y=ny;g+=ln(x0+fw*.03,y,f,fg,SANS);f*=1.2}
    return s+clip(g)}
   if(land){o+=field(0,0,W/2,H,"#fff","#000",["#f00","#0a0","#00f"])+field(W/2,0,W/2,H,"#000","#fff",["#ff0","#0ff"])}
   else{o+=field(0,0,W,H/2,"#fff","#000",["#f00","#0a0","#00f"])+field(0,H/2,W,H/2,"#000","#fff",["#ff0","#0ff"])}
@@ -642,7 +639,7 @@ function showTool(id){
 }
 function openViewer(id){
   lastFocus=document.activeElement;clearTimeout(CLOSET);
-  viewer.classList.remove("closing");viewer.classList.add("open");vc.classList.remove("hidden","leaving");viewer.classList.remove("nocursor");
+  viewer.classList.remove("closing");viewer.classList.add("open");document.documentElement.classList.add("viewing");vc.classList.remove("hidden","leaving");viewer.classList.remove("nocursor");
   showTool(id);kick();
   var el=document.documentElement;
   try{if(el.requestFullscreen){var p=el.requestFullscreen();if(p&&p.catch)p.catch(function(){})}else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen()}}catch(e){}
@@ -651,7 +648,7 @@ function openViewer(id){
 var CLOSET=null;
 function closeViewer(){
   if(!viewer.classList.contains("open")||viewer.classList.contains("closing"))return;
-  clearTimeout(IDLE);clearTimeout(HIDET);clearTimeout(CURT);vc.classList.remove("leaving");viewer.classList.remove("nocursor");stopCv();viewer.classList.add("closing");
+  clearTimeout(IDLE);clearTimeout(HIDET);clearTimeout(CURT);vc.classList.remove("leaving");viewer.classList.remove("nocursor");stopCv();viewer.classList.add("closing");document.documentElement.classList.remove("viewing");
   try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen();else if(document.webkitFullscreenElement&&document.webkitExitFullscreen)document.webkitExitFullscreen()}catch(e){}
   CLOSET=setTimeout(function(){
     CLOSET=null;viewer.classList.remove("open","closing");stage.innerHTML="";active=null;
@@ -836,7 +833,7 @@ function touchDown(e){
   st.n=Object.keys(st.act).length;if(st.n>st.max)st.max=st.n;
 }
 function touchUp(e){if(!TP)return;delete TP.act[e.pointerId];TP.n=Object.keys(TP.act).length}
-function gridHit(x,y){var c=TG;if(!c||!c.cell)return;var i=Math.floor(x/c.cell),j=Math.floor(y/c.cell);if(i<0||j<0||i>=c.cols||j>=c.rows)return;var k=j*c.cols+i;if(!c.on[k]){c.on[k]=1;c.hit++}}
+function gridHit(x,y){var c=TG;if(!c||!c.xs)return;var i=findI(c.xs,x),j=findI(c.ys,y);if(i<0||j<0)return;var k=j*c.cols+i;if(!c.on[k]){c.on[k]=1;c.hit++}}
 var PAL=["#e6194b","#3cb44b","#4363d8","#ffe119","#f58231","#911eb4","#46f0f0","#f032e6","#bcf60c","#fabebe"];
 stage.addEventListener("pointerdown",function(e){
   if(!vOpen()||!active)return;
