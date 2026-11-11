@@ -43,6 +43,7 @@ O Playwright com Chromium ajuda a automatizar essas verificações.
 - Temas: claro, escuro (cinza), preto puro (`data-theme="black"`, fundo #000) e automático. O automático com sistema escuro usa o tema escuro cinza; a caixa **Usar preto puro no modo escuro** do menu de tema troca o escuro por preto puro (`dt-oled` em `localStorage`). Não há API web para detectar OLED, então a escolha é do usuário.
 - O tema padrão é claro. O modo automático depende de `prefers-color-scheme`, com `data-theme="light|dark|black"` em `<html>` somente quando o usuário fixa o tema.
 - Os padrões estáticos são desenhados em SVG com `viewBox` e recebem largura e altura (`W`, `H`) em pixels do dispositivo, para serem desenhados na resolução real da tela. A miniatura usa 160×90 com os parâmetros padrão.
+- As grades chegam exatamente à borda: use as bordas `fitE(n, comprimento)` (pixels inteiros do dispositivo) em vez de contar células com `ceil`/`floor`, sem célula parcial. As caixas de canvas e SVG são arredondadas para cima (`Math.ceil`) para que nenhuma faixa de fração de pixel apareça na borda; todo teste novo segue isso.
 - Os padrões animados (`kind:"cv"`) são desenhados em `canvas` com `init` e `frame`, e a miniatura é um SVG estático (`thumb`).
 - Acessibilidade: botões reais, `aria-pressed` nos seletores, foco visível, `aria-label` nas miniaturas e respeito a `prefers-reduced-motion`.
 - Persistência com `localStorage` sempre dentro de `try/catch`; o site deve funcionar sem ela. Guardam o tema (`dt-theme`) e o idioma (`dt-lang`, `auto` ou um código).

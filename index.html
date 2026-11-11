@@ -261,18 +261,18 @@ var CM=[["Rojo","#f00"],["Verde","#0f0"],["Azul","#00f"],["Cian","#0ff"],["Magen
 var PX=["#f00","#0f0","#00f","#0ff","#f0f","#ff0","#fff","#000"];
 
 var HDR_HELP=["HDR todavía no es compatible con todos los navegadores: el soporte en CSS depende del navegador, su versión y su motor. Esta prueba no se ha verificado en navegadores reales con HDR.", "Activa HDR en el sistema: en Windows, Configuración › Sistema › Pantalla › Usar HDR (o Win + Alt + B). En macOS, Android y Linux, busca la opción de HDR en los ajustes de pantalla.", "Chrome: si la prueba sigue en SDR, abre chrome://flags/#force-color-profile, elige HDR10 o scRGB linear y reinicia el navegador.", "Edge (basado en Chromium): busca la misma opción de perfil de color en edge://flags.", "Firefox: usa la versión 153 o posterior y comprueba si la prueba cambia; el soporte es reciente.", "Safari (macOS): usa una pantalla compatible con HDR y comprueba la prueba; no hemos podido verificarlo.", "Si la prueba sigue en SDR aunque lo hayas activado, el navegador no soporta HDR en CSS. Para comparar, abre testufo.com/hdr."];
-function alt(s){return s.split("").map(function(c,i){return i%2?c.toUpperCase():c.toLowerCase()}).join("")}
+function pairs(s){return s.split("").map(function(c){return c.toUpperCase()+c.toLowerCase()}).join(" ")}
 var ALPHDIG="0123456789";
 function fitE(n,L){var e=[],i;for(i=0;i<=n;i++)e.push(Math.round(i*L/n));return e}
 var MC=document.createElement("canvas").getContext("2d");
 function findI(e,v){for(var i=0;i<e.length-1;i++)if(v<e[i+1])return v<e[0]?-1:i;return -1}
 var SANSF="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif";
 var ALPHF=[SANSF,"'Hiragino Sans','Yu Gothic','Meiryo','Noto Sans CJK JP',"+SANSF,"'Malgun Gothic','Apple SD Gothic Neo','Noto Sans CJK KR',"+SANSF,"'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',"+SANSF,SANSF,"'Segoe UI',Tahoma,Arial,'Noto Sans Arabic','Geeza Pro',sans-serif"];
-var ALPH=[alt("abcdefghijklmnopqrstuvwxyz")+" "+ALPHDIG,
+var ALPH=[pairs("abcdefghijklmnopqrstuvwxyz")+" "+ALPHDIG,
  "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん "+ALPHDIG,
  "가나다라마바사아자차카타파하 거너더러머버서어저처커터퍼허 "+ALPHDIG,
  "一二三四五六七八九十百千万人口日月山水火木金土大小上下中国学生天地 "+ALPHDIG,
- alt("абвгдеёжзийклмнопрстуфхцчшщъыьэюя")+" "+ALPHDIG,
+ pairs("абвгдеёжзийклмнопрстуфхцчшщъыьэюя")+" "+ALPHDIG,
  "ابتثجحخدذرزسشصضطظعغفقكلمنهوي ٠١٢٣٤٥٦٧٨٩"],
  ALPHOPTS=["Latino","Japonés","Coreano","Chino","Ruso","Árabe"];
 var TOOLS=[
@@ -592,13 +592,13 @@ function drawStage(){
   stopCv();
   if(active.kind==="cv"){
     var vp=physVP(),w=vp.cw,h=vp.ch,cv=document.createElement("canvas");
-    var dp=window.devicePixelRatio||1;cv.width=vp.w;cv.height=vp.h;cv.style.width=(vp.w/dp)+"px";cv.style.height=(vp.h/dp)+"px";stage.innerHTML="";stage.appendChild(cv);
+    var dp=window.devicePixelRatio||1;cv.width=vp.w;cv.height=vp.h;cv.style.width=Math.ceil(vp.w/dp)+"px";cv.style.height=Math.ceil(vp.h/dp)+"px";stage.innerHTML="";stage.appendChild(cv);
     var x=cv.getContext("2d");x.setTransform(vp.w/w,0,0,vp.h/h,0,0);
     var st=active.init(w,h),t=active,last=performance.now();
     (function f(now){var dt=Math.min(.05,(now-last)/1000);last=now;t.frame(x,w,h,t.p,st,dt);raf=requestAnimationFrame(f)})(last);
   }else{
     var vp=physVP(),SW=vp.w,SH=vp.h;
-    stage.innerHTML=active.draw(active.p,SW,SH,true);var sv=stage.querySelector("svg"),dp2=window.devicePixelRatio||1;if(sv){sv.style.width=(SW/dp2)+"px";sv.style.height=(SH/dp2)+"px"}
+    stage.innerHTML=active.draw(active.p,SW,SH,true);var sv=stage.querySelector("svg"),dp2=window.devicePixelRatio||1;if(sv){sv.style.width=Math.ceil(SW/dp2)+"px";sv.style.height=Math.ceil(SH/dp2)+"px"}
   }
 }
 function buildControls(keep){
@@ -712,7 +712,7 @@ function kick(e){
   var t=e&&e.type,isP=!!t&&t.indexOf("pointer")===0,shut=panelShut();
   if(isP&&shut&&t==="pointermove"&&e.pointerType==="mouse"){cursorTick();return}
   if(isP&&(shut||(active&&active.id==="deslizar")))return;
-  if(shut){showPanel();return}
+  if(shut){if(!(t==="keydown"&&keyAction(e)==="toggle"))showPanel();return}
   clearTimeout(IDLE);
   IDLE=setTimeout(function(){if(!vOpen()||vc.contains(document.activeElement))return;hidePanel()},IDLE_MS);
 }
@@ -763,7 +763,7 @@ function viewerAct(a,t,native){
   var inp=!!(t&&vc.contains(t));
   if(a==="back"||a==="backspace"){closeViewer();return true}
   if(a==="next"||a==="prev"){step(a==="next"?1:-1);if(inp)focusStage();return true}
-  if(a==="toggle"){vc.classList.toggle("hidden");if(vc.classList.contains("hidden"))focusStage();return true}
+  if(a==="toggle"){togglePanel();if(panelShut())focusStage();return true}
   if(a==="playpause")return clickPlay();
   if(a==="confirm"){
     if(inp){if(native)return false;if(t.tagName!=="INPUT")t.click();return true}

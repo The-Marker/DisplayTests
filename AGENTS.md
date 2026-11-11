@@ -43,6 +43,7 @@ Playwright with Chromium is useful to automate these checks.
 - Themes: light, dark (gray), pure black (`data-theme="black"`, background #000) and automatic. Automatic with a dark system uses the gray dark theme. The checkbox **Use pure black in dark mode** in the theme menu swaps dark for pure black (`dt-oled` in `localStorage`); there is no web API to detect OLED, so the user decides.
 - The default theme is light. Automatic depends on `prefers-color-scheme`, with `data-theme="light|dark|black"` on `<html>` only when the user sets it.
 - Static patterns are drawn as SVG with `viewBox` and receive the width and height (`W`, `H`) in device pixels, so they are drawn at the screen's real resolution. The thumbnail uses 160×90 with default parameters.
+- Grids reach the screen border exactly: use `fitE(n, length)` edges (whole device pixels) instead of `ceil`/`floor` cell counts, and never leave a partial cell. Canvas and SVG boxes are rounded up to the device grid (`Math.ceil`) so no sub-pixel strip shows at the edge; every new test follows this.
 - Animated patterns (`kind:"cv"`) are drawn on a `canvas` with `init` and `frame`, and their thumbnail is a static SVG (`thumb`).
 - Accessibility: real buttons, `aria-pressed` on selectors, visible focus, `aria-label` on thumbnails, and respect for `prefers-reduced-motion`.
 - Persistence with `localStorage` always inside `try/catch`; the site must work without it. It stores the theme (`dt-theme`) and the language (`dt-lang`, `auto` or a code).
